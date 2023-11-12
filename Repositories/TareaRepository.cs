@@ -2,28 +2,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.SQLite;
-using Entidades.Models;
+using Kanban.Models;
 
-namespace Entidades.Repositorios
+//Esta es la mejor de todas y la mas completa
+namespace Kanban.Repositorios
 {
     public class TareaRepository:ITareaRepository
     {
-           private string cadenaConexion = "Data Source=db/Kanban.db;Cache=Shared"; // crea la conexion 
-           public void Create(Tarea Tarea){
+        private string cadenaConexion = "Data Source=db/Kanban.db;Cache=Shared"; // crea la conexion 
+        public void Create(Tarea tarea)
+        {
             var queryString = @"
-            INSERT INTO Tarea (id_tablero, nombre, descripcion, color, estado, id_usuario_asignado ) 
-            VALUES (@Id_tablero, @nombre, @descripcion, @color, @estado, @id_usuario_asignado )"; //mi consulta
+            INSERT INTO Tarea (id_tablero, nombre,estado, descripcion, color, id_usuario_asignado ) 
+            VALUES (@id_tablero, @nombre, @estado, @descripcion, @color, @id_usuario_asignado )"; //mi consulta
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//crea un dato tipo SQLiteConnetion para usarlo e el comando
             {
                 connection.Open();//abre la conexion
                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion para ejectuar el comando
  
-                command.Parameters.Add(new SQLiteParameter("@id_tablero", Tarea.IdTablero));
-                command.Parameters.Add(new SQLiteParameter("@nombre", Tarea.Nombre));
-                command.Parameters.Add(new SQLiteParameter("@descripcion", Tarea.Descripcion));
-                command.Parameters.Add(new SQLiteParameter("@color", Tarea.Color));
-                command.Parameters.Add(new SQLiteParameter("@estado", Tarea.Estado));
-                command.Parameters.Add(new SQLiteParameter("@id_usuario_asignado", Tarea.IdUsuarioAsignado));
+                command.Parameters.Add(new SQLiteParameter("@id_tablero", tarea.IdTablero));
+                command.Parameters.Add(new SQLiteParameter("@nombre", tarea.Nombre));
+                command.Parameters.Add(new SQLiteParameter("@estado", tarea.Estado));
+                command.Parameters.Add(new SQLiteParameter("@descripcion", tarea.Descripcion));
+                command.Parameters.Add(new SQLiteParameter("@color", tarea.Color));
+                command.Parameters.Add(new SQLiteParameter("@id_usuario_asignado", tarea.IdUsuarioAsignado));
 
                 command.ExecuteNonQuery();
 
@@ -42,6 +44,39 @@ namespace Entidades.Repositorios
             connection.Open();//abrir conexion
             command.ExecuteNonQuery();// no me devuelve nada, solo modifica la bd
             connection.Close();
+        }
+        public void UpdatePorNombre (int id, string nombre)//actualizar la Tarea
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            {//conectando
+            SQLiteCommand command = connection.CreateCommand();//creando comando
+            command.CommandText = @"
+            UPDATE Tarea 
+            SET nombre = @nombre
+            WHERE id = @id;";
+            connection.Open();//abrir conexion
+            command.Parameters.Add(new SQLiteParameter("@nombre", nombre));
+            command.Parameters.Add(new SQLiteParameter("@id", id));
+            command.ExecuteNonQuery();// no me devuelve nada, solo modifica la bd
+            connection.Close();
+            }   
+        }
+
+        public void UpdatePorEstado (int id, EstadoTarea estado)//actualizar la Tarea
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            {//conectando
+            SQLiteCommand command = connection.CreateCommand();//creando comando
+            command.CommandText = @"
+            UPDATE Tarea 
+            SET estado = @estado
+            WHERE id = @id;";
+            connection.Open();//abrir conexion
+            command.Parameters.Add(new SQLiteParameter("@estado", estado));
+            command.Parameters.Add(new SQLiteParameter("@id", id));
+            command.ExecuteNonQuery();// no me devuelve nada, solo modifica la bd
+            connection.Close();
+            }   
         }
 
         public Tarea GetById(int id)
@@ -82,15 +117,74 @@ namespace Entidades.Repositorios
                 {
                     while (reader.Read())//revisa si hay tuplas para leer, es decir si esta bien hecha la consulta
                     {
-                        var TareaRecup = new Tarea();
-                        TareaRecup.Id = Convert.ToInt32(reader["id"]);
-                        TareaRecup.IdTablero = Convert.ToInt32(reader["id_tablero"]);
-                        TareaRecup.Nombre = reader["nombre"].ToString();
-                        TareaRecup.Descripcion = reader["descripcion"].ToString();
-                        TareaRecup.Color = reader["color"].ToString();
-                        TareaRecup.Estado = (EstadoTarea) Convert.ToInt32(reader["estado"]);
-                        TareaRecup.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
-                        Tareas.Add(TareaRecup);//agrego a la lista de Tareas el Tarea con sus datos recuperados de la base de datos
+                        var tarea = new Tarea();
+                        tarea.Id = Convert.ToInt32(reader["id"]);
+                        tarea.IdTablero = Convert.ToInt32(reader["id_tablero"]);
+                        tarea.Nombre = reader["nombre"].ToString();
+                        tarea.Estado = (EstadoTarea)Convert.ToInt32(reader["estado"]);
+                        tarea.Descripcion = reader["descripcion"].ToString();
+                        tarea.Color = reader["color"].ToString();
+                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value? (int?)Convert.ToInt32(reader["id_usuario_asignado"]): null;//esto me indica que si el valor es null ponga null en el campo
+                        //tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
+                        Tareas.Add(tarea);//agrego a la lista de Tareas el Tarea con sus datos recuperados de la base de datos
+                    }
+                }
+                connection.Close();// cierro la conexion
+            }
+            return Tareas;
+        }
+        public List<Tarea> GetTareasPorEstado(EstadoTarea estado)
+        {
+             var queryString = $"SELECT * FROM Tarea WHERE estado = {(int)estado};";
+            List<Tarea> Tareas = new List<Tarea>();
+            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            {
+                SQLiteCommand command = new SQLiteCommand(queryString, connection); //creando comadno sqlLiteConnection
+                connection.Open();
+                command.Parameters.Add(new SQLiteParameter("@estado",estado));
+            
+                using(SQLiteDataReader reader = command.ExecuteReader())// Devuelve la consulta, es decir que lee la base de datos y trae lo que se pide 
+                {
+                    while (reader.Read())//revisa si hay tuplas para leer, es decir si esta bien hecha la consulta
+                    {
+                        var tarea = new Tarea();
+                        tarea.Id = Convert.ToInt32(reader["id"]);
+                        tarea.IdTablero = Convert.ToInt32(reader["id_tablero"]);
+                        tarea.Nombre = reader["nombre"].ToString();
+                        tarea.Estado = (EstadoTarea)Convert.ToInt32(reader["estado"]);
+                        tarea.Descripcion = reader["descripcion"].ToString();
+                        tarea.Color = reader["color"].ToString();
+                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value? (int?)Convert.ToInt32(reader["id_usuario_asignado"]): null;
+                        Tareas.Add(tarea);//agrego a la lista de Tareas el Tarea con sus datos recuperados de la base de datos
+                    }
+                }
+                connection.Close();// cierro la conexion
+            }
+            return Tareas;
+        }
+        public List<Tarea> GetTareasPorUsuarioAsignado(int idUsu)
+        {
+             var queryString = $"SELECT * FROM Tarea WHERE  id_usuario_asignado= {idUsu};";
+            List<Tarea> Tareas = new List<Tarea>();
+            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            {
+                SQLiteCommand command = new SQLiteCommand(queryString, connection); //creando comadno sqlLiteConnection
+                connection.Open();
+                command.Parameters.Add(new SQLiteParameter("@id_usuario_asignado",idUsu));
+            
+                using(SQLiteDataReader reader = command.ExecuteReader())// Devuelve la consulta, es decir que lee la base de datos y trae lo que se pide 
+                {
+                    while (reader.Read())//revisa si hay tuplas para leer, es decir si esta bien hecha la consulta
+                    {
+                        var tarea = new Tarea();
+                        tarea.Id = Convert.ToInt32(reader["id"]);
+                        tarea.IdTablero = Convert.ToInt32(reader["id_tablero"]);
+                        tarea.Nombre = reader["nombre"].ToString();
+                        tarea.Estado = (EstadoTarea)Convert.ToInt32(reader["estado"]);
+                        tarea.Descripcion = reader["descripcion"].ToString();
+                        tarea.Color = reader["color"].ToString();
+                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value? (int?)Convert.ToInt32(reader["id_usuario_asignado"]): null;
+                        Tareas.Add(tarea);//agrego a la lista de Tareas el Tarea con sus datos recuperados de la base de datos
                     }
                 }
                 connection.Close();// cierro la conexion
@@ -99,7 +193,7 @@ namespace Entidades.Repositorios
         }
         public List<Tarea> GetTareasPorTablero(int idTablero)
         {
-             var queryString = $"SELECT * FROM Tarea WHERE id = {idTablero};";
+             var queryString = $"SELECT * FROM Tarea WHERE id_tablero = {idTablero};";
             List<Tarea> Tareas = new List<Tarea>();
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
             {
@@ -117,7 +211,7 @@ namespace Entidades.Repositorios
                         TareaRecup.Descripcion = reader["descripcion"].ToString();
                         TareaRecup.Color = reader["color"].ToString();
                         TareaRecup.Estado = (EstadoTarea) Convert.ToInt32(reader["estado"]);
-                        TareaRecup.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
+                        TareaRecup.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value? (int?)Convert.ToInt32(reader["id_usuario_asignado"]): null;
                         Tareas.Add(TareaRecup);//agrego a la lista de Tareas el Tarea con sus datos recuperados de la base de datos
                     }
                 }

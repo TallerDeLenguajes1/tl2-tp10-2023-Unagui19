@@ -2,23 +2,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.SQLite;
-using Entidades.Models;
+using Kanban.Models;
 
-namespace Entidades.Repositorios
+namespace Kanban.Repositorios
 {
     public class TableroRepository:ITableroRepository
     {
-           private string cadenaConexion = "Data Source=db/Kanban.db;Cache=Shared"; // crea la conexion 
+           private string cadenaConexion = "Data Source=db/Kanban.DB;Cache=Shared"; // crea la conexion 
            public void Create(Tablero Tablero){
-            var queryString = $"INSERT INTO Tablero (id, nombre) VALUES (@Id,@nombre)"; //mi consulta
+            var queryString = @"
+            INSERT INTO Tablero (id_usuario_propietario, nombre, descripcion) 
+            VALUES (@id_usuario_propietario,@nombre, @descripcion)"; //mi consulta
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//crea un dato tipo SQLiteConnetion para usarlo e el comando
             {
                 connection.Open();//abre la conexion
                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion para ejectuar el comando
  
-                command.Parameters.Add(new SQLiteParameter("@id", Tablero.Id));//agrego el valor del parametro
-                command.Parameters.Add(new SQLiteParameter("@id_usuario_propietario", Tablero.Id_usuario_propietario));
-                command.Parameters.Add(new SQLiteParameter("@nombre_de_Tablero", Tablero.Nombre_de_Tablero));
+                command.Parameters.Add(new SQLiteParameter("@id_usuario_propietario", Tablero.IdUsuarioPropietario));
+                command.Parameters.Add(new SQLiteParameter("@nombre", Tablero.Nombre));
                 command.Parameters.Add(new SQLiteParameter("@descripcion", Tablero.Descripcion));
                 command.ExecuteNonQuery();
 
@@ -29,7 +30,7 @@ namespace Entidades.Repositorios
         {
             SQLiteConnection connection = new SQLiteConnection(cadenaConexion);//conectando
             SQLiteCommand command = connection.CreateCommand();//creando comando
-            command.CommandText = $"UPDATE Tableros SET name = '{Tablero.Nombre_de_Tablero}' WHERE id = '{id}';";
+            command.CommandText = $"UPDATE Tablero SET id_usuario_propietario={Tablero.IdUsuarioPropietario}, name = '{Tablero.Nombre}',descripcion='{Tablero.Descripcion}  WHERE id = '{id}';";
             connection.Open();//abrir conexion
             command.ExecuteNonQuery();// no me devuelve nada, solo modifica la bd
             connection.Close();
@@ -38,7 +39,7 @@ namespace Entidades.Repositorios
         public Tablero GetById(int id)
         {
             SQLiteConnection connection = new SQLiteConnection(cadenaConexion);//crear variable de conexion
-            var Tablero = new Tablero();
+            var tablero = new Tablero();
             SQLiteCommand command = connection.CreateCommand();//comando para usar la base
             command.CommandText = $"SELECT * FROM Tablero WHERE id = '{id}';";
             //command.CommandText = "SELECT * FROM Tableros WHERE id = @idTablero"; otra opcion
@@ -48,20 +49,20 @@ namespace Entidades.Repositorios
             {
                 while (reader.Read())//mientras haya tuplas que leer
                 {
-                    Tablero.Id = Convert.ToInt32(reader["id_Tablero"]);
-                    Tablero.Id_usuario_propietario = Convert.ToInt32(reader["id_usuario_propietario"]);
-                    Tablero.Nombre_de_Tablero = reader["nombre_de_Tablero"].ToString();
-                    Tablero.Descripcion = reader["descripcion"].ToString();
+                    tablero.Id = Convert.ToInt32(reader["id"]);
+                    tablero.IdUsuarioPropietario = Convert.ToInt32(reader["id_usuario_propietario"]);
+                    tablero.Nombre = reader["nombre"].ToString();
+                    tablero.Descripcion = reader["descripcion"].ToString();
 
                 }
             }
             connection.Close();
-            return (Tablero);
+            return (tablero);
         }
         public List<Tablero> GetAll()
         {
             var queryString = @"SELECT * FROM Tablero;";
-            List<Tablero> Tableros = new List<Tablero>();
+            List<Tablero> tableros = new List<Tablero>();
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
             {
                 SQLiteCommand command = new SQLiteCommand(queryString, connection); //creando comadno sqlLiteConnection
@@ -71,22 +72,18 @@ namespace Entidades.Repositorios
                 {
                     while (reader.Read())//revisa si hay tuplas para leer, es decir si esta bien hecha la consulta
                     {
-                        var Tablero = new Tablero();
-                        Tablero.Id = Convert.ToInt32(reader["id_Tablero"]);
-                        Tablero.Id_usuario_propietario = Convert.ToInt32(reader["id_usuario_propietario"]);
-                        Tablero.Nombre_de_Tablero = reader["nombre_de_Tablero"].ToString();
-                        Tablero.Descripcion = reader["descripcion"].ToString();
-                        Tableros.Add(Tablero);//agrego a la lista de Tableros el Tablero con sus datos recuperados de la base de datos
+                        var tablero = new Tablero();
+                        tablero.Id = Convert.ToInt32(reader["id"]);
+                        tablero.IdUsuarioPropietario = Convert.ToInt32(reader["id_usuario_propietario"]);
+                        tablero.Nombre = reader["nombre"].ToString();
+                        tablero.Descripcion = reader["descripcion"].ToString();
+                        tableros.Add(tablero);//agrego a la lista de Tableros el Tablero con sus datos recuperados de la base de datos
                     }
                 }
                 connection.Close();// cierro la conexion
             }
-            return Tableros;
+            return tableros;
         }
-
-
-
-
 
         public void Remove(int id)
         {
@@ -101,7 +98,7 @@ namespace Entidades.Repositorios
         public List<Tablero> GetTablerosPorUsuario(int idUsuario)
         {
             var queryString = $"SELECT * FROM Tablero WHERE id = {idUsuario};";
-            List<Tablero> Tableros = new List<Tablero>();
+            List<Tablero> tableros = new List<Tablero>();
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
             {
                 SQLiteCommand command = new SQLiteCommand(queryString, connection); //creando comadno sqlLiteConnection
@@ -111,17 +108,17 @@ namespace Entidades.Repositorios
                 {
                     while (reader.Read())//revisa si hay tuplas para leer, es decir si esta bien hecha la consulta
                     {
-                        var Tablero = new Tablero();
-                        Tablero.Id = Convert.ToInt32(reader["id_Tablero"]);
-                        Tablero.Id_usuario_propietario = Convert.ToInt32(reader["id_usuario_propietario"]);
-                        Tablero.Nombre_de_Tablero = reader["nombre_de_Tablero"].ToString();
-                        Tablero.Descripcion = reader["descripcion"].ToString();
-                        Tableros.Add(Tablero);//agrego a la lista de Tableros el Tablero con sus datos recuperados de la base de datos
+                        var tablero = new Tablero();
+                        tablero.Id = Convert.ToInt32(reader["id_Tablero"]);
+                        tablero.IdUsuarioPropietario = Convert.ToInt32(reader["id_usuario_propietario"]);
+                        tablero.Nombre = reader["nombre"].ToString();
+                        tablero.Descripcion = reader["descripcion"].ToString();
+                        tableros.Add(tablero);//agrego a la lista de Tableros el Tablero con sus datos recuperados de la base de datos
                     }
                 }
                 connection.Close();// cierro la conexion
             }
-            return Tableros;
+            return tableros;
         }
         
     }

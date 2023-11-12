@@ -2,22 +2,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.SQLite;
-using Entidades.Models;
+using Kanban.Models;
 
-namespace Entidades.Repositorios
+namespace Kanban.Repositorios
 {
     public class UsuarioRepository: IUsuarioRepository
     {
         private string cadenaConexion = "Data Source=db/Kanban.db;Cache=Shared"; // crea la conexion 
         
         public void Create(Usuario usuario){
-            var queryString = $"INSERT INTO usuario (id_usuario, nombre_de_usuario) VALUES (@id_usuario,@nombre_de_usuario)"; //mi consulta
+            var queryString = $"INSERT INTO usuario (nombre_de_usuario) VALUES (@nombre_de_usuario)"; //mi consulta
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//crea un dato tipo SQLiteConnetion para usarlo e el comando
             {
                 connection.Open();//abre la conexion
                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion para ejectuar el comando
  
-                command.Parameters.Add(new SQLiteParameter("@id_usuario", usuario.Id));//agrego el valor del parametro
+                //command.Parameters.Add(new SQLiteParameter("@id_usuario", usuario.Id));//agrego el valor del parametro
                 command.Parameters.Add(new SQLiteParameter("@nombre_de_usuario", usuario.NombreDeUsuario));
                 command.ExecuteNonQuery();
                 connection.Close();   
@@ -62,7 +62,7 @@ namespace Entidades.Repositorios
             SQLiteConnection connection = new SQLiteConnection(cadenaConexion);//crear variable de conexion
             var Usuario = new Usuario();
             SQLiteCommand command = connection.CreateCommand();//comando para usar la base
-            command.CommandText = $"SELECT * FROM Usuario WHERE idUsu = '{idUsu}';";
+            command.CommandText = $"SELECT * FROM Usuario WHERE id_usuario = '{idUsu}';";
             //command.CommandText = "SELECT * FROM Usuarios WHERE idUsu = @idUsuario"; otra opcion
             command.Parameters.Add(new SQLiteParameter("@id_usuario", idUsu));//comando necesario para buscar los usuarios que cumplan con la condicion
             connection.Open();
@@ -91,6 +91,22 @@ namespace Entidades.Repositorios
             connection.Close();
         }
 
+        public void UpdateUsuarioPorNombre (int id, string nombre)//actualizar la Tarea
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            {//conectando
+            SQLiteCommand command = connection.CreateCommand();//creando comando
+            command.CommandText = @"
+            UPDATE Tarea 
+            SET nombre = @nombre  
+            WHERE id = @id;";//EN AMBOS LUGARES USAR EL NOMBRE QUE APARECE EN LA BASE DE DATOS
+            connection.Open();//abrir conexion
+            command.Parameters.Add(new SQLiteParameter("@nombre", nombre));
+            command.Parameters.Add(new SQLiteParameter("@id", id));
+            command.ExecuteNonQuery();// no me devuelve nada, solo modifica la bd
+            connection.Close();
+            }   
+        }
         // public List<Usuario> GetAll();
         // public Usuario GetById(int id);
         // public void Remove(int id);

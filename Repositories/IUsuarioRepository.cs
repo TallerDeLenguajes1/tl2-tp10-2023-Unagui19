@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.SQLite;
-using Entidades.Models;
+using Kanban.Models;
 
-namespace Entidades.Repositorios
+namespace Kanban.Repositorios
 {
     public interface IUsuarioRepository
     {

@@ -1,4 +1,4 @@
-namespace Entidades.Models
+namespace Kanban.Models
 {
     public class Usuario
     {

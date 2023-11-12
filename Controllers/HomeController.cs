@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using tl2_tp10_2023_Unagui19.Models;
 
-namespace tl2_tp10_2023_Unagui19.Controllers;
+namespace Kanban.Controllers;
 
 public class HomeController : Controller
 {

@@ -1,22 +1,22 @@
-namespace Entidades.Models
+namespace Kanban.Models
 {   
-    enum EstadoTarea {Ideas, ToDo, Doing, Review, Done};
+    public enum EstadoTarea {Ideas, ToDo, Doing, Review, Done}
     public class Tarea
     {
         int id;
         int idTablero;
         string nombre;
-        string descripcion;
-        string color;
         EstadoTarea estado;
+        string? descripcion;
+        string? color;
         int? idUsuarioAsignado;
 
-        public int Id { get => Id; set => Id = value; }
+        public int Id { get => id; set => id = value; }
         public int IdTablero { get => idTablero; set => idTablero = value; }
-        public string Nombre { get => Nombre; set => Nombre = value; }
-        public string Descripcion { get => Descripcion; set => Descripcion = value; }
-        public string Color { get => Color; set => Color = value; }
-        internal EstadoTarea Estado { get => Estado; set => Estado = value; }
-        public int? IdUsuarioAsignado { get => IdUsuarioAsignado; set => IdUsuarioAsignado = value; }
+        public string Nombre { get => nombre; set => nombre = value; }
+        public EstadoTarea Estado { get => estado; set => estado = value; }
+        public string? Descripcion { get => descripcion; set => descripcion = value; }
+        public string? Color { get => color; set => color = value; }
+        public int? IdUsuarioAsignado { get => idUsuarioAsignado; set => idUsuarioAsignado = value; }
     }
 }
