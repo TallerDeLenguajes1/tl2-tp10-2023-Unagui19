@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Kanban.Models;
-using Kanban.Repositorios;
+using tl2_tp10_2023_Unagui19.Models;
+using tl2_tp10_2023_Unagui19.Repositorios;
 
-namespace Kanban.Controllers;
+namespace tl2_tp10_2023_Unagui19.Controllers;
 
 public class TableroController : Controller
 {
@@ -26,9 +26,9 @@ public class TableroController : Controller
         return View();
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
+    // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    // public IActionResult Error()
+    // {
+    //     return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    // }
 }

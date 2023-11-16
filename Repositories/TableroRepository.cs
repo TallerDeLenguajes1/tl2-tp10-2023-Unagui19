@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.SQLite;
-using Kanban.Models;
+using tl2_tp10_2023_Unagui19.Models;
 
-namespace Kanban.Repositorios
+namespace tl2_tp10_2023_Unagui19.Repositorios
 {
     public class TableroRepository:ITableroRepository
     {

@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.SQLite;
-using Kanban.Models;
+using tl2_tp10_2023_Unagui19.Models;
 
-namespace Kanban.Repositorios
+namespace tl2_tp10_2023_Unagui19.Repositorios
 {
-    public class UsuarioRepository: IUsuarioRepository
+    public class UsuarioRepositorio: IUsuarioRepository
     {
         private string cadenaConexion = "Data Source=db/Kanban.db;Cache=Shared"; // crea la conexion 
         
@@ -27,8 +27,14 @@ namespace Kanban.Repositorios
         {
             SQLiteConnection connection = new SQLiteConnection(cadenaConexion);//conectando
             SQLiteCommand command = connection.CreateCommand();//creando comando
-            command.CommandText = $"UPDATE Usuarios SET nombre_de_usuario = '{Usuario.NombreDeUsuario}' WHERE id_usuario = '{Usuario.Id}';";
+            command.CommandText = @"
+            UPDATE Usuario
+            SET nombre_de_usuario = @nombre_de_usuario
+            WHERE id_usuario = @id_usuario;";
+            // command.CommandText = $"UPDATE Usuarios SET nombre_de_usuario = '{Usuario.NombreDeUsuario}' WHERE id_usuario = '{Usuario.Id}';";
             connection.Open();//abrir conexion
+            command.Parameters.Add(new SQLiteParameter("@nombre_de_usuario", Usuario.NombreDeUsuario));
+            command.Parameters.Add(new SQLiteParameter("@id_usuario",id));
             command.ExecuteNonQuery();// no me devuelve nada, solo modifica la bd
             connection.Close();
         }
@@ -91,22 +97,22 @@ namespace Kanban.Repositorios
             connection.Close();
         }
 
-        public void UpdateUsuarioPorNombre (int id, string nombre)//actualizar la Tarea
-        {
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
-            {//conectando
-            SQLiteCommand command = connection.CreateCommand();//creando comando
-            command.CommandText = @"
-            UPDATE Tarea 
-            SET nombre = @nombre  
-            WHERE id = @id;";//EN AMBOS LUGARES USAR EL NOMBRE QUE APARECE EN LA BASE DE DATOS
-            connection.Open();//abrir conexion
-            command.Parameters.Add(new SQLiteParameter("@nombre", nombre));
-            command.Parameters.Add(new SQLiteParameter("@id", id));
-            command.ExecuteNonQuery();// no me devuelve nada, solo modifica la bd
-            connection.Close();
-            }   
-        }
+        // public void UpdateUsuarioPorNombre (int id, string nombre)//actualizar la Tarea
+        // {
+        //     using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+        //     {//conectando
+        //     SQLiteCommand command = connection.CreateCommand();//creando comando
+        //     command.CommandText = @"
+        //     UPDATE Usuario 
+        //     SET nombre_de_usuario = @nombre  
+        //     WHERE id_usuario = @id_usuario;";//EN AMBOS LUGARES USAR EL NOMBRE QUE APARECE EN LA BASE DE DATOS
+        //     connection.Open();//abrir conexion
+        //     command.Parameters.Add(new SQLiteParameter("@nombre_de_usuario", nombre));
+        //     command.Parameters.Add(new SQLiteParameter("@id_usuario", id));
+        //     command.ExecuteNonQuery();// no me devuelve nada, solo modifica la bd
+        //     connection.Close();
+        //     }   
+        // }
         // public List<Usuario> GetAll();
         // public Usuario GetById(int id);
         // public void Remove(int id);

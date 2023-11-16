@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\tercerAño\\Taller2\\tp10\\tl2-tp10-2023-Unagui19\\tl2-tp10-2023-Unagui19.csproj": {}
+    "d:\\tercerAño\\Taller2\\tp10\\tl2-tp10-2023-Unagui19\\tl2-tp10-2023-Unagui19.csproj": {}
   },
   "projects": {
-    "D:\\tercerAño\\Taller2\\tp10\\tl2-tp10-2023-Unagui19\\tl2-tp10-2023-Unagui19.csproj": {
+    "d:\\tercerAño\\Taller2\\tp10\\tl2-tp10-2023-Unagui19\\tl2-tp10-2023-Unagui19.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\tercerAño\\Taller2\\tp10\\tl2-tp10-2023-Unagui19\\tl2-tp10-2023-Unagui19.csproj",
+        "projectUniqueName": "d:\\tercerAño\\Taller2\\tp10\\tl2-tp10-2023-Unagui19\\tl2-tp10-2023-Unagui19.csproj",
         "projectName": "tl2-tp10-2023-Unagui19",
-        "projectPath": "D:\\tercerAño\\Taller2\\tp10\\tl2-tp10-2023-Unagui19\\tl2-tp10-2023-Unagui19.csproj",
+        "projectPath": "d:\\tercerAño\\Taller2\\tp10\\tl2-tp10-2023-Unagui19\\tl2-tp10-2023-Unagui19.csproj",
         "packagesPath": "C:\\Users\\franc\\.nuget\\packages\\",
-        "outputPath": "D:\\tercerAño\\Taller2\\tp10\\tl2-tp10-2023-Unagui19\\obj\\",
+        "outputPath": "d:\\tercerAño\\Taller2\\tp10\\tl2-tp10-2023-Unagui19\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\franc\\AppData\\Roaming\\NuGet\\NuGet.Config"
