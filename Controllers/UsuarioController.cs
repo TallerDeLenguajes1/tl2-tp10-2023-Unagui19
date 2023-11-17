@@ -51,10 +51,9 @@ public class UsuarioController : Controller
         return RedirectToAction("Index");
     }
 
-    [HttpDelete]
-    public IActionResult EliminarUsuario(Usuario usuario)
+    public IActionResult EliminarUsuario(int idUsuario)
     {  
-        RepoUsuario.Remove(usuario.Id);
+        RepoUsuario.Remove(idUsuario);
         return RedirectToAction("Index");
     }
 

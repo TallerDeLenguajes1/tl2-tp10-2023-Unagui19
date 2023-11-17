@@ -68,17 +68,16 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
             SQLiteConnection connection = new SQLiteConnection(cadenaConexion);//crear variable de conexion
             var Usuario = new Usuario();
             SQLiteCommand command = connection.CreateCommand();//comando para usar la base
-            command.CommandText = $"SELECT * FROM Usuario WHERE id_usuario = '{idUsu}';";
-            //command.CommandText = "SELECT * FROM Usuarios WHERE idUsu = @idUsuario"; otra opcion
-            command.Parameters.Add(new SQLiteParameter("@id_usuario", idUsu));//comando necesario para buscar los usuarios que cumplan con la condicion
+            // command.CommandText = $"SELECT * FROM Usuario WHERE id_usuario = '{idUsu}';";
+            command.CommandText = @"SELECT * FROM Usuario WHERE id_usuario = @id_usuario"; //otra opcion
             connection.Open();
+            command.Parameters.Add(new SQLiteParameter("@id_usuario", idUsu));//comando necesario para buscar los usuarios que cumplan con la condicion
             using(SQLiteDataReader reader = command.ExecuteReader())// pa leer los datos de la base
             {
                 while (reader.Read())//mientras haya tuplas que leer
                 {
                     Usuario.Id = Convert.ToInt32(reader["id_usuario"]);
                     Usuario.NombreDeUsuario = reader["nombre_de_usuario"].ToString();
-
                 }
             }
             connection.Close();
@@ -87,11 +86,12 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
 
 
 
+
         public void Remove(int idUsu)
         {
             SQLiteConnection connection = new SQLiteConnection(cadenaConexion);// crear variable de conexion
             SQLiteCommand command = connection.CreateCommand();// comando pa moverme
-            command.CommandText = $"DELETE FROM Usuarios WHERE id_usuario = '{idUsu}';";// consulta para eliminar tuplas con su condicion
+            command.CommandText = $"DELETE FROM Usuario WHERE id_usuario = '{idUsu}';";// consulta para eliminar tuplas con su condicion
             connection.Open();
             command.ExecuteNonQuery();//realiza la consulta pero no me devuelve nada
             connection.Close();

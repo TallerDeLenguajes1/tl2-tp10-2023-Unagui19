@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.SQLite;
-using Kanban.Models;
+using tl2_tp10_2023_Unagui19.Models;
 
 //Esta es la mejor de todas y la mas completa
 namespace Kanban.Repositorios

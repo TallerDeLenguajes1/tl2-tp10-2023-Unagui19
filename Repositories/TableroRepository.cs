@@ -26,16 +26,25 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
                 connection.Close();   
             }
         }
-        public void Update (Tablero Tablero, int id)//actualizar la tabla
+
+    public void Update (Tablero tablero, int id)//actualizar la Tarea
         {
-            SQLiteConnection connection = new SQLiteConnection(cadenaConexion);//conectando
+            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            {//conectando
             SQLiteCommand command = connection.CreateCommand();//creando comando
-            command.CommandText = $"UPDATE Tablero SET id_usuario_propietario={Tablero.IdUsuarioPropietario}, name = '{Tablero.Nombre}',descripcion='{Tablero.Descripcion}  WHERE id = '{id}';";
+            command.CommandText = @"
+            UPDATE Tablero
+            SET id_usuario_propietario=@id_usuario_propietario, nombre = @nombre, descripcion=@descripcion
+            WHERE id = @id;";
             connection.Open();//abrir conexion
+            command.Parameters.Add(new SQLiteParameter("@id", id));
+            command.Parameters.Add(new SQLiteParameter("@id_usuario_propietario", tablero.IdUsuarioPropietario));
+            command.Parameters.Add(new SQLiteParameter("@nombre", tablero.Nombre));
+            command.Parameters.Add(new SQLiteParameter("@descripcion", tablero.Descripcion));
             command.ExecuteNonQuery();// no me devuelve nada, solo modifica la bd
             connection.Close();
+            }   
         }
-
         public Tablero GetById(int id)
         {
             SQLiteConnection connection = new SQLiteConnection(cadenaConexion);//crear variable de conexion

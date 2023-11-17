@@ -1,0 +1,8 @@
+@model Tablero
+<form asp-controller="Tablero" asp-action="ModificarTablero">
+    <div class="form-group">
+        <label asp-for="@Model.Nombre">Nombre de Tablero: </label>
+        <input asp-for="@Model.Nombre" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
