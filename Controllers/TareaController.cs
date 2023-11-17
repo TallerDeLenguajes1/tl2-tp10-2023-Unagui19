@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using Kanban.Repositorios;
 using Microsoft.AspNetCore.Mvc;
 using tl2_tp10_2023_Unagui19.Models;
 using tl2_tp10_2023_Unagui19.Repositorios;
@@ -19,8 +18,8 @@ public class  TareaController: Controller
 
     public IActionResult Index()
     {
-        List<Tarea>Tareas=RepoTarea.GetAll();
-        return View(Tareas);
+        List<Tarea>tareas=RepoTarea.GetAll();
+        return View(tareas);
     }
 
     [HttpGet]
@@ -44,16 +43,15 @@ public class  TareaController: Controller
 
 
     [HttpPost]
-    public IActionResult ModificarTarea(Tarea Tarea)
+    public IActionResult ModificarTarea(Tarea tarea)
     {   
-        RepoTarea.Update(Tarea,Tarea.Id);
+        RepoTarea.Update(tarea,tarea.Id);
         return RedirectToAction("Index");
     }
 
-    [HttpDelete]
-    public IActionResult EliminarTarea(Tarea Tarea)
+    public IActionResult EliminarTarea(int idTarea)
     {  
-        RepoTarea.Remove(Tarea.Id);
+        RepoTarea.Remove(idTarea);
         return RedirectToAction("Index");
     }
 

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Data.SQLite;
 using tl2_tp10_2023_Unagui19.Models;
 
-namespace Kanban.Repositorios
+namespace tl2_tp10_2023_Unagui19.Repositorios
 {
     public interface ITareaRepository
     {

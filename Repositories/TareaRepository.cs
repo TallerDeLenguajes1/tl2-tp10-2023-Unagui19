@@ -5,7 +5,7 @@ using System.Data.SQLite;
 using tl2_tp10_2023_Unagui19.Models;
 
 //Esta es la mejor de todas y la mas completa
-namespace Kanban.Repositorios
+namespace tl2_tp10_2023_Unagui19.Repositorios
 {
     public class TareaRepository:ITareaRepository
     {
@@ -32,16 +32,23 @@ namespace Kanban.Repositorios
                 connection.Close();   
             }
         }
-        public void Update (Tarea TareaMod, int idTarea)//actualizar la Tarea
+        public void Update(Tarea TareaMod, int idTarea)//actualizar la Tarea
         {
             SQLiteConnection connection = new SQLiteConnection(cadenaConexion);//conectando
             SQLiteCommand command = connection.CreateCommand();//creando comando
             command.CommandText = @"
             UPDATE Tarea 
-            SET id_tablero = @idTablero, nombre = @nombreNuevo, estado = @estadoNuevo, 
-            descripcion = @descripcionNueva, color = @colorNuevo, id_usuario_asignado = @idUsuarioAsignadoNuevo
-            WHERE id = @idTarea;";
+            SET id_tablero = @id_tablero, nombre = @nombre, estado = @estado, 
+            descripcion = @descripcion, color = @color, id_usuario_asignado = @id_usuario_asignado
+            WHERE id = @id;";
             connection.Open();//abrir conexion
+            command.Parameters.Add(new SQLiteParameter("@id", idTarea));
+            command.Parameters.Add(new SQLiteParameter("@id_tablero", TareaMod.IdTablero));
+            command.Parameters.Add(new SQLiteParameter("@nombre", TareaMod.Nombre));
+            command.Parameters.Add(new SQLiteParameter("@estado", TareaMod.Estado));
+            command.Parameters.Add(new SQLiteParameter("@descripcion", TareaMod.Descripcion));
+            command.Parameters.Add(new SQLiteParameter("@color", TareaMod.Color));
+            command.Parameters.Add(new SQLiteParameter("@id_usuario_asignado", TareaMod.IdUsuarioAsignado));
             command.ExecuteNonQuery();// no me devuelve nada, solo modifica la bd
             connection.Close();
         }
