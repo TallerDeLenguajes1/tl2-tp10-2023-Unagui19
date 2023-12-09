@@ -4,9 +4,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDistributedMemoryCache();
 
-builder.Services.AddSession(options =>
+builder.Services.AddSession(options =>// builder para las sesiones
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(300);
+    options.IdleTimeout = TimeSpan.FromSeconds(300); //me da el tiempo que esta activa la sesion 
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });

@@ -11,7 +11,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
         private string cadenaConexion = "Data Source=db/Kanban.db;Cache=Shared"; // crea la conexion 
         
         public void Create(Usuario usuario){
-            var queryString = $"INSERT INTO usuario (nombre_de_usuario) VALUES (@nombre_de_usuario)"; //mi consulta
+            var queryString = $"INSERT INTO usuario (nombre_de_usuario,contrasenia, rol) VALUES (@nombre_de_usuario,@contrasenia, @rol)"; //mi consulta
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//crea un dato tipo SQLiteConnetion para usarlo e el comando
             {
                 connection.Open();//abre la conexion
@@ -19,6 +19,8 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
  
                 //command.Parameters.Add(new SQLiteParameter("@id_usuario", usuario.Id));//agrego el valor del parametro
                 command.Parameters.Add(new SQLiteParameter("@nombre_de_usuario", usuario.NombreDeUsuario));
+                command.Parameters.Add(new SQLiteParameter("@contrasenia", usuario.Contrasenia));
+                command.Parameters.Add(new SQLiteParameter("@rol", usuario.Rol));
                 command.ExecuteNonQuery();
                 connection.Close();   
             }
@@ -29,12 +31,13 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
             SQLiteCommand command = connection.CreateCommand();//creando comando
             command.CommandText = @"
             UPDATE Usuario
-            SET nombre_de_usuario = @nombre_de_usuario
+            SET nombre_de_usuario = @nombre_de_usuario, rol=@rol
             WHERE id_usuario = @id_usuario;";
             // command.CommandText = $"UPDATE Usuarios SET nombre_de_usuario = '{Usuario.NombreDeUsuario}' WHERE id_usuario = '{Usuario.Id}';";
             connection.Open();//abrir conexion
             command.Parameters.Add(new SQLiteParameter("@nombre_de_usuario", Usuario.NombreDeUsuario));
             command.Parameters.Add(new SQLiteParameter("@id_usuario",id));
+            command.Parameters.Add(new SQLiteParameter("@rol",Usuario.Rol));
             command.ExecuteNonQuery();// no me devuelve nada, solo modifica la bd
             connection.Close();
         }
@@ -55,6 +58,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
                         var Usuario = new Usuario();
                         Usuario.Id = Convert.ToInt32(reader["id_usuario"]);
                         Usuario.NombreDeUsuario = reader["nombre_de_usuario"].ToString();
+                        Usuario.Rol = (NivelDeAcceso)Convert.ToInt32(reader["rol"]);
                         Usuarios.Add(Usuario);//agrego a la lista de usuarios el usuario con sus datos recuperados de la base de datos
                     }
                 }
@@ -78,6 +82,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
                 {
                     Usuario.Id = Convert.ToInt32(reader["id_usuario"]);
                     Usuario.NombreDeUsuario = reader["nombre_de_usuario"].ToString();
+                    Usuario.Rol = (NivelDeAcceso)Convert.ToInt32(reader["rol"]);
                 }
             }
             connection.Close();

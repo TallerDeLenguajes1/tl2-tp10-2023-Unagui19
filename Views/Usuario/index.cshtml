@@ -9,6 +9,7 @@
             <tr>
                 <th hidden>ID</th>
                 <th>Nombre</th>
+                <th>Rol</th>
                 @* <th></th> *@
             </tr>
         </thead>
@@ -18,6 +19,7 @@
                 <tr>
                     <td hidden>@usuario.Id</td>
                     <td>@usuario.NombreDeUsuario</td>
+                    <td>@usuario.Rol</td>
                     <td>
                     <a asp-controller="Usuario" asp-action="ModificarUsuario" asp-route-idUsuario="@usuario.Id">Modificar</a>
                     <a asp-controller="Usuario" asp-action="EliminarUsuario" asp-route-idUsuario="@usuario.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')">Eliminar</a>
