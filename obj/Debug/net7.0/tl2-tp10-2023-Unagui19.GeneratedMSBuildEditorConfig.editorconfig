@@ -9,77 +9,77 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = tl2_tp10_2023_Unagui19
 build_property.RootNamespace = tl2_tp10_2023_Unagui19
-build_property.ProjectDir = D:\tercerAño\Taller2\tp10\tl2-tp10-2023-Unagui19\
+build_property.ProjectDir = d:\tercerAño\Taller2\tp10\tl2-tp10-2023-Unagui19\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\tercerAño\Taller2\tp10\tl2-tp10-2023-Unagui19
+build_property.MSBuildProjectDirectory = d:\tercerAño\Taller2\tp10\tl2-tp10-2023-Unagui19
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Home/Index.cshtml]
+[d:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Home/Privacy.cshtml]
+[d:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Login/index.cshtml]
+[d:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Login/index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5caW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Shared/Error.cshtml]
+[d:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Shared/_ValidationScriptsPartial.cshtml]
+[d:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Tablero/crearTablero.cshtml]
+[d:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Tablero/crearTablero.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFibGVyb1xjcmVhclRhYmxlcm8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Tablero/index.cshtml]
+[d:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Tablero/index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFibGVyb1xpbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Tablero/modificarTablero.cshtml]
+[d:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Tablero/modificarTablero.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFibGVyb1xtb2RpZmljYXJUYWJsZXJvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Tarea/crearTarea.cshtml]
+[d:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Tarea/crearTarea.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcY3JlYXJUYXJlYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Tarea/index.cshtml]
+[d:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Tarea/index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcaW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Tarea/modificarTarea.cshtml]
+[d:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Tarea/modificarTarea.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcbW9kaWZpY2FyVGFyZWEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Usuario/crearUsuario.cshtml]
+[d:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Usuario/crearUsuario.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xjcmVhclVzdWFyaW8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Usuario/index.cshtml]
+[d:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Usuario/index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xpbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Usuario/modificarUsuario.cshtml]
+[d:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Usuario/modificarUsuario.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xtb2RpZmljYXJVc3VhcmlvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/_ViewImports.cshtml]
+[d:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/_ViewStart.cshtml]
+[d:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Shared/_Layout.cshtml]
+[d:/tercerAño/Taller2/tp10/tl2-tp10-2023-Unagui19/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-75wxmnxbvi

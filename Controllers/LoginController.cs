@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using tl2_tp10_2023_Unagui19.Models;
+using tl2_tp10_2023_Unagui19.Repositorios;
 using tl2_tp10_2023_Unagui19.ViewModels;
 
 namespace tl2_tp10_2023_Unagui19.Controllers;
@@ -9,10 +10,12 @@ public class LoginController : Controller
 {
     private readonly ILogger<LoginController> _logger;
 
-    private List<Usuario> usuarios = new List<Usuario>();
+    private List<Usuario> usuarios;
+    private UsuarioRepositorio repoUsuario ;
     public LoginController(ILogger<LoginController> logger)
     {
         _logger = logger;
+        repoUsuario=new UsuarioRepositorio();
     }
 
     [HttpGet]
@@ -22,10 +25,10 @@ public class LoginController : Controller
     }
 
     [HttpPost]
-    public IActionResult Login(Usuario usuario)
+    public IActionResult Login(LoginViewModel loginUsuario)
     {
         //existe el usuario?
-        var usuarioLogeado = usuarios.FirstOrDefault(u => u.NombreDeUsuario == usuario.NombreDeUsuario && u.Contrasenia == usuario.Contrasenia);
+        var usuarioLogeado = repoUsuario.GetAll().FirstOrDefault(usu=> usu.NombreDeUsuario==loginUsuario.Nombre && usu.Contrasenia==loginUsuario.Contrasenia);
 
         // si el usuario no existe devuelvo al index
         if (usuarioLogeado == null) {
@@ -45,9 +48,9 @@ public class LoginController : Controller
 
     private void logearUsuario(Usuario user)
     {
-        HttpContext.Session.SetString("Id", user.Id.ToString());
+        HttpContext.Session.SetInt32("Id", user.Id);
         HttpContext.Session.SetString("Usuario", user.NombreDeUsuario);
-        HttpContext.Session.SetString("Contraseña", user.Contrasenia);
+        HttpContext.Session.SetString("Contrasenia", user.Contrasenia);
         HttpContext.Session.SetString("Rol", user.Rol.ToString());
     }
 

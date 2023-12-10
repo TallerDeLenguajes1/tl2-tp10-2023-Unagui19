@@ -58,6 +58,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
                         var Usuario = new Usuario();
                         Usuario.Id = Convert.ToInt32(reader["id_usuario"]);
                         Usuario.NombreDeUsuario = reader["nombre_de_usuario"].ToString();
+                        Usuario.Contrasenia = reader["contrasenia"].ToString();
                         Usuario.Rol = (NivelDeAcceso)Convert.ToInt32(reader["rol"]);
                         Usuarios.Add(Usuario);//agrego a la lista de usuarios el usuario con sus datos recuperados de la base de datos
                     }
