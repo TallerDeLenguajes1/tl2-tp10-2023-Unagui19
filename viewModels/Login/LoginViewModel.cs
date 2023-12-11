@@ -1,5 +1,5 @@
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations; // para poder usar validaciones (Model.State) y los Espacio de nombres (Ejemplo [StringLength(10)])
 using tl2_tp10_2023_Unagui19.Models;
 
 namespace tl2_tp10_2023_Unagui19.ViewModels

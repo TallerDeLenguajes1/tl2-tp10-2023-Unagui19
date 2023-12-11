@@ -6,8 +6,11 @@ namespace tl2_tp10_2023_Unagui19.ViewModels
 {
     public class ModificarTableroViewModel
     {
+
         int id ;
+        [Required(ErrorMessage = "Este campo es requerido.")]
         int idUsuarioPropietario;
+        [Required(ErrorMessage = "Este campo es requerido.")]
         string nombre;
         string descripcion;
 

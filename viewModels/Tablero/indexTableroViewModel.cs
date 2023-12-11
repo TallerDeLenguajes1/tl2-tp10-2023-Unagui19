@@ -6,6 +6,7 @@ namespace tl2_tp10_2023_Unagui19.ViewModels
 {
     public class IndexTableroViewModel
     {
+        
         int id ;
         int idUsuarioPropietario;
         string nombre;

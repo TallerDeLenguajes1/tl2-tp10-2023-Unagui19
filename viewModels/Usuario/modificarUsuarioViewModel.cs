@@ -8,6 +8,7 @@ namespace tl2_tp10_2023_Unagui19.ViewModels
     {
 
         public int Id {get;set;}        
+        
         public string NombreDeUsuario {get;set;}        
         public NivelDeAcceso Rol {get;set;}
         public string Contrasenia {get;set;}

@@ -8,7 +8,9 @@ namespace tl2_tp10_2023_Unagui19.ViewModels
     {
 
         public int Id {get;set;}  
+
         public int IdTablero {get;set;} 
+
         public string Nombre {get;set;} 
         public EstadoTarea Estado {get;set;} 
         public string? Descripcion {get;set;} 
