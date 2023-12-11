@@ -6,7 +6,7 @@ builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(options =>// builder para las sesiones
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(300); //me da el tiempo que esta activa la sesion 
+    options.IdleTimeout = TimeSpan.FromSeconds(10); //me da el tiempo que esta activa la sesion 
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
