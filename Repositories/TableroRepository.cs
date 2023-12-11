@@ -118,7 +118,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
                     while (reader.Read())//revisa si hay tuplas para leer, es decir si esta bien hecha la consulta
                     {
                         var tablero = new Tablero();
-                        tablero.Id = Convert.ToInt32(reader["id_Tablero"]);
+                        tablero.Id = Convert.ToInt32(reader["id"]);
                         tablero.IdUsuarioPropietario = Convert.ToInt32(reader["id_usuario_propietario"]);
                         tablero.Nombre = reader["nombre"].ToString();
                         tablero.Descripcion = reader["descripcion"].ToString();

@@ -1,27 +1,30 @@
-namespace tl2_tp10_2023_Unagui19.Models
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using tl2_tp10_2023_Unagui19.Models;
+
+namespace tl2_tp10_2023_Unagui19.ViewModels
 {
-    public class CrearTablero
+    public class CrearTableroViewModel
     {
-        int id ;
+        // int id ;
         int idUsuarioPropietario;
         string nombre;
         string descripcion;
 
 
-        public int Id { get => id; set => id = value; }
+        // public int Id { get => id; set => id = value; }
         public int IdUsuarioPropietario { get => idUsuarioPropietario; set => idUsuarioPropietario = value; }
         public string Nombre { get => nombre; set => nombre = value; }
         public string Descripcion { get => descripcion; set => descripcion = value; }
 
         
-        public CrearTablero(int id, int idUsuarioPropietario, string nombre, string descripcion)
+        public CrearTableroViewModel(Tablero tablero)
         {
-            this.id = id;
-            this.idUsuarioPropietario = idUsuarioPropietario;
-            this.nombre = nombre;
-            this.descripcion = descripcion;
+            idUsuarioPropietario= tablero.IdUsuarioPropietario;
+            nombre = tablero.Nombre;
+            descripcion = tablero.Descripcion;
         }
 
-        public CrearTablero(){}
+        public CrearTableroViewModel(){}
     }
 }

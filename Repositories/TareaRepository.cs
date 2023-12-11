@@ -48,7 +48,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
             command.Parameters.Add(new SQLiteParameter("@estado", TareaMod.Estado));
             command.Parameters.Add(new SQLiteParameter("@descripcion", TareaMod.Descripcion));
             command.Parameters.Add(new SQLiteParameter("@color", TareaMod.Color));
-            command.Parameters.Add(new SQLiteParameter("@id_usuario_asignado", TareaMod.IdUsuarioAsignado));
+            command.Parameters.Add(new SQLiteParameter("@id_usuario_asignado", TareaMod.IdUsuarioAsignado)); 
             command.ExecuteNonQuery();// no me devuelve nada, solo modifica la bd
             connection.Close();
         }

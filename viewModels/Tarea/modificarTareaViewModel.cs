@@ -4,7 +4,7 @@ using tl2_tp10_2023_Unagui19.Models;
 
 namespace tl2_tp10_2023_Unagui19.ViewModels
 {
-    public class ModificarTarea
+    public class ModificarTareaViewModel
     {
 
         public int Id {get;set;}  
@@ -17,17 +17,17 @@ namespace tl2_tp10_2023_Unagui19.ViewModels
 
 
         
-        public ModificarTarea(){}
+        public ModificarTareaViewModel(){}
 
-        public ModificarTarea(int id, int idTablero, string nombre, EstadoTarea estado, string? descripcion, string? color, int? idUsuarioAsignado)
+        public ModificarTareaViewModel(Tarea tarea)
         {
-            Id = id;
-            IdTablero = idTablero;
-            Nombre = nombre;
-            Estado = estado;
-            Descripcion = descripcion;
-            Color = color;
-            IdUsuarioAsignado = idUsuarioAsignado;
+            Id = tarea.Id;
+            IdTablero = tarea.IdTablero;
+            Nombre = tarea.Nombre;
+            Estado = tarea.Estado;
+            Descripcion = tarea.Descripcion;
+            Color = tarea.Color;
+            IdUsuarioAsignado = tarea.IdUsuarioAsignado;
         }
     }
 }

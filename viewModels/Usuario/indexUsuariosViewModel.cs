@@ -4,21 +4,21 @@ using tl2_tp10_2023_Unagui19.Models;
 
 namespace tl2_tp10_2023_Unagui19.ViewModels
 {
-    public class IndexUsuarios
+    public class IndexUsuarioViewModel
     {
 
         public int Id {get;set;}        
         public string NombreDeUsuario {get;set;}        
-        public string Rol {get;set;}
+        public NivelDeAcceso Rol {get;set;}
 
-        public IndexUsuarios(int id, string nombreDeUsuario, string rol)
+        public IndexUsuarioViewModel(Usuario usu)
         {
-            Id = id;
-            NombreDeUsuario = nombreDeUsuario;
-            Rol = rol;
+            Id = usu.Id;
+            NombreDeUsuario = usu.NombreDeUsuario;
+            Rol = usu.Rol;
         }
         
-        public IndexUsuarios(){}
+        public IndexUsuarioViewModel(){}
     }
 }
 

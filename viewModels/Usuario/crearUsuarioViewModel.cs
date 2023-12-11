@@ -15,11 +15,11 @@ namespace tl2_tp10_2023_Unagui19.ViewModels
         
         public CrearUsuarioViewModel(){}
 
-        public CrearUsuarioViewModel(string nombreDeUsuario, NivelDeAcceso rol, string contrasenia)
+        public CrearUsuarioViewModel(Usuario usu)
         {
-            NombreDeUsuario = nombreDeUsuario;
-            Rol = rol;
-            Contrasenia = contrasenia;
+            NombreDeUsuario = usu.NombreDeUsuario;
+            Rol = usu.Rol;
+            Contrasenia = usu.Contrasenia;
         }
     }
 }

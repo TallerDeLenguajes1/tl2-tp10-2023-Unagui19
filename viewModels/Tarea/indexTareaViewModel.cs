@@ -4,7 +4,7 @@ using tl2_tp10_2023_Unagui19.Models;
 
 namespace tl2_tp10_2023_Unagui19.ViewModels
 {
-    public class IndexTarea
+    public class IndexTareaViewModel
     {
         public int Id {get;set;}  
         public int IdTablero {get;set;} 
@@ -16,17 +16,17 @@ namespace tl2_tp10_2023_Unagui19.ViewModels
 
 
         
-        public IndexTarea(){}
+        public IndexTareaViewModel(){}
 
-        public IndexTarea(int id, int idTablero, string nombre, EstadoTarea estado, string? descripcion, string? color, int? idUsuarioAsignado)
+        public IndexTareaViewModel(Tarea tarea)
         {
-            Id = id;
-            IdTablero = idTablero;
-            Nombre = nombre;
-            Estado = estado;
-            Descripcion = descripcion;
-            Color = color;
-            IdUsuarioAsignado = idUsuarioAsignado;
+            Id = tarea.Id;
+            IdTablero = tarea.IdTablero;
+            Nombre = tarea.Nombre;
+            Estado = tarea.Estado;
+            Descripcion = tarea.Descripcion;
+            Color = tarea.Color;
+            IdUsuarioAsignado = tarea.IdUsuarioAsignado;
         }
     }
 }

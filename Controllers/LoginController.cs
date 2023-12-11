@@ -48,7 +48,7 @@ public class LoginController : Controller
 
     private void logearUsuario(Usuario user)
     {
-        HttpContext.Session.SetInt32("Id", user.Id);
+        HttpContext.Session.SetString("IdUsuario", user.Id.ToString());
         HttpContext.Session.SetString("Usuario", user.NombreDeUsuario);
         HttpContext.Session.SetString("Contrasenia", user.Contrasenia);
         HttpContext.Session.SetString("Rol", user.Rol.ToString());

@@ -1,6 +1,10 @@
-namespace tl2_tp10_2023_Unagui19.Models
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using tl2_tp10_2023_Unagui19.Models;
+
+namespace tl2_tp10_2023_Unagui19.ViewModels
 {
-    public class ModificarTablero
+    public class ModificarTableroViewModel
     {
         int id ;
         int idUsuarioPropietario;
@@ -14,14 +18,14 @@ namespace tl2_tp10_2023_Unagui19.Models
         public string Descripcion { get => descripcion; set => descripcion = value; }
 
         
-        public ModificarTablero(int id, int idUsuarioPropietario, string nombre, string descripcion)
+        public ModificarTableroViewModel(Tablero tablero)
         {
-            this.id = id;
-            this.idUsuarioPropietario = idUsuarioPropietario;
-            this.nombre = nombre;
-            this.descripcion = descripcion;
+            id = tablero.Id;
+            idUsuarioPropietario= tablero.IdUsuarioPropietario;
+            nombre = tablero.Nombre;
+            descripcion = tablero.Descripcion;
         }
 
-        public ModificarTablero(){}
+        public ModificarTableroViewModel(){}
     }
 }

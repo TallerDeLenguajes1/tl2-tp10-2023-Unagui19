@@ -4,21 +4,23 @@ using tl2_tp10_2023_Unagui19.Models;
 
 namespace tl2_tp10_2023_Unagui19.ViewModels
 {
-    public class ModificarUsuario
+    public class ModificarUsuarioViewModel
     {
 
         public int Id {get;set;}        
         public string NombreDeUsuario {get;set;}        
-        public string Rol {get;set;}
+        public NivelDeAcceso Rol {get;set;}
+        public string Contrasenia {get;set;}
 
-        public ModificarUsuario(int id, string nombreDeUsuario, string rol)
+        public ModificarUsuarioViewModel(Usuario usu)
         {
-            Id = id;
-            NombreDeUsuario = nombreDeUsuario;
-            Rol = rol;
+            Id = usu.Id;
+            NombreDeUsuario = usu.NombreDeUsuario;
+            Rol = usu.Rol;
+            Contrasenia = usu.Contrasenia;
         }
         
-        public ModificarUsuario(){}
+        public ModificarUsuarioViewModel(){}
     }
 }
 

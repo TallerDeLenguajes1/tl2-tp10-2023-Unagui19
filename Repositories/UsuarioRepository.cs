@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data.SQLite;
 using tl2_tp10_2023_Unagui19.Models;
+using tl2_tp10_2023_Unagui19.ViewModels;
 
 namespace tl2_tp10_2023_Unagui19.Repositorios
 {

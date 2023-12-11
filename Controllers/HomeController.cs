@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using tl2_tp10_2023_Unagui19.Models;
+using tl2_tp10_2023_Unagui19.ViewModels;
 
 namespace tl2_tp10_2023_Unagui19.Controllers;
 

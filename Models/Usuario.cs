@@ -1,3 +1,10 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using tl2_tp10_2023_Unagui19.ViewModels;
+
 namespace tl2_tp10_2023_Unagui19.Models
 {
     public enum NivelDeAcceso{admin, operador};
@@ -17,7 +24,20 @@ namespace tl2_tp10_2023_Unagui19.Models
             Rol = rol;
             Contrasenia = contrasenia;
         }
+        public Usuario(CrearUsuarioViewModel usu)
+        {
+            NombreDeUsuario = usu.NombreDeUsuario;
+            Rol = usu.Rol;
+            Contrasenia = usu.Contrasenia;
+        }
 
+        public Usuario(ModificarUsuarioViewModel usu)
+        {
+            Id = usu.Id;
+            NombreDeUsuario = usu.NombreDeUsuario;
+            Rol = usu.Rol;
+            Contrasenia = usu.Contrasenia;
+        }
         public Usuario(){}
     }
     

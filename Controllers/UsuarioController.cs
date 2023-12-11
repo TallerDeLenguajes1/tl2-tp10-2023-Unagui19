@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using tl2_tp10_2023_Unagui19.Models;
 using tl2_tp10_2023_Unagui19.Repositorios;
+using tl2_tp10_2023_Unagui19.ViewModels;
 
 namespace tl2_tp10_2023_Unagui19.Controllers;
 
@@ -21,18 +22,21 @@ public class UsuarioController : Controller
     public IActionResult Index()
     {
         List<Usuario>usuarios=RepoUsuario.GetAll();
-        return View(usuarios);
+        var VModel = usuarios.Select(usu=> new IndexUsuarioViewModel(usu)).ToList();
+        return View(VModel);
+
     }
 
     [HttpGet]
     public IActionResult CrearUsuario()
     {   
-        return View(new Usuario());
+        return View(new CrearUsuarioViewModel());
     }
 
     [HttpPost]
-    public IActionResult CrearUsuario(Usuario usuario)
+    public IActionResult CrearUsuario(CrearUsuarioViewModel nuevoUsu)
     {   
+        var usuario = new Usuario(nuevoUsu);
         RepoUsuario.Create(usuario);
         return RedirectToAction("Index");
     }
@@ -40,15 +44,17 @@ public class UsuarioController : Controller
     [HttpGet]
     public IActionResult ModificarUsuario(int idUsuario)
     {  
-        return View(RepoUsuario.GetById(idUsuario));
+        var VModel = new ModificarUsuarioViewModel(RepoUsuario.GetById(idUsuario));
+        return View(VModel);
     }
 
 
     [HttpPost]
-    public IActionResult ModificarUsuario(Usuario usuario)
+    public IActionResult ModificarUsuario(ModificarUsuarioViewModel VModel)
     {   
+        var usuario = new Usuario(VModel);
         RepoUsuario.Update(usuario,usuario.Id);
-        return RedirectToAction("Index");
+        return RedirectToRoute(new { controller = "Usuario", action = "Index" });
     }
 
     public IActionResult EliminarUsuario(int idUsuario)
@@ -56,6 +62,29 @@ public class UsuarioController : Controller
         RepoUsuario.Remove(idUsuario);
         return RedirectToAction("Index");
     }
+
+
+    
+
+//Metodos para ver temas de sesion
+    private bool IsAdmin()
+    {
+        if (HttpContext.Session != null && HttpContext.Session.GetString("Rol") == "Admin")
+            return true;
+
+        return false;
+    }
+
+    private bool IsUser()
+    {
+        if (HttpContext.Session != null && (HttpContext.Session.GetString("Rol") == "Admin" || HttpContext.Session.GetString("Rol") == "Operador"))
+            return true;
+
+        return false;
+    }
+
+
+
 
     // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     // public IActionResult Error()
