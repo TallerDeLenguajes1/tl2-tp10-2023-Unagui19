@@ -105,7 +105,10 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
                     TareaRecup.Descripcion = reader["descripcion"].ToString();
                     TareaRecup.Color = reader["color"].ToString();
                     TareaRecup.Estado = (EstadoTarea) Convert.ToInt32(reader["estado"]);
-                    TareaRecup.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
+                    if (reader["id_usuario_asignado"] != DBNull.Value)
+                    {
+                        TareaRecup.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
+                    }
                 }
             }
             connection.Close();
