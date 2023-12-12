@@ -17,25 +17,30 @@ public class TableroController : Controller
     }
 public IActionResult Index()
     {
-        List<Tablero>tableros=_repoTablero.GetAll();
-        var VModel = tableros.Select(tablero=> new IndexTableroViewModel(tablero)).ToList();
-        
-        if (IsUser(HttpContext))
-        {
-            if (IsAdmin(HttpContext))
+        try
+        {      
+            if (IsUser(HttpContext))
             {
-                return View(VModel);
+                if (IsAdmin(HttpContext))
+                {
+                    return View(_repoTablero.GetAll().Select(tablero=> new IndexTableroViewModel(tablero)).ToList());
+                }
+                else
+                {
+                    var idUsuario = HttpContext.Session.GetString("IdUsuario");
+                    var tableros1 = _repoTablero.GetTablerosPorUsuario(Convert.ToInt32(idUsuario));
+                    var VModel1 = tableros1.Select(tablero=> new IndexTableroViewModel(tablero)).ToList();
+                    return View(VModel1);
+                }
             }
-            else
-            {
-                var idUsuario = HttpContext.Session.GetString("IdUsuario");
-                var tableros1 = _repoTablero.GetTablerosPorUsuario(Convert.ToInt32(idUsuario));
-                var VModel1 = tableros1.Select(tablero=> new IndexTableroViewModel(tablero)).ToList();
-                return View(VModel1);
+            else{
+                
+                return RedirectToRoute(new { controller = "Home", action = "Index" });
             }
         }
-        else{
-            return RedirectToRoute(new { controller = "Home", action = "Index" });
+        catch(Exception ex){
+            _logger.LogError(ex,ToString());
+            return BadRequest(RedirectToAction("Index"));
         }
     }
 
@@ -48,13 +53,19 @@ public IActionResult Index()
     [HttpPost]
     public IActionResult CrearTablero(CrearTableroViewModel tableroVm)
     {   
-        if (!ModelState.IsValid)
-        {
-            return RedirectToRoute(new { controller = "Home", action = "Index" });
+        try{
+            if (!ModelState.IsValid)
+            {
+                return RedirectToRoute(new { controller = "Home", action = "Index" });
+            }
+            var tablero = new Tablero(tableroVm);
+            _repoTablero.Create(tablero);
+            return RedirectToAction("Index");
         }
-        var tablero = new Tablero(tableroVm);
-        _repoTablero.Create(tablero);
-        return RedirectToAction("Index");
+        catch(Exception ex){
+            _logger.LogError(ex,ToString());
+            return BadRequest(RedirectToAction("Index"));
+        }
     }
 
     [HttpGet]
@@ -68,19 +79,31 @@ public IActionResult Index()
     [HttpPost]
     public IActionResult ModificarTablero(ModificarTableroViewModel tableroVm)
     {   
+        try{
         if (!ModelState.IsValid)
-        {
-            return RedirectToRoute(new { controller = "Home", action = "Index" });
+            {
+                return RedirectToRoute(new { controller = "Home", action = "Index" });
+            }
+            var tablero = new Tablero(tableroVm);
+            _repoTablero.Update(tablero,tablero.Id);
+            return RedirectToRoute(new { controller = "Tablero", action = "Index" });
         }
-        var tablero = new Tablero(tableroVm);
-        _repoTablero.Update(tablero,tablero.Id);
-        return RedirectToRoute(new { controller = "Tablero", action = "Index" });
+        catch(Exception ex){
+            _logger.LogError(ex,ToString());
+            return BadRequest(RedirectToAction("Index"));
+        }
     }
 
     public IActionResult EliminarTablero(int idTablero)
     {  
-        _repoTablero.Remove(idTablero);
-        return RedirectToAction("Index");
+        try{
+            _repoTablero.Remove(idTablero);
+            return RedirectToAction("Index");
+        }
+        catch(Exception ex){
+            _logger.LogError(ex,ToString());
+            return BadRequest(RedirectToAction("Index"));
+        }
     }
 
     //Metodos para ver temas de sesion

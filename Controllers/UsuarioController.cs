@@ -21,28 +21,46 @@ public class UsuarioController : Controller
     // [HttpGet]
     public IActionResult Index()
     {
-        List<Usuario>usuarios=_repoUsuario.GetAll();
-        var VModel = usuarios.Select(usu=> new IndexUsuarioViewModel(usu)).ToList();
-        return View(VModel);
+        // List<Usuario>usuarios=_repoUsuario.GetAll();
+
+        try
+        {
+            return View(_repoUsuario.GetAll().Select(usu=> new IndexUsuarioViewModel(usu)).ToList());
+        }
+        catch (System.Exception ex)
+        {   
+            _logger.LogError(ex,ToString());
+            return RedirectToRoute(new { controller = "Home", action = "Index" });
+        }
 
     }
 
     [HttpGet]
     public IActionResult CrearUsuario()
     {   
+
         return View(new CrearUsuarioViewModel());
     }
 
     [HttpPost]
     public IActionResult CrearUsuario(CrearUsuarioViewModel nuevoUsu)
     {   
-        if (!ModelState.IsValid)
+        try
         {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+            var usuario = new Usuario(nuevoUsu);
+            _repoUsuario.Create(usuario);
             return RedirectToAction("Index");
         }
-        var usuario = new Usuario(nuevoUsu);
-        _repoUsuario.Create(usuario);
-        return RedirectToAction("Index");
+        catch (System.Exception ex)
+        {
+            _logger.LogError(ex,ToString());
+            return BadRequest(RedirectToAction("Index"));
+        }
+
     }
 
     [HttpGet]
@@ -56,19 +74,33 @@ public class UsuarioController : Controller
     [HttpPost]
     public IActionResult ModificarUsuario(ModificarUsuarioViewModel VModel)
     {   
-        if (!ModelState.IsValid)
+        try
         {
-            return RedirectToAction("Index");
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+            var usuario = new Usuario(VModel);
+            _repoUsuario.Update(usuario,usuario.Id);
+            return RedirectToRoute(new { controller = "Usuario", action = "Index" });
         }
-        var usuario = new Usuario(VModel);
-        _repoUsuario.Update(usuario,usuario.Id);
-        return RedirectToRoute(new { controller = "Usuario", action = "Index" });
+        catch (System.Exception ex)
+        {   
+            _logger.LogError(ex,ToString());
+            return BadRequest(RedirectToAction("Index"));
+        }
     }
 
     public IActionResult EliminarUsuario(int idUsuario)
     {  
-        _repoUsuario.Remove(idUsuario);
-        return RedirectToAction("Index");
+        try{
+            _repoUsuario.Remove(idUsuario);
+            return RedirectToAction("Index");
+        }
+        catch(Exception ex){
+            _logger.LogError(ex,ToString());
+            return BadRequest(RedirectToAction("Index"));
+        }
     }
 
 

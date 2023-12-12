@@ -8,14 +8,12 @@ builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(options =>// builder para las sesiones
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(10); //me da el tiempo que esta activa la sesion 
+    options.IdleTimeout = TimeSpan.FromSeconds(60); //me da el tiempo que esta activa la sesion 
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.AddScoped<IUsuarioRepository,UsuarioRepositorio>();
-builder.Services.AddScoped<ITableroRepository,TableroRepository>();
-builder.Services.AddScoped<ITareaRepository,TareaRepository>();
+
 
 var app = builder.Build();
 
@@ -27,6 +25,19 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+var builder1 = WebApplication.CreateBuilder(args);
+// Add services to the container.
+builder1.Services.AddControllersWithViews();
+var CadenaDeConexion =
+builder1.Configuration.GetConnectionString("SqliteConexion")!.ToString();
+builder1.Services.AddSingleton<string>(CadenaDeConexion);
+// Aquí se realiza la inyección de los repositorios
+builder.Services.AddScoped<IUsuarioRepository,UsuarioRepositorio>();
+builder.Services.AddScoped<ITableroRepository,TableroRepository>();
+builder.Services.AddScoped<ITareaRepository,TareaRepository>();
+
+var app2 = builder.Build();
 
 
 

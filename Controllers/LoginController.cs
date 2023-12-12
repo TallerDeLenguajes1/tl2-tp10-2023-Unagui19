@@ -27,35 +27,57 @@ public class LoginController : Controller
     [HttpPost]
     public IActionResult Login(LoginViewModel loginUsuario)
     {
-        //existe el usuario?
-        var usuarioLogeado = _repoUsuario.GetAll().FirstOrDefault(usu=> usu.NombreDeUsuario==loginUsuario.Nombre && usu.Contrasenia==loginUsuario.Contrasenia);
+        try
+        {  
+            var usuarioLogeado = _repoUsuario.GetAll().FirstOrDefault(usu=> usu.NombreDeUsuario==loginUsuario.Nombre && usu.Contrasenia==loginUsuario.Contrasenia);
 
-        if (!ModelState.IsValid)
-        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (usuarioLogeado == null) {
+                        _logger.LogWarning("Intento de acceso invalido - Usuario:" + loginUsuario.Nombre + "Clava ingresada: " + loginUsuario.Contrasenia);
+                        return RedirectToAction("Index");
+                    }
+                    //Registro el usuario
+                    logearUsuario(usuarioLogeado);
+                    
+                    _logger.LogInformation("El usuario" + usuarioLogeado.NombreDeUsuario + "ingreso correctamente");
+
+                   //Devuelvo el usuario al Home
+                    return RedirectToRoute(new { controller = "Home", action = "Index" });
+                }
+                catch (System.Exception ex)
+                {
+                    _logger.LogError(ex.ToString());
+                    return RedirectToAction("Index");
+                }
+            }
+            // si el usuario no existe devuelvo al index
             return RedirectToAction("Index");
         }
-        // si el usuario no existe devuelvo al index
-        if (usuarioLogeado == null) {
-            return RedirectToAction("Index");
-        }
-        else
+        catch (System.Exception ex2)
         {
-            //Registro el usuario
-            logearUsuario(usuarioLogeado);
-            
-            //Devuelvo el usuario al Home
-            return RedirectToRoute(new { controller = "Home", action = "Index" });
-            
+            _logger.LogError(ex2,ToString());
+            return BadRequest(RedirectToAction("Index"));
         }
+        //existe el usuario?
+
         
     }
 
     private void logearUsuario(Usuario user)
     {
-        HttpContext.Session.SetString("IdUsuario", user.Id.ToString());
-        HttpContext.Session.SetString("Usuario", user.NombreDeUsuario);
-        HttpContext.Session.SetString("Contrasenia", user.Contrasenia);
-        HttpContext.Session.SetString("Rol", user.Rol.ToString());
+        try{
+            HttpContext.Session.SetString("IdUsuario", user.Id.ToString());
+            HttpContext.Session.SetString("Usuario", user.NombreDeUsuario);
+            HttpContext.Session.SetString("Contrasenia", user.Contrasenia);
+            HttpContext.Session.SetString("Rol", user.Rol.ToString());
+        }
+        catch(Exception ex)
+        {
+            throw new Exception("Los datos de usuario no se asignaron correctamente",ex);
+        }
     }
 
 

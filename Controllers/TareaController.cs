@@ -19,9 +19,14 @@ public class  TareaController: Controller
 
     public IActionResult Index()
     {
-        List<Tarea>tareas=_repoTarea.GetAll();
-        var VModel = tareas.Select(tarea=> new IndexTareaViewModel(tarea)).ToList();
-        return View(VModel);
+        try
+        {
+            return View(_repoTarea.GetAll().Select(tarea=> new IndexTareaViewModel(tarea)).ToList());
+        } 
+        catch(Exception ex){
+            _logger.LogError(ex,ToString());
+            return BadRequest(RedirectToRoute(new { controller = "Home", action = "Index" }));
+        }
     }
 
     [HttpGet]
@@ -33,13 +38,20 @@ public class  TareaController: Controller
     [HttpPost]
     public IActionResult CrearTarea(CrearTareaViewModel tareaVM)
     {   
-        if (!ModelState.IsValid)
-        {
+        try{
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+            var tarea = new Tarea(tareaVM);
+            _repoTarea.Create(tarea);
             return RedirectToAction("Index");
         }
-        var tarea = new Tarea(tareaVM);
-        _repoTarea.Create(tarea);
-        return RedirectToAction("Index");
+        catch(Exception ex){
+            _logger.LogError(ex,ToString());
+            return BadRequest(RedirectToAction("Index"));
+        }
+
     }
 
     [HttpGet]
@@ -54,6 +66,7 @@ public class  TareaController: Controller
     [HttpPost]
     public IActionResult ModificarTarea(ModificarTareaViewModel tareaVM)
     {   
+        try{
         if (!ModelState.IsValid)
         {
             return RedirectToAction("Index");
@@ -61,12 +74,23 @@ public class  TareaController: Controller
         var tarea = new Tarea(tareaVM);
         _repoTarea.Update(tarea,tarea.Id);
         return RedirectToRoute(new { controller = "Tarea", action = "Index" });
+        }
+        catch(Exception ex){
+            _logger.LogError(ex,ToString());
+            return BadRequest(RedirectToAction("Index"));
+        }
     }
 
     public IActionResult EliminarTarea(int idTarea)
     {  
+        try{
         _repoTarea.Remove(idTarea);
         return RedirectToAction("Index");
+        }
+        catch(Exception ex){
+            _logger.LogError(ex,ToString());
+            return BadRequest(RedirectToAction("Index"));
+        }
     }
 
 //Metodos para ver temas de sesion
