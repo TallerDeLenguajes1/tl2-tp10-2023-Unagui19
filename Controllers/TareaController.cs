@@ -9,17 +9,17 @@ namespace tl2_tp10_2023_Unagui19.Controllers;
 public class  TareaController: Controller
 {
     private readonly ILogger<TareaController> _logger;
-    private TareaRepository RepoTarea;
-    public TareaController(ILogger<TareaController> logger)
+    private readonly ITareaRepository _repoTarea;
+    public TareaController(ILogger<TareaController> logger, ITareaRepository RepoTarea)
     {
         _logger = logger;
-        RepoTarea = new TareaRepository();
+        _repoTarea = RepoTarea;
 
     }
 
     public IActionResult Index()
     {
-        List<Tarea>tareas=RepoTarea.GetAll();
+        List<Tarea>tareas=_repoTarea.GetAll();
         var VModel = tareas.Select(tarea=> new IndexTareaViewModel(tarea)).ToList();
         return View(VModel);
     }
@@ -38,14 +38,14 @@ public class  TareaController: Controller
             return RedirectToAction("Index");
         }
         var tarea = new Tarea(tareaVM);
-        RepoTarea.Create(tarea);
+        _repoTarea.Create(tarea);
         return RedirectToAction("Index");
     }
 
     [HttpGet]
     public IActionResult ModificarTarea(int idTarea)
     {  
-        var VModel = new ModificarTareaViewModel(RepoTarea.GetById(idTarea));
+        var VModel = new ModificarTareaViewModel(_repoTarea.GetById(idTarea));
         return View(VModel);
 
     }
@@ -59,13 +59,13 @@ public class  TareaController: Controller
             return RedirectToAction("Index");
         }
         var tarea = new Tarea(tareaVM);
-        RepoTarea.Update(tarea,tarea.Id);
+        _repoTarea.Update(tarea,tarea.Id);
         return RedirectToRoute(new { controller = "Tarea", action = "Index" });
     }
 
     public IActionResult EliminarTarea(int idTarea)
     {  
-        RepoTarea.Remove(idTarea);
+        _repoTarea.Remove(idTarea);
         return RedirectToAction("Index");
     }
 

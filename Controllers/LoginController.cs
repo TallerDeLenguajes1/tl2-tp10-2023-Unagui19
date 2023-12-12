@@ -12,12 +12,12 @@ public class LoginController : Controller
 {
     private readonly ILogger<LoginController> _logger;
 
-    private List<Usuario> usuarios;
-    private UsuarioRepositorio repoUsuario ;
-    public LoginController(ILogger<LoginController> logger)
+
+    private IUsuarioRepository _repoUsuario ;
+    public LoginController(ILogger<LoginController> logger, IUsuarioRepository RepoUsuario)
     {
         _logger = logger;
-        repoUsuario=new UsuarioRepositorio();
+        _repoUsuario=RepoUsuario;
     }
 
     [HttpGet]
@@ -30,7 +30,7 @@ public class LoginController : Controller
     public IActionResult Login(LoginViewModel loginUsuario)
     {
         //existe el usuario?
-        var usuarioLogeado = repoUsuario.GetAll().FirstOrDefault(usu=> usu.NombreDeUsuario==loginUsuario.Nombre && usu.Contrasenia==loginUsuario.Contrasenia);
+        var usuarioLogeado = _repoUsuario.GetAll().FirstOrDefault(usu=> usu.NombreDeUsuario==loginUsuario.Nombre && usu.Contrasenia==loginUsuario.Contrasenia);
 
         if (!ModelState.IsValid)
         {

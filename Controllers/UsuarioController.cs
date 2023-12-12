@@ -9,19 +9,19 @@ namespace tl2_tp10_2023_Unagui19.Controllers;
 public class UsuarioController : Controller
 {
     private readonly ILogger<UsuarioController> _logger;
-    private UsuarioRepositorio RepoUsuario;
+    private IUsuarioRepository _repoUsuario;
     // List<Usuario> usuarios=new List<Usuario>();
-    public UsuarioController(ILogger<UsuarioController> logger)
+    public UsuarioController(ILogger<UsuarioController> logger, IUsuarioRepository RepoUsuario)
     {
         _logger = logger;
-        RepoUsuario = new UsuarioRepositorio();
+        _repoUsuario = RepoUsuario;
 
     }
 
     // [HttpGet]
     public IActionResult Index()
     {
-        List<Usuario>usuarios=RepoUsuario.GetAll();
+        List<Usuario>usuarios=_repoUsuario.GetAll();
         var VModel = usuarios.Select(usu=> new IndexUsuarioViewModel(usu)).ToList();
         return View(VModel);
 
@@ -41,14 +41,14 @@ public class UsuarioController : Controller
             return RedirectToAction("Index");
         }
         var usuario = new Usuario(nuevoUsu);
-        RepoUsuario.Create(usuario);
+        _repoUsuario.Create(usuario);
         return RedirectToAction("Index");
     }
 
     [HttpGet]
     public IActionResult ModificarUsuario(int idUsuario)
     {  
-        var VModel = new ModificarUsuarioViewModel(RepoUsuario.GetById(idUsuario));
+        var VModel = new ModificarUsuarioViewModel(_repoUsuario.GetById(idUsuario));
         return View(VModel);
     }
 
@@ -61,13 +61,13 @@ public class UsuarioController : Controller
             return RedirectToAction("Index");
         }
         var usuario = new Usuario(VModel);
-        RepoUsuario.Update(usuario,usuario.Id);
+        _repoUsuario.Update(usuario,usuario.Id);
         return RedirectToRoute(new { controller = "Usuario", action = "Index" });
     }
 
     public IActionResult EliminarUsuario(int idUsuario)
     {  
-        RepoUsuario.Remove(idUsuario);
+        _repoUsuario.Remove(idUsuario);
         return RedirectToAction("Index");
     }
 

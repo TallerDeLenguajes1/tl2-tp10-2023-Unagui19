@@ -9,16 +9,15 @@ namespace tl2_tp10_2023_Unagui19.Controllers;
 public class TableroController : Controller
 {
     private readonly ILogger<TableroController> _logger;
-    private TableroRepository RepoTablero;
-    public TableroController(ILogger<TableroController> logger)
+    private readonly ITableroRepository _repoTablero;
+    public TableroController(ILogger<TableroController> logger, ITableroRepository RepoTablero)
     {
         _logger = logger;
-        RepoTablero = new TableroRepository();
-
+        _repoTablero = RepoTablero;
     }
 public IActionResult Index()
     {
-        List<Tablero>tableros=RepoTablero.GetAll();
+        List<Tablero>tableros=_repoTablero.GetAll();
         var VModel = tableros.Select(tablero=> new IndexTableroViewModel(tablero)).ToList();
         
         if (IsUser(HttpContext))
@@ -30,7 +29,7 @@ public IActionResult Index()
             else
             {
                 var idUsuario = HttpContext.Session.GetString("IdUsuario");
-                var tableros1 = RepoTablero.GetTablerosPorUsuario(Convert.ToInt32(idUsuario));
+                var tableros1 = _repoTablero.GetTablerosPorUsuario(Convert.ToInt32(idUsuario));
                 var VModel1 = tableros1.Select(tablero=> new IndexTableroViewModel(tablero)).ToList();
                 return View(VModel1);
             }
@@ -54,14 +53,14 @@ public IActionResult Index()
             return RedirectToRoute(new { controller = "Home", action = "Index" });
         }
         var tablero = new Tablero(tableroVm);
-        RepoTablero.Create(tablero);
+        _repoTablero.Create(tablero);
         return RedirectToAction("Index");
     }
 
     [HttpGet]
     public IActionResult ModificarTablero(int idTablero)
     {  
-        var tableroVm = new ModificarTableroViewModel(RepoTablero.GetById(idTablero));
+        var tableroVm = new ModificarTableroViewModel(_repoTablero.GetById(idTablero));
         return View(tableroVm);
     }
 
@@ -74,13 +73,13 @@ public IActionResult Index()
             return RedirectToRoute(new { controller = "Home", action = "Index" });
         }
         var tablero = new Tablero(tableroVm);
-        RepoTablero.Update(tablero,tablero.Id);
+        _repoTablero.Update(tablero,tablero.Id);
         return RedirectToRoute(new { controller = "Tablero", action = "Index" });
     }
 
     public IActionResult EliminarTablero(int idTablero)
     {  
-        RepoTablero.Remove(idTablero);
+        _repoTablero.Remove(idTablero);
         return RedirectToAction("Index");
     }
 
