@@ -1,3 +1,5 @@
+using tl2_tp10_2023_Unagui19.Repositorios;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,7 +13,12 @@ builder.Services.AddSession(options =>// builder para las sesiones
     options.Cookie.IsEssential = true;
 });
 
+builder.Services.AddScoped<IUsuarioRepository,UsuarioRepositorio>();
+builder.Services.AddScoped<ITableroRepository,TableroRepository>();
+builder.Services.AddScoped<ITareaRepository,TareaRepository>();
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

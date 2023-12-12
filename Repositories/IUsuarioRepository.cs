@@ -9,7 +9,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
     public interface IUsuarioRepository
     {
         public List<Usuario> GetAll();
-        public Usuario GetById(int id);
+        public Usuario GetById(int idUsu);
         public void Create(Usuario usuario);
         public void Remove(int id);
         public void Update(Usuario usuario, int id);
