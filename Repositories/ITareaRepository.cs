@@ -13,6 +13,8 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
         public void Create(Tarea Tarea);
         public void Remove(int id);
         public void Update(Tarea Tarea, int id);
+        public void UpdatePorNombre (int id, string nombre);
+        public void UpdatePorEstado (int id, EstadoTarea estado);
         public List<Tarea> GetTareasPorTablero(int id);
         public void AsignarUsuarioATarea(int idUsuario, int idTarea);
     }

@@ -11,8 +11,6 @@ namespace tl2_tp10_2023_Unagui19.Controllers;
 public class LoginController : Controller
 {
     private readonly ILogger<LoginController> _logger;
-
-
     private IUsuarioRepository _repoUsuario ;
     public LoginController(ILogger<LoginController> logger, IUsuarioRepository RepoUsuario)
     {
