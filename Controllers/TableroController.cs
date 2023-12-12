@@ -49,6 +49,10 @@ public IActionResult Index()
     [HttpPost]
     public IActionResult CrearTablero(CrearTableroViewModel tableroVm)
     {   
+        if (!ModelState.IsValid)
+        {
+            return RedirectToRoute(new { controller = "Home", action = "Index" });
+        }
         var tablero = new Tablero(tableroVm);
         RepoTablero.Create(tablero);
         return RedirectToAction("Index");
@@ -65,6 +69,10 @@ public IActionResult Index()
     [HttpPost]
     public IActionResult ModificarTablero(ModificarTableroViewModel tableroVm)
     {   
+        if (!ModelState.IsValid)
+        {
+            return RedirectToRoute(new { controller = "Home", action = "Index" });
+        }
         var tablero = new Tablero(tableroVm);
         RepoTablero.Update(tablero,tablero.Id);
         return RedirectToRoute(new { controller = "Tablero", action = "Index" });

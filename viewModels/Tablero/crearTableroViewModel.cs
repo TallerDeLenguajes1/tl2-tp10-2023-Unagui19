@@ -8,24 +8,22 @@ namespace tl2_tp10_2023_Unagui19.ViewModels
     {
         // int id ;
         [Required(ErrorMessage = "Este campo es requerido.")]
-        int idUsuarioPropietario;
+        public int IdUsuarioPropietario {get;set;}
         [Required(ErrorMessage = "Este campo es requerido.")]
-        string nombre;
+        [Display (Name = "Nombre de tablero")]
+        public string Nombre {get;set;} 
 
-        string descripcion;
+        public string Descripcion {get;set;}
 
 
         // public int Id { get => id; set => id = value; }
-        public int IdUsuarioPropietario { get => idUsuarioPropietario; set => idUsuarioPropietario = value; }
-        public string Nombre { get => nombre; set => nombre = value; }
-        public string Descripcion { get => descripcion; set => descripcion = value; }
 
         
         public CrearTableroViewModel(Tablero tablero)
         {
-            idUsuarioPropietario= tablero.IdUsuarioPropietario;
-            nombre = tablero.Nombre;
-            descripcion = tablero.Descripcion;
+            IdUsuarioPropietario= tablero.IdUsuarioPropietario;
+            Nombre = tablero.Nombre;
+            Descripcion = tablero.Descripcion;
         }
 
         public CrearTableroViewModel(){}

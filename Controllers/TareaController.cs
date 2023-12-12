@@ -33,6 +33,10 @@ public class  TareaController: Controller
     [HttpPost]
     public IActionResult CrearTarea(CrearTareaViewModel tareaVM)
     {   
+        if (!ModelState.IsValid)
+        {
+            return RedirectToAction("Index");
+        }
         var tarea = new Tarea(tareaVM);
         RepoTarea.Create(tarea);
         return RedirectToAction("Index");
@@ -50,6 +54,10 @@ public class  TareaController: Controller
     [HttpPost]
     public IActionResult ModificarTarea(ModificarTareaViewModel tareaVM)
     {   
+        if (!ModelState.IsValid)
+        {
+            return RedirectToAction("Index");
+        }
         var tarea = new Tarea(tareaVM);
         RepoTarea.Update(tarea,tarea.Id);
         return RedirectToRoute(new { controller = "Tarea", action = "Index" });

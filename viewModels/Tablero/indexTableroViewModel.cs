@@ -7,24 +7,18 @@ namespace tl2_tp10_2023_Unagui19.ViewModels
     public class IndexTableroViewModel
     {
         
-        int id ;
-        int idUsuarioPropietario;
-        string nombre;
-        string descripcion;
+        public int Id {get;set;}
+        public int IdUsuarioPropietario {get;set;}
+        public string Nombre {get;set;} 
 
-
-
-        public int Id { get => id; set => id = value; }
-        public int IdUsuarioPropietario { get => idUsuarioPropietario; set => idUsuarioPropietario = value; }
-        public string Nombre { get => nombre; set => nombre = value; }
-        public string Descripcion { get => descripcion; set => descripcion = value; }
+        public string Descripcion {get;set;}
 
         public IndexTableroViewModel(Tablero tablero)
         {
-            id = tablero.Id;
-            idUsuarioPropietario= tablero.IdUsuarioPropietario;
-            nombre = tablero.Nombre;
-            descripcion = tablero.Descripcion;
+            Id = tablero.Id;
+            IdUsuarioPropietario= tablero.IdUsuarioPropietario;
+            Nombre = tablero.Nombre;
+            Descripcion = tablero.Descripcion;
         }
 
         public IndexTableroViewModel(){}

@@ -1,5 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using tl2_tp10_2023_Unagui19.Models;
 using tl2_tp10_2023_Unagui19.Repositorios;
 using tl2_tp10_2023_Unagui19.ViewModels;
@@ -30,6 +32,10 @@ public class LoginController : Controller
         //existe el usuario?
         var usuarioLogeado = repoUsuario.GetAll().FirstOrDefault(usu=> usu.NombreDeUsuario==loginUsuario.Nombre && usu.Contrasenia==loginUsuario.Contrasenia);
 
+        if (!ModelState.IsValid)
+        {
+            return RedirectToAction("Index");
+        }
         // si el usuario no existe devuelvo al index
         if (usuarioLogeado == null) {
             return RedirectToAction("Index");

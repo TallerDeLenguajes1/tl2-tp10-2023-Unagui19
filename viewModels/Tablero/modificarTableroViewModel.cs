@@ -7,26 +7,21 @@ namespace tl2_tp10_2023_Unagui19.ViewModels
     public class ModificarTableroViewModel
     {
 
-        int id ;
+        public int Id {get;set;} 
         [Required(ErrorMessage = "Este campo es requerido.")]
-        int idUsuarioPropietario;
+        public int IdUsuarioPropietario {get;set;}
         [Required(ErrorMessage = "Este campo es requerido.")]
-        string nombre;
-        string descripcion;
+        public string Nombre {get;set;}
+        public string Descripcion {get;set;}
 
-
-        public int Id { get => id; set => id = value; }
-        public int IdUsuarioPropietario { get => idUsuarioPropietario; set => idUsuarioPropietario = value; }
-        public string Nombre { get => nombre; set => nombre = value; }
-        public string Descripcion { get => descripcion; set => descripcion = value; }
 
         
         public ModificarTableroViewModel(Tablero tablero)
         {
-            id = tablero.Id;
-            idUsuarioPropietario= tablero.IdUsuarioPropietario;
-            nombre = tablero.Nombre;
-            descripcion = tablero.Descripcion;
+            Id = tablero.Id;
+            IdUsuarioPropietario= tablero.IdUsuarioPropietario;
+            Nombre = tablero.Nombre;
+            Descripcion = tablero.Descripcion;
         }
 
         public ModificarTableroViewModel(){}
