@@ -4,6 +4,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//para la inyeccion de dependecia de la base de datos
+var CadenaDeConexion =
+builder.Configuration.GetConnectionString("SqliteConexion")!.ToString();
+builder.Services.AddSingleton<string>(CadenaDeConexion);
+// Aquí se realiza la inyección de los repositorios
+builder.Services.AddScoped<IUsuarioRepository,UsuarioRepositorio>();
+builder.Services.AddScoped<ITableroRepository,TableroRepository>();
+builder.Services.AddScoped<ITareaRepository,TareaRepository>();
+
 builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(options =>// builder para las sesiones
@@ -26,18 +36,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-var builder1 = WebApplication.CreateBuilder(args);
-// Add services to the container.
-builder1.Services.AddControllersWithViews();
-var CadenaDeConexion =
-builder1.Configuration.GetConnectionString("SqliteConexion")!.ToString();
-builder1.Services.AddSingleton<string>(CadenaDeConexion);
-// Aquí se realiza la inyección de los repositorios
-builder.Services.AddScoped<IUsuarioRepository,UsuarioRepositorio>();
-builder.Services.AddScoped<ITableroRepository,TableroRepository>();
-builder.Services.AddScoped<ITareaRepository,TareaRepository>();
 
-var app2 = builder.Build();
+
+
 
 
 

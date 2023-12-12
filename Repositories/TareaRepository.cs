@@ -13,14 +13,20 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
 {
     public class TareaRepository:ITareaRepository
     {
-        private string cadenaConexion = "Data Source=db/Kanban.db;Cache=Shared"; // crea la conexion 
+        private readonly string? _connectionString;
+
+        public TareaRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+        // private string cadenaConexion = "Data Source=db/Kanban.db;Cache=Shared"; // crea la conexion 
         public void Create(Tarea tarea)
         {
             try{
                 var queryString = @"
                 INSERT INTO Tarea (id_tablero, nombre,estado, descripcion, color, id_usuario_asignado ) 
                 VALUES (@id_tablero, @nombre, @estado, @descripcion, @color, @id_usuario_asignado )"; //mi consulta
-                using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//crea un dato tipo SQLiteConnetion para usarlo e el comando
+                using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//crea un dato tipo SQLiteConnetion para usarlo e el comando
                 {
                     connection.Open();//abre la conexion
                     var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion para ejectuar el comando
@@ -45,7 +51,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
         public void Update(Tarea TareaMod, int idTarea)//actualizar la Tarea
         {
             try{
-                SQLiteConnection connection = new SQLiteConnection(cadenaConexion);//conectando
+                SQLiteConnection connection = new SQLiteConnection(_connectionString);//conectando
                 SQLiteCommand command = connection.CreateCommand();//creando comando
                 command.CommandText = @"
                 UPDATE Tarea 
@@ -72,7 +78,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
         public void UpdatePorNombre (int id, string nombre)//actualizar la Tarea
         {
             try{
-                using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+                using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
                 {//conectando
                 SQLiteCommand command = connection.CreateCommand();//creando comando
                 command.CommandText = @"
@@ -95,7 +101,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
         public void UpdatePorEstado (int id, EstadoTarea estado)//actualizar la Tarea
         {
             try{
-                using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+                using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
                 {//conectando
                     SQLiteCommand command = connection.CreateCommand();//creando comando
                     command.CommandText = @"
@@ -117,7 +123,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
 
         public Tarea GetById(int id)
         {
-            SQLiteConnection connection = new SQLiteConnection(cadenaConexion);//crear variable de conexion
+            SQLiteConnection connection = new SQLiteConnection(_connectionString);//crear variable de conexion
             var TareaRecup = new Tarea();
             SQLiteCommand command = connection.CreateCommand();//comando para usar la base
             command.CommandText = $"SELECT * FROM Tarea WHERE id = '{id}';";
@@ -152,7 +158,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
             try{
                 var queryString = @"SELECT * FROM Tarea;";
                 List<Tarea> Tareas = new List<Tarea>();
-                using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+                using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
                 {
                     SQLiteCommand command = new SQLiteCommand(queryString, connection); //creando comadno sqlLiteConnection
                     connection.Open();
@@ -189,7 +195,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
             try{
                 var queryString = $"SELECT * FROM Tarea WHERE estado = {(int)estado};";
                 List<Tarea> Tareas = new List<Tarea>();
-                using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+                using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
                 {
                     SQLiteCommand command = new SQLiteCommand(queryString, connection); //creando comadno sqlLiteConnection
                     connection.Open();
@@ -224,7 +230,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
         {
              var queryString = $"SELECT * FROM Tarea WHERE  id_usuario_asignado= {idUsu};";
             List<Tarea> Tareas = new List<Tarea>();
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 SQLiteCommand command = new SQLiteCommand(queryString, connection); //creando comadno sqlLiteConnection
                 connection.Open();
@@ -254,7 +260,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
             try{
                 var queryString = $"SELECT * FROM Tarea WHERE id_tablero = {idTablero};";
                 List<Tarea> Tareas = new List<Tarea>();
-                using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+                using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
                 {
                     SQLiteCommand command = new SQLiteCommand(queryString, connection); //creando comadno sqlLiteConnection
                     connection.Open();
@@ -291,7 +297,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
         public void Remove(int id)
         {
             try{
-                SQLiteConnection connection = new SQLiteConnection(cadenaConexion);// crear variable de conexion
+                SQLiteConnection connection = new SQLiteConnection(_connectionString);// crear variable de conexion
                 SQLiteCommand command = connection.CreateCommand();// comando pa moverme
                 command.CommandText = $"DELETE FROM Tarea WHERE id = '{id}';";// consulta para eliminar tuplas con su condicion
                 connection.Open();
@@ -307,7 +313,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
         public void AsignarUsuarioATarea(int idUsuario, int idTarea)
         {
             try{
-                SQLiteConnection connection = new SQLiteConnection(cadenaConexion);//conectando
+                SQLiteConnection connection = new SQLiteConnection(_connectionString);//conectando
                 SQLiteCommand command = connection.CreateCommand();//creando comando
                 command.CommandText = "UPDATE Tarea" + 
                 $"SET id_usuario_asignado = {idUsuario} WHERE id = {idTarea};";

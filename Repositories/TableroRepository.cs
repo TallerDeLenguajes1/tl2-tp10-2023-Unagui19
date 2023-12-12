@@ -8,14 +8,20 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
 {
     public class TableroRepository:ITableroRepository
     {
-        private string cadenaConexion = "Data Source=db/Kanban.DB;Cache=Shared"; // crea la conexion 
+        private readonly string? _connectionString;
+
+        public TableroRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+        // private string cadenaConexion = "Data Source=db/Kanban.DB;Cache=Shared"; // crea la conexion 
         public void Create(Tablero Tablero)
         {
             try{
                 var queryString = @"
                 INSERT INTO Tablero (id_usuario_propietario, nombre, descripcion) 
                 VALUES (@id_usuario_propietario,@nombre, @descripcion)"; //mi consulta
-                using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//crea un dato tipo SQLiteConnetion para usarlo e el comando
+                using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//crea un dato tipo SQLiteConnetion para usarlo e el comando
                 {
                     connection.Open();//abre la conexion
                     var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion para ejectuar el comando
@@ -38,7 +44,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
         public void Update (Tablero tablero, int id)//actualizar la Tarea
         {
             try{
-                using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+                using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
                 {//conectando
                 SQLiteCommand command = connection.CreateCommand();//creando comando
                 command.CommandText = @"
@@ -61,7 +67,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
         }
         public Tablero GetById(int id)
         {
-            SQLiteConnection connection = new SQLiteConnection(cadenaConexion);//crear variable de conexion
+            SQLiteConnection connection = new SQLiteConnection(_connectionString);//crear variable de conexion
             var tablero = new Tablero();
             SQLiteCommand command = connection.CreateCommand();//comando para usar la base
             command.CommandText = $"SELECT * FROM Tablero WHERE id = '{id}';";
@@ -91,7 +97,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
             try{
                 var queryString = @"SELECT * FROM Tablero;";
                 List<Tablero> tableros = new List<Tablero>();
-                using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+                using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
                 {
                     SQLiteCommand command = new SQLiteCommand(queryString, connection); //creando comadno sqlLiteConnection
                     connection.Open();
@@ -121,7 +127,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
         public void Remove(int id)
         {
             try{
-                SQLiteConnection connection = new SQLiteConnection(cadenaConexion);// crear variable de conexion
+                SQLiteConnection connection = new SQLiteConnection(_connectionString);// crear variable de conexion
                 SQLiteCommand command = connection.CreateCommand();// comando pa moverme
                 command.CommandText = $"DELETE FROM Tablero WHERE id = '{id}';";// consulta para eliminar tuplas con su condicion
                 connection.Open();
@@ -139,7 +145,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
             try{
                 var queryString = $"SELECT * FROM Tablero WHERE id = {idUsuario};";
                 List<Tablero> tableros = new List<Tablero>();
-                using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+                using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
                 {
                     SQLiteCommand command = new SQLiteCommand(queryString, connection); //creando comadno sqlLiteConnection
                     connection.Open();
