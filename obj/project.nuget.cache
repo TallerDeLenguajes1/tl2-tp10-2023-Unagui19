@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "r+rCxa45VmQtea5FN7NgxZqPNnTRTq4Vbz+bD7Y590pE9CwHLg3ON1EF/931H2eVOaWB/7KLpl11VbR1Qm3a5Q==",
+  "dgSpecHash": "ujw2eytwIn4y33YRcEm1HkgwdhnNXEDuKX2byL8DgAD83io5LrG8BCmH5uirChd19Q6F6ivMAXq7yUBkthZ9ag==",
   "success": true,
   "projectFilePath": "D:\\tercerAño\\Taller2\\tp10\\tl2-tp10-2023-Unagui19\\tl2-tp10-2023-Unagui19.csproj",
   "expectedPackageFiles": [
@@ -48,7 +48,11 @@
     "C:\\Users\\franc\\.nuget\\packages\\system.security.permissions\\4.7.0\\system.security.permissions.4.7.0.nupkg.sha512",
     "C:\\Users\\franc\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
     "C:\\Users\\franc\\.nuget\\packages\\system.text.encodings.web\\4.5.0\\system.text.encodings.web.4.5.0.nupkg.sha512",
-    "C:\\Users\\franc\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512"
+    "C:\\Users\\franc\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512",
+    "C:\\Users\\franc\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.14\\microsoft.netcore.app.ref.7.0.14.nupkg.sha512",
+    "C:\\Users\\franc\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.14\\microsoft.windowsdesktop.app.ref.7.0.14.nupkg.sha512",
+    "C:\\Users\\franc\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.14\\microsoft.aspnetcore.app.ref.7.0.14.nupkg.sha512",
+    "C:\\Users\\franc\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\7.0.14\\microsoft.netcore.app.host.win-x64.7.0.14.nupkg.sha512"
   ],
   "logs": []
 }

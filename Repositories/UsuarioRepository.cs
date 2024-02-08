@@ -9,13 +9,19 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
 {
     public class UsuarioRepositorio: IUsuarioRepository
     {
-        private string cadenaConexion = "Data Source=db/Kanban.db;Cache=Shared"; // crea la conexion 
+        private readonly string? _connectionString;
+
+        public UsuarioRepositorio(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+        // private string cadenaConexion = "Data Source=db/Kanban.db;Cache=Shared"; // crea la conexion 
         
         public void Create(Usuario usuario){
             try
             {
                 var queryString = $"INSERT INTO usuario (nombre_de_usuario,contrasenia, rol) VALUES (@nombre_de_usuario,@contrasenia, @rol)"; //mi consulta
-                using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//crea un dato tipo SQLiteConnetion para usarlo e el comando
+                using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//crea un dato tipo SQLiteConnetion para usarlo e el comando
                 {
                     connection.Open();//abre la conexion
                     var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion para ejectuar el comando
@@ -37,7 +43,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
         {
             try
             {
-                SQLiteConnection connection = new SQLiteConnection(cadenaConexion);//conectando
+                SQLiteConnection connection = new SQLiteConnection(_connectionString);//conectando
                 SQLiteCommand command = connection.CreateCommand();//creando comando
                 command.CommandText = @"
                 UPDATE Usuario
@@ -64,7 +70,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
             {
                 var queryString = @"SELECT * FROM Usuario;";
                 List<Usuario> Usuarios = new List<Usuario>();
-                using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+                using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
                 {
                     SQLiteCommand command = new SQLiteCommand(queryString, connection); //creando comadno sqlLiteConnection
                     connection.Open();
@@ -96,7 +102,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
         public Usuario GetById(int idUsu)
         {
 
-            SQLiteConnection connection = new SQLiteConnection(cadenaConexion);//crear variable de conexion
+            SQLiteConnection connection = new SQLiteConnection(_connectionString);//crear variable de conexion
             var Usuario = new Usuario();
             SQLiteCommand command = connection.CreateCommand();//comando para usar la base
             // command.CommandText = $"SELECT * FROM Usuario WHERE id_usuario = '{idUsu}';";
@@ -127,7 +133,7 @@ namespace tl2_tp10_2023_Unagui19.Repositorios
         {
             try
             {
-                SQLiteConnection connection = new SQLiteConnection(cadenaConexion);// crear variable de conexion
+                SQLiteConnection connection = new SQLiteConnection(_connectionString);// crear variable de conexion
                 SQLiteCommand command = connection.CreateCommand();// comando pa moverme
                 command.CommandText = $"DELETE FROM Usuario WHERE id_usuario = '{idUsu}';";// consulta para eliminar tuplas con su condicion
                 connection.Open();
