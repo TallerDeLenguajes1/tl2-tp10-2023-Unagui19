@@ -1,21 +1,21 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using tl2_tp10_2023_Unagui19.Models;
-using tl2_tp10_2023_Unagui19.Repositorios;
-using tl2_tp10_2023_Unagui19.ViewModels;
+using Taller2_TP10.Models;
+using Taller2_TP10.Repositorios;
+using Taller2_TP10.ViewModels;
 
-namespace tl2_tp10_2023_Unagui19.Controllers;
+namespace Taller2_TP10.Controllers;
 
 public class LoginController : Controller
 {
+     
     private readonly ILogger<LoginController> _logger;
-    private IUsuarioRepository _repoUsuario ;
-    public LoginController(ILogger<LoginController> logger, IUsuarioRepository RepoUsuario)
+    private UsuarioRepository repoUsuario;
+
+    public LoginController(ILogger<LoginController> logger)
     {
+        repoUsuario = new UsuarioRepository();
         _logger = logger;
-        _repoUsuario=RepoUsuario;
     }
 
     [HttpGet]
@@ -25,38 +25,43 @@ public class LoginController : Controller
     }
 
     [HttpPost]
-    public IActionResult Login(LoginViewModel loginUsuario)
-    {
-        //existe el usuario?
-        var usuarioLogeado = _repoUsuario.GetAll().FirstOrDefault(usu=> usu.NombreDeUsuario==loginUsuario.Nombre && usu.Contrasenia==loginUsuario.Contrasenia);
-
-        if (!ModelState.IsValid)
-        {
-            return RedirectToAction("Index");
-        }
-        // si el usuario no existe devuelvo al index
-        if (usuarioLogeado == null) {
-            return RedirectToAction("Index");
-        }
-        else
-        {
-            //Registro el usuario
-            logearUsuario(usuarioLogeado);
+    public IActionResult Logueo(LoginViewModel loginUsuario){
+        Usuario usuarioLogueado = new Usuario();
+        List<Usuario> usuarios = repoUsuario.ListarUsuarios();
+        usuarioLogueado = usuarios.FirstOrDefault(usu => usu.NombreDeUsuario == loginUsuario.Nombre && usu.Contrasenia == loginUsuario.Contrasenia);
+         if (usuarioLogueado == null)
+            {
+                var loginVM = new LoginViewModel() ;
+                // {
+                //     MensajeDeError = "Usuario no existente"
+                // };
+                return View("Index",loginVM); 
+            }
             
-            //Devuelvo el usuario al Home
-            return RedirectToRoute(new { controller = "Home", action = "Index" });
-            
-        }
-        
+            HttpContext.Session.SetInt32("IdUsuario", usuarioLogueado.Id);
+            HttpContext.Session.SetString("Usuario", usuarioLogueado.NombreDeUsuario);
+            // HttpContext.Session.SetString("Contraseña", user.Contrasenia);
+            HttpContext.Session.SetString("Rol", usuarioLogueado.Rol.ToString());
+            return RedirectToAction("Index","Home");
+        //Existe el usuario?
+        // if (usuarioLogueado!=null) // si el usuario esta logueado, es decir existe
+        // {
+        //     loguearUsuario(usuarioLogueado);
+        //     return RedirectToAction("Index","Home");
+        // }
+        // else//Si el usuario no coincide, es decir no esta logueado, devuelvo directamente al index
+        // {
+        //     return RedirectToAction("Index");        
+        // }
     }
 
-    private void logearUsuario(Usuario user)
-    {
-        HttpContext.Session.SetString("IdUsuario", user.Id.ToString());
-        HttpContext.Session.SetString("Usuario", user.NombreDeUsuario);
-        HttpContext.Session.SetString("Contrasenia", user.Contrasenia);
-        HttpContext.Session.SetString("Rol", user.Rol.ToString());
-    }
-
+    // private void LoguearUsuario(Usuario user)
+    // {
+    //     HttpContext.Session.SetInt32("IdUsuario", user.Id);
+    //     HttpContext.Session.SetString("Usuario", user.NombreDeUsuario);
+    //     // HttpContext.Session.SetString("Contraseña", user.Contrasenia);
+    //     HttpContext.Session.SetString("Rol", user.Rol.ToString());
+    // }
+    
 
 }

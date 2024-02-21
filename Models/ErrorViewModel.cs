@@ -1,4 +1,4 @@
-namespace tl2_tp10_2023_Unagui19.Models;
+namespace Taller2_TP10.Models;
 
 public class ErrorViewModel
 {

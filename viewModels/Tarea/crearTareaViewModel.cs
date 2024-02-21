@@ -1,46 +1,29 @@
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using tl2_tp10_2023_Unagui19.Models;
+using Taller2_TP10.Models;
 
-namespace tl2_tp10_2023_Unagui19.ViewModels
+namespace Taller2_TP10.ViewModels
 {
     public class CrearTareaViewModel
     {
-
-        public int IdTablero {get;set;} 
-
-        [Required(ErrorMessage = "Este campo es requerido.")]
-        [Display(Name = "Nombre de la Tarea")] 
-        public string Nombre {get;set;} 
-
-        [Required(ErrorMessage = "Este campo es requerido.")]
-        [Display(Name = "Estado")] 
-        public EstadoTarea Estado {get;set;} 
-
-        [Display(Name = "Descripcion")] 
-        public string? Descripcion {get;set;} 
-
-        [Display(Name = "Color")] 
-        public string? Color {get;set;} 
-
-        [Display(Name = "Id del usuario asignado")] 
-        public int? IdUsuarioAsignado {get;set;} 
-
-
         
-        public CrearTareaViewModel(){Estado=EstadoTarea.ToDo;}
+        public int Id{get;set;}
+        public int IdTablero{get;set;}
+        [Required][StringLength(30)]public string Nombre{get;set;}
+        [StringLength(200)]public string Descripcion{get;set;}
+        [StringLength(30)]public string Color{get;set;}
+        [Required]public Estado EstadoTarea{get;set;}
+        public int? IdUsuarioAsignado{get;set;}
 
-        public CrearTareaViewModel(Tarea tarea)
-        {
+        public CrearTareaViewModel(){}
+
+        public CrearTareaViewModel(Tarea tarea){
+            Id = tarea.Id;
             IdTablero = tarea.IdTablero;
             Nombre = tarea.Nombre;
-            Estado = tarea.Estado;
             Descripcion = tarea.Descripcion;
             Color = tarea.Color;
+            EstadoTarea = tarea.EstadoTarea;
             IdUsuarioAsignado = tarea.IdUsuarioAsignado;
         }
-
-
     }
 }
-

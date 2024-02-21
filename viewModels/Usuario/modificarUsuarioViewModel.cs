@@ -1,27 +1,22 @@
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using tl2_tp10_2023_Unagui19.Models;
+using Taller2_TP10.Models;
 
-namespace tl2_tp10_2023_Unagui19.ViewModels
+namespace Taller2_TP10.ViewModels
 {
     public class ModificarUsuarioViewModel
     {
-
-        public int Id {get;set;}        
         
-        public string NombreDeUsuario {get;set;}        
-        public NivelDeAcceso Rol {get;set;}
-        public string Contrasenia {get;set;}
+        public int IdUsuario {get;set;}
+        [Required][StringLength(30)]public string Nombre {get;set;}
+        [Required]public Roles Rol {get;set;}
 
-        public ModificarUsuarioViewModel(Usuario usu)
-        {
-            Id = usu.Id;
-            NombreDeUsuario = usu.NombreDeUsuario;
-            Rol = usu.Rol;
-            Contrasenia = usu.Contrasenia;
-        }
-        
         public ModificarUsuarioViewModel(){}
+
+        public ModificarUsuarioViewModel(Usuario usuario)
+        {
+            IdUsuario =usuario.Id;
+            Nombre = usuario.NombreDeUsuario;
+            Rol = usuario.Rol;
+        }
     }
 }
-

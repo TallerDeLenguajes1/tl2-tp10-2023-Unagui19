@@ -1,44 +1,41 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using tl2_tp10_2023_Unagui19.ViewModels;
+using Taller2_TP10.ViewModels;
 
-namespace tl2_tp10_2023_Unagui19.Models
+namespace Taller2_TP10.Models
 {
-    public enum NivelDeAcceso{admin, operador};
+    public enum Roles{admin = 1, operador}
     public class Usuario
     {
+        public int Id {get;set;}
+        public string NombreDeUsuario {get;set;}
+        public string Contrasenia {get;set;}
+        public Roles Rol {get;set;}
 
-        public int Id { get; set; }
-        public string NombreDeUsuario{ get; set; }
-        public NivelDeAcceso Rol{ get; set; }
-        public string Contrasenia{ get; set; }
-
-
-        public Usuario(int id, string nombreDeUsuario, NivelDeAcceso rol, string contrasenia)
-        {
+        public Usuario(){}
+        public Usuario(int id){
             Id = id;
-            NombreDeUsuario = nombreDeUsuario;
+            Rol = Roles.operador;
+        }
+
+        public Usuario(int id, string nombre, string password, Roles rol){
+            Id = id;
+            NombreDeUsuario = nombre;
+            Contrasenia = password;
             Rol = rol;
-            Contrasenia = contrasenia;
+
         }
         public Usuario(CrearUsuarioViewModel usu)
         {
-            NombreDeUsuario = usu.NombreDeUsuario;
+            Id = usu.IdUsuario;
+            NombreDeUsuario = usu.Nombre;
             Rol = usu.Rol;
             Contrasenia = usu.Contrasenia;
         }
 
         public Usuario(ModificarUsuarioViewModel usu)
         {
-            Id = usu.Id;
-            NombreDeUsuario = usu.NombreDeUsuario;
+            Id = usu.IdUsuario;
+            NombreDeUsuario = usu.Nombre;
             Rol = usu.Rol;
-            Contrasenia = usu.Contrasenia;
         }
-        public Usuario(){}
-    }
-    
+    }    
 }

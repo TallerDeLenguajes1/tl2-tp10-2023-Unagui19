@@ -1,94 +1,73 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using tl2_tp10_2023_Unagui19.Models;
-using tl2_tp10_2023_Unagui19.Repositorios;
-using tl2_tp10_2023_Unagui19.ViewModels;
+using Taller2_TP10.Models;
+using Taller2_TP10.ViewModels;
+using Taller2_TP10.Repositorios;
 
-namespace tl2_tp10_2023_Unagui19.Controllers;
+namespace Taller2_TP10.Controllers;
 
-public class  TareaController: Controller
+public class TareaController : Controller
 {
     private readonly ILogger<TareaController> _logger;
     private readonly ITareaRepository _repoTarea;
-    public TareaController(ILogger<TareaController> logger, ITareaRepository RepoTarea)
-    {
-        _logger = logger;
-        _repoTarea = RepoTarea;
 
+    public TareaController(ILogger<TareaController> logger, ITareaRepository repoTarea)
+    {
+        _repoTarea = repoTarea;
+        _logger = logger;
     }
 
+//Listar Usuarios
     public IActionResult Index()
     {
-        List<Tarea>tareas=_repoTarea.GetAll();
-        var VModel = tareas.Select(tarea=> new IndexTareaViewModel(tarea)).ToList();
-        return View(VModel);
+            List<Tarea> tareas = _repoTarea.ListarTareas();
+            var VModel = tareas.Select(tar => new IndexTareaViewModel(tar)).ToList();
+            return View(VModel);
     }
 
+//Crear Usuario
     [HttpGet]
-    public IActionResult CrearTarea()
-    {   
+    public IActionResult CrearTarea(){
         return View(new CrearTareaViewModel());
     }
 
     [HttpPost]
-    public IActionResult CrearTarea(CrearTareaViewModel tareaVM)
-    {   
-        if (!ModelState.IsValid)
-        {
-            return RedirectToAction("Index");
-        }
-        var tarea = new Tarea(tareaVM);
-        _repoTarea.Create(tarea);
+    public IActionResult CrearTarea(CrearTareaViewModel nuevaTarea){
+        if (!ModelState.IsValid){return RedirectToAction("Index");}
+        var tarea = new Tarea(nuevaTarea);
+        _repoTarea.CrearTarea(tarea);
         return RedirectToAction("Index");
     }
 
+//Modificar usuarios
     [HttpGet]
-    public IActionResult ModificarTarea(int idTarea)
-    {  
-        var VModel = new ModificarTareaViewModel(_repoTarea.GetById(idTarea));
+    public IActionResult ModificarTarea(int idTarea){
+        var VModel = new ModificarTareaViewModel(_repoTarea.BuscarTareaPorId(idTarea));
         return View(VModel);
-
     }
-
 
     [HttpPost]
-    public IActionResult ModificarTarea(ModificarTareaViewModel tareaVM)
-    {   
-        if (!ModelState.IsValid)
-        {
-            return RedirectToAction("Index");
-        }
-        var tarea = new Tarea(tareaVM);
-        _repoTarea.Update(tarea,tarea.Id);
-        return RedirectToRoute(new { controller = "Tarea", action = "Index" });
-    }
-
-    public IActionResult EliminarTarea(int idTarea)
-    {  
-        _repoTarea.Remove(idTarea);
+    public IActionResult ModificarTarea(ModificarTareaViewModel modTarea){
+        if (!ModelState.IsValid){return RedirectToAction("Index");}
+        var tarea = new Tarea(modTarea);
+        _repoTarea.ModificarTarea(tarea.Id,tarea);
         return RedirectToAction("Index");
     }
 
-//Metodos para ver temas de sesion
-    // private bool IsAdmin()
-    // {
-    //     if (HttpContext.Session != null && HttpContext.Session.GetString("Rol") == "Admin")
+//Eliminar tablero
+    public IActionResult EliminarTarea(int idTarea){
+        _repoTarea.EliminarTarea(idTarea);
+        return RedirectToAction("Index");
+    }
+
+    // public bool usuarioLogueado(){
+    //    if (HttpContext.Session.IsAvailable)
+    //    {
     //         return true;
-
-    //     return false;
-    // }
-
-    // private bool IsUser()
-    // {
-    //     if (HttpContext.Session != null && (HttpContext.Session.GetString("Rol") == "Admin" || HttpContext.Session.GetString("Rol") == "Operador"))
-    //         return true;
-
-    //     return false;
-    // }
-
-    // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    // public IActionResult Error()
-    // {
-    //     return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    //    } 
+    //    else
+    //    {
+    //         return false;
+    //    }
     // }
 }

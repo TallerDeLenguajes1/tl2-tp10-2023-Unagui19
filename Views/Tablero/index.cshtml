@@ -1,34 +1,37 @@
-@{
+﻿@{
     ViewData["Title"] = "Lista de Tableros";
+    string Title = "Lista de Tableros";
 }
-@using tl2_tp10_2023_Unagui19.ViewModels
+@using Taller2_TP10.ViewModels
 @model List<IndexTableroViewModel>
-    <h2>@ViewData["Title"]</h2>
 
-    <table class="table table-dark">
-        <thead>
+<H2>@Title</H2>
+
+<table class="table table-primary">
+    <thead>
+        <tr>
+            <th scope="col"> ID</th>
+            <th scope="col">Id del usuario propietario</th>
+            <th scope="col">Nombre del tablero</th>
+            <th scope="col">Descripcion del mismo</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tablero in Model)
+        {
             <tr>
-                <th hidden>ID</th>
-                <th>Nombre</th>
-                <th>Id de Usuario asociado a la tarea</th>
-                <th>Descripcion</th>
-                @* <th></th> *@
+                <th scope= "row">@tablero.Id</th>
+                <td>@tablero.IdUsuarioPropietario</td>
+                <td>@tablero.Nombre</td>
+                <td>@tablero.Descripcion</td>
+                <td><a asp-controller="Tablero" asp-action="ModificarTablero" asp-route-idTablero="@tablero.Id">Modificar</a>
+                <a asp-controller="Tablero" asp-action="EliminarTablero" asp-route-idTablero="@tablero.Id" onclick="return confirm('¿Seguro que quieres eliminar este tablero?')">Eliminar</a>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var tablero in Model)
-            {
-                <tr>
-                    <td hidden>@tablero.Id</td>
-                    <td>@tablero.Nombre</td>
-                    <td>@tablero.IdUsuarioPropietario</td>
-                    <td>@tablero.Descripcion</td>
-                    <td>
-                    <a asp-controller="Tablero" asp-action="ModificarTablero" asp-route-idTablero="@tablero.Id">Modificar</a>
-                    <a asp-controller="Tablero" asp-action="EliminarTablero" asp-route-idTablero="@tablero.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')">Eliminar</a>
-                    </td> 
-                </tr>
- 
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
+<button type="submit" class="btn btn-primary"><a class="nav-link text-white" asp-controller="Tablero" asp-action="CrearTablero" >Crear</a></button>
+
+
+
