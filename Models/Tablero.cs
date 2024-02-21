@@ -1,41 +1,23 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using tl2_tp10_2023_Unagui19.ViewModels;
-
-namespace tl2_tp10_2023_Unagui19.Models
+namespace Taller2_TP10.Models
 {
     public class Tablero
     {
-        int id ;
-        int idUsuarioPropietario;
-        string nombre;
-        string descripcion;
-
-
-        public int Id { get => id; set => id = value; }
-        public int IdUsuarioPropietario { get => idUsuarioPropietario; set => idUsuarioPropietario = value; }
-        public string Nombre { get => nombre; set => nombre = value; }
-        public string Descripcion { get => descripcion; set => descripcion = value; }
+        public int Id{get;set;}
+        public int IdUsuarioPropietario{get;set;}
+        public string Nombre{get;set;}
+        public string Descripcion{get;set;}
 
         public Tablero(){}
-        public Tablero(CrearTableroViewModel tableroVM)
-        {
-
-            this.idUsuarioPropietario = tableroVM.IdUsuarioPropietario;
-            this.nombre = tableroVM.Nombre;
-            this.descripcion = tableroVM.Descripcion;
+        public Tablero(int id){
+            Id = id;
         }
 
-        public Tablero(ModificarTableroViewModel tableroVM)
-        {
-            this.id = tableroVM.Id;
-            this.idUsuarioPropietario = tableroVM.IdUsuarioPropietario;
-            this.nombre = tableroVM.Nombre;
-            this.descripcion = tableroVM.Descripcion;
+        public Tablero(int id, int idUsuProp, string nombre, string descrip){
+            Id = id;
+            IdUsuarioPropietario =idUsuProp;
+            Nombre = nombre;
+            Descripcion = descrip;
         }
+    }   
 
-    }
 }

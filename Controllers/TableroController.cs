@@ -1,105 +1,54 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using tl2_tp10_2023_Unagui19.Models;
-using tl2_tp10_2023_Unagui19.Repositorios;
-using tl2_tp10_2023_Unagui19.ViewModels;
+using Taller2_TP10.Models;
+using Taller2_TP10.Repositorios;
 
-namespace tl2_tp10_2023_Unagui19.Controllers;
+namespace Taller2_TP10.Controllers;
 
 public class TableroController : Controller
 {
     private readonly ILogger<TableroController> _logger;
-    private TableroRepository RepoTablero;
+    private TableroRepository repoTablero;
+
     public TableroController(ILogger<TableroController> logger)
     {
+        repoTablero = new TableroRepository();
         _logger = logger;
-        RepoTablero = new TableroRepository();
-
     }
-public IActionResult Index()
+
+//Listar Tableros
+    public IActionResult Index()
     {
-        List<Tablero>tableros=RepoTablero.GetAll();
-        var VModel = tableros.Select(tablero=> new IndexTableroViewModel(tablero)).ToList();
-        
-        if (IsUser(HttpContext))
-        {
-            if (IsAdmin(HttpContext))
-            {
-                return View(VModel);
-            }
-            else
-            {
-                var idUsuario = HttpContext.Session.GetString("IdUsuario");
-                var tableros1 = RepoTablero.GetTablerosPorUsuario(Convert.ToInt32(idUsuario));
-                var VModel1 = tableros1.Select(tablero=> new IndexTableroViewModel(tablero)).ToList();
-                return View(VModel1);
-            }
-        }
-        else{
-            return RedirectToRoute(new { controller = "Home", action = "Index" });
-        }
+        return View(repoTablero.ListarTableros());
     }
 
+//Crear Tablero
     [HttpGet]
-    public IActionResult CrearTablero()
-    {   
-        return View(new CrearTableroViewModel());
+    public IActionResult CrearTablero(){
+        return View(new Tablero());
     }
 
     [HttpPost]
-    public IActionResult CrearTablero(CrearTableroViewModel tableroVm)
-    {   
-        var tablero = new Tablero(tableroVm);
-        RepoTablero.Create(tablero);
+    public IActionResult CrearTablero(Tablero tablero){
+        repoTablero.CrearTablero(tablero);
         return RedirectToAction("Index");
     }
 
+//Modificar tableros
     [HttpGet]
-    public IActionResult ModificarTablero(int idTablero)
-    {  
-        var tableroVm = new ModificarTableroViewModel(RepoTablero.GetById(idTablero));
-        return View(tableroVm);
+    public IActionResult ModificarTablero(int idTablero){
+        return View(repoTablero.BuscarTableroPorId(idTablero));
     }
-
 
     [HttpPost]
-    public IActionResult ModificarTablero(ModificarTableroViewModel tableroVm)
-    {   
-        var tablero = new Tablero(tableroVm);
-        RepoTablero.Update(tablero,tablero.Id);
-        return RedirectToRoute(new { controller = "Tablero", action = "Index" });
-    }
-
-    public IActionResult EliminarTablero(int idTablero)
-    {  
-        RepoTablero.Remove(idTablero);
+    public IActionResult ModificarTablero(Tablero tablero){
+        repoTablero.ModificarTablero(tablero.Id, tablero);
         return RedirectToAction("Index");
     }
 
-    //Metodos para ver temas de sesion
-    private bool IsAdmin(HttpContext varSesion)
-    {
-        if (IsUser(varSesion) && HttpContext.Session.GetString("Rol") == NivelDeAcceso.admin.ToString()){
-            return true;
-        }
-        else{
-            return false;
-        }
+//Eliminar tablero
+    public IActionResult EliminarTablero(int idTablero){
+        repoTablero.EliminarTablero(idTablero);
+        return RedirectToAction("Index");
     }
-
-    private bool IsUser(HttpContext varSesion)
-    {
-        if (varSesion.Session.Id != null ){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    // public IActionResult Error()
-    // {
-    //     return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    // }
 }

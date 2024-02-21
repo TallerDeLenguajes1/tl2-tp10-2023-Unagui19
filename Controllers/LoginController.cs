@@ -1,21 +1,21 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using tl2_tp10_2023_Unagui19.Models;
-using tl2_tp10_2023_Unagui19.Repositorios;
-using tl2_tp10_2023_Unagui19.ViewModels;
+using Taller2_TP10.Models;
+using Taller2_TP10.Repositorios;
+using Taller2_TP10.ViewModels;
 
-namespace tl2_tp10_2023_Unagui19.Controllers;
+namespace Taller2_TP10.Controllers;
 
 public class LoginController : Controller
 {
+     
     private readonly ILogger<LoginController> _logger;
+    private UsuarioRepository repoUsuario;
 
-    private List<Usuario> usuarios;
-    private UsuarioRepositorio repoUsuario ;
     public LoginController(ILogger<LoginController> logger)
     {
+        repoUsuario = new UsuarioRepository();
         _logger = logger;
-        repoUsuario=new UsuarioRepositorio();
     }
 
     [HttpGet]
@@ -25,34 +25,44 @@ public class LoginController : Controller
     }
 
     [HttpPost]
-    public IActionResult Login(LoginViewModel loginUsuario)
-    {
-        //existe el usuario?
-        var usuarioLogeado = repoUsuario.GetAll().FirstOrDefault(usu=> usu.NombreDeUsuario==loginUsuario.Nombre && usu.Contrasenia==loginUsuario.Contrasenia);
+    public IActionResult Logueo(LoginViewModel loginUsuario){
+<<<<<<< HEAD
+<<<<<<< HEAD
+        Usuario usuarioLogueado = new Usuario();
+        List<Usuario> usuarios = repoUsuario.ListarUsuarios();
+        usuarioLogueado = usuarios.FirstOrDefault(usu => usu.NombreDeUsuario == loginUsuario.Nombre && usu.Contrasenia == loginUsuario.Contrasenia);
+         if (usuarioLogueado == null)
+            {
+                var loginVM = new LoginViewModel() ;
+                // {
+                //     MensajeDeError = "Usuario no existente"
+                // };
+                return View("Index",loginVM); 
+            }
+            
+            HttpContext.Session.SetInt32("IdUsuario", usuarioLogueado.Id);
+            HttpContext.Session.SetString("Usuario", usuarioLogueado.NombreDeUsuario);
+            // HttpContext.Session.SetString("Contraseña", user.Contrasenia);
+            HttpContext.Session.SetString("Rol", usuarioLogueado.Rol.ToString());
+            return RedirectToAction("Index","Home");
+=======
+=======
+>>>>>>> parent of 8065788 (Terminado la parte de sesiones)
+        //Existe el usuario?
+        var usuarioLogueado = repoUsuario.ListarUsuarios().FirstOrDefault(usu=> usu.NombreDeUsuario == loginUsuario.Nombre);
 
-        // si el usuario no existe devuelvo al index
-        if (usuarioLogeado == null) {
+        if (usuarioLogueado != null)
+        {
             return RedirectToAction("Index");
         }
-        else
+        else//Si el usuario no coincide, es decir no esta logueado, devuelvo directamente al index
         {
-            //Registro el usuario
-            logearUsuario(usuarioLogeado);
-            
-            //Devuelvo el usuario al Home
-            return RedirectToRoute(new { controller = "Home", action = "Index" });
-            
+            return RedirectToAction("Index");        
         }
-        
+<<<<<<< HEAD
+>>>>>>> parent of 8065788 (Terminado la parte de sesiones)
+=======
+>>>>>>> parent of 8065788 (Terminado la parte de sesiones)
     }
-
-    private void logearUsuario(Usuario user)
-    {
-        HttpContext.Session.SetString("IdUsuario", user.Id.ToString());
-        HttpContext.Session.SetString("Usuario", user.NombreDeUsuario);
-        HttpContext.Session.SetString("Contrasenia", user.Contrasenia);
-        HttpContext.Session.SetString("Rol", user.Rol.ToString());
-    }
-
 
 }

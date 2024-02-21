@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net7.0": {
+    "net8.0": {
       "EntityFramework/6.4.4": {
         "type": "package",
         "dependencies": {
@@ -1957,7 +1957,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net7.0": [
+    "net8.0": [
       "Microsoft.AspNetCore.Session >= 2.2.0",
       "System.Data.SQLite >= 1.0.118"
     ]
@@ -1968,24 +1968,24 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\tercerAño\\Taller2\\tp10\\tl2-tp10-2023-Unagui19\\tl2-tp10-2023-Unagui19.csproj",
-      "projectName": "tl2-tp10-2023-Unagui19",
-      "projectPath": "D:\\tercerAño\\Taller2\\tp10\\tl2-tp10-2023-Unagui19\\tl2-tp10-2023-Unagui19.csproj",
+      "projectUniqueName": "C:\\Franco\\facultad\\PracticaTaller2\\2da parte\\Taller2-TP10\\Taller2-TP10.csproj",
+      "projectName": "Taller2-TP10",
+      "projectPath": "C:\\Franco\\facultad\\PracticaTaller2\\2da parte\\Taller2-TP10\\Taller2-TP10.csproj",
       "packagesPath": "C:\\Users\\franc\\.nuget\\packages\\",
-      "outputPath": "D:\\tercerAño\\Taller2\\tp10\\tl2-tp10-2023-Unagui19\\obj\\",
+      "outputPath": "C:\\Franco\\facultad\\PracticaTaller2\\2da parte\\Taller2-TP10\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\franc\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
-        "net7.0"
+        "net8.0"
       ],
       "sources": {
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "projectReferences": {}
         }
       },
@@ -1996,8 +1996,8 @@
       }
     },
     "frameworks": {
-      "net7.0": {
-        "targetAlias": "net7.0",
+      "net8.0": {
+        "targetAlias": "net8.0",
         "dependencies": {
           "Microsoft.AspNetCore.Session": {
             "target": "Package",
@@ -2027,7 +2027,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

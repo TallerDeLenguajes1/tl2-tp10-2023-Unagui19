@@ -1,15 +1,28 @@
-@using tl2_tp10_2023_Unagui19.ViewModels
-@model ModificarUsuarioViewModel
-<form asp-controller="Usuario" asp-action="ModificarUsuario">
+@{
+    ViewData["Title"] = "Modificar Usuario";
+    string Title = "Modificar Usuario";
+}
+@model Usuario   
+
+<h2>@Title</h2>
+
+<form asp-controller="Usuario" asp-action="ModificarUsuario" method="post">
     <input hidden asp-for="@Model.Id">
-    <div class="form-group">
-        <label asp-for="@Model.NombreDeUsuario">Nombre de usuario: </label>
-        <input asp-for="@Model.NombreDeUsuario" class="form-control" />
+    <div class="mb-3">
+        <label asp-for="@Model.NombreDeUsuario" class="form-label">Nombre</label>
+        <input asp-for="@Model.NombreDeUsuario" type="text" class="form-control"placeholder="Ejemplo: Franco">
     </div>
-    <div class="form-group">
-        <label asp-for="@Model.Rol">Rol: </label>
-        <input asp-for="@Model.Rol" class="form-control" />
-    </div>
-    <input hidden asp-for="@Model.Contrasenia"> @* // es para por si quiero cambiar la contrasenia  *@
-    <input type="submit" class="btn btn-primary">@*Enviar</input>*@
+    <div class="mb-3">
+        <label asp-for="@Model.Rol" class="form-label text-center">Rol</label>
+        <select asp-for="@Model.Rol" class="form-select" aria-label="Default select example" >
+        @foreach (Roles rol in Enum.GetValues(typeof(Roles)))
+        {
+                <option value="@rol" selected>@rol</option>
+        }
+        </select>
+    </div>
+    @* <input hidden asp-for="@Model.Id"> Para la contrasenia *@
+    <button type="submit" class="btn btn-primary">Enviar</button>
 </form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }  @*Es para la validacion en la parte del cliente*@

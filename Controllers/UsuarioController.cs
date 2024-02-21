@@ -1,94 +1,53 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using tl2_tp10_2023_Unagui19.Models;
-using tl2_tp10_2023_Unagui19.Repositorios;
-using tl2_tp10_2023_Unagui19.ViewModels;
+using Taller2_TP10.Models;
+using Taller2_TP10.Repositorios;
 
-namespace tl2_tp10_2023_Unagui19.Controllers;
+namespace Taller2_TP10.Controllers;
 
 public class UsuarioController : Controller
 {
     private readonly ILogger<UsuarioController> _logger;
-    private UsuarioRepositorio RepoUsuario;
-    // List<Usuario> usuarios=new List<Usuario>();
+    private UsuarioRepository repoUsuario;
+
     public UsuarioController(ILogger<UsuarioController> logger)
     {
+        repoUsuario = new UsuarioRepository();
         _logger = logger;
-        RepoUsuario = new UsuarioRepositorio();
-
     }
 
-    // [HttpGet]
+//Listar Usuarios
     public IActionResult Index()
     {
-        List<Usuario>usuarios=RepoUsuario.GetAll();
-        var VModel = usuarios.Select(usu=> new IndexUsuarioViewModel(usu)).ToList();
-        return View(VModel);
-
+        return View(repoUsuario.ListarUsuarios());
     }
 
+//Crear Usuario
     [HttpGet]
-    public IActionResult CrearUsuario()
-    {   
-        return View(new CrearUsuarioViewModel());
+    public IActionResult CrearUsuario(){
+        return View(new Usuario());
     }
 
     [HttpPost]
-    public IActionResult CrearUsuario(CrearUsuarioViewModel nuevoUsu)
-    {   
-        var usuario = new Usuario(nuevoUsu);
-        RepoUsuario.Create(usuario);
+    public IActionResult CrearUsuario(Usuario usuario){
+        repoUsuario.CrearUsuario(usuario);
         return RedirectToAction("Index");
     }
 
+//Modificar usuarios
     [HttpGet]
-    public IActionResult ModificarUsuario(int idUsuario)
-    {  
-        var VModel = new ModificarUsuarioViewModel(RepoUsuario.GetById(idUsuario));
-        return View(VModel);
+    public IActionResult ModificarUsuario(int idUsuario){
+        return View(repoUsuario.BuscarUsuarioPorId(idUsuario));
     }
-
 
     [HttpPost]
-    public IActionResult ModificarUsuario(ModificarUsuarioViewModel VModel)
-    {   
-        var usuario = new Usuario(VModel);
-        RepoUsuario.Update(usuario,usuario.Id);
-        return RedirectToRoute(new { controller = "Usuario", action = "Index" });
-    }
-
-    public IActionResult EliminarUsuario(int idUsuario)
-    {  
-        RepoUsuario.Remove(idUsuario);
+    public IActionResult ModificarUsuario(Usuario usuario){
+        repoUsuario.ModificarUsuario(usuario.Id, usuario);
         return RedirectToAction("Index");
     }
 
-
-    
-
-//Metodos para ver temas de sesion
-    private bool IsAdmin()
-    {
-        if (HttpContext.Session != null && HttpContext.Session.GetString("Rol") == "Admin")
-            return true;
-
-        return false;
+    public IActionResult EliminarUsuario(int idUsuario){
+        repoUsuario.EliminarUsuario(idUsuario);
+        return RedirectToAction("Index");
     }
-
-    private bool IsUser()
-    {
-        if (HttpContext.Session != null && (HttpContext.Session.GetString("Rol") == "Admin" || HttpContext.Session.GetString("Rol") == "Operador"))
-            return true;
-
-        return false;
-    }
-
-
-
-
-    // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    // public IActionResult Error()
-    // {
-    //     return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    // }
 }
