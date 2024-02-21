@@ -2,14 +2,15 @@
     ViewData["Title"] = "Crear Usuario";
     string Title = "Crear Usuario";
 }
-@model Usuario   
+@using Taller2_TP10.ViewModels
+@model CrearUsuarioViewModel
 
 <h2>@Title</h2>
 
 <form asp-controller="Usuario" asp-action="CrearUsuario" method="post">
     <div class="mb-3">
-        <label asp-for="@Model.NombreDeUsuario" class="form-label">Nombre</label>
-        <input asp-for="@Model.NombreDeUsuario" type="text" class="form-control"placeholder="Ejemplo: Franco">
+        <label asp-for="@Model.Nombre" class="form-label">Nombre de usuario</label>
+        <input asp-for="@Model.Nombre" type="text" class="form-control"placeholder="Ejemplo: Franco">
     </div>
 
     @* Para contraseña *@

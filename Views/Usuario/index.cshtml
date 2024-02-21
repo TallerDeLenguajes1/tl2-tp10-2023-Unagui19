@@ -1,8 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    string Title = "Listado de Usuarios";
 }
-@model List<Usuario>   
-<H2>Lista de Usuarios</H2>
+
+@using Taller2_TP10.ViewModels
+@model List<IndexUsuarioViewModel>
+
+<h2>@Title</h2>
 
 <table class="table table-primary">
     <thead>
@@ -16,11 +20,11 @@
         @foreach (var usuario in Model)
         {
             <tr>
-                <th scope= "row">@usuario.Id</th>
-                <td>@usuario.NombreDeUsuario</td>
+                <th scope= "row">@usuario.IdUsuario</th>
+                <td>@usuario.Nombre</td>
                 <td>@usuario.Rol</td>
-                <td><a asp-controller="Usuario" asp-action="ModificarUsuario" asp-route-idUsuario="@usuario.Id">Modificar</a>
-                <a asp-controller="Usuario" asp-action="EliminarUsuario" asp-route-idUsuario="@usuario.Id" onclick="return confirm('¿Seguro que quieres eliminar este usuario?')">Eliminar</a>
+                <td><a asp-controller="Usuario" asp-action="ModificarUsuario" asp-route-idUsuario="@usuario.IdUsuario">Modificar</a>
+                <a asp-controller="Usuario" asp-action="EliminarUsuario" asp-route-idUsuario="@usuario.IdUsuario" onclick="return confirm('¿Seguro que quieres eliminar este usuario?')">Eliminar</a>
                 </td>
             </tr>
         }

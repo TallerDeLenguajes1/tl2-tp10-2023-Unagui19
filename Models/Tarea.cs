@@ -1,3 +1,5 @@
+using Taller2_TP10.ViewModels;
+
 namespace Taller2_TP10.Models
 {
     public enum Estado{Ideas=1 , ToDo, Doing, Review, Done};
@@ -26,6 +28,25 @@ namespace Taller2_TP10.Models
             Color = color;
             EstadoTarea = estado;
             IdUsuarioAsignado = idUsu;
+        }
+
+        public Tarea(CrearTareaViewModel createTarea){
+            Id = createTarea.Id;
+            IdTablero = createTarea.IdTablero;
+            Nombre = createTarea.Nombre;
+            Descripcion = createTarea.Descripcion;
+            Color = createTarea.Color;
+            EstadoTarea = createTarea.EstadoTarea;
+            IdUsuarioAsignado = createTarea.IdUsuarioAsignado;
+        }
+        public Tarea(ModificarTareaViewModel modTarea){
+            Id = modTarea.Id;
+            IdTablero = modTarea.IdTablero;
+            Nombre = modTarea.Nombre;
+            Descripcion = modTarea.Descripcion;
+            Color = modTarea.Color;
+            EstadoTarea = modTarea.EstadoTarea;
+            IdUsuarioAsignado = modTarea.IdUsuarioAsignado;
         }
     }
 }

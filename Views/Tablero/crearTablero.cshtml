@@ -1,7 +1,8 @@
 @{  
     string Title = "Crear Tablero";
 }
-@model Tablero   
+@using Taller2_TP10.ViewModels
+@model CrearTableroViewModel
 
 <h2>@Title</h2>
 
@@ -22,4 +23,3 @@
         <button type="submit" class="btn btn-primary">Crear</button>
 </form>
 
-@section Scripts { <partial name="_ValidationScriptsPartial" /> }  @*Es para la validacion en la parte del cliente*@

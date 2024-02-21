@@ -26,8 +26,6 @@ public class LoginController : Controller
 
     [HttpPost]
     public IActionResult Logueo(LoginViewModel loginUsuario){
-<<<<<<< HEAD
-<<<<<<< HEAD
         Usuario usuarioLogueado = new Usuario();
         List<Usuario> usuarios = repoUsuario.ListarUsuarios();
         usuarioLogueado = usuarios.FirstOrDefault(usu => usu.NombreDeUsuario == loginUsuario.Nombre && usu.Contrasenia == loginUsuario.Contrasenia);
@@ -45,24 +43,25 @@ public class LoginController : Controller
             // HttpContext.Session.SetString("Contraseña", user.Contrasenia);
             HttpContext.Session.SetString("Rol", usuarioLogueado.Rol.ToString());
             return RedirectToAction("Index","Home");
-=======
-=======
->>>>>>> parent of 8065788 (Terminado la parte de sesiones)
         //Existe el usuario?
-        var usuarioLogueado = repoUsuario.ListarUsuarios().FirstOrDefault(usu=> usu.NombreDeUsuario == loginUsuario.Nombre);
-
-        if (usuarioLogueado != null)
-        {
-            return RedirectToAction("Index");
-        }
-        else//Si el usuario no coincide, es decir no esta logueado, devuelvo directamente al index
-        {
-            return RedirectToAction("Index");        
-        }
-<<<<<<< HEAD
->>>>>>> parent of 8065788 (Terminado la parte de sesiones)
-=======
->>>>>>> parent of 8065788 (Terminado la parte de sesiones)
+        // if (usuarioLogueado!=null) // si el usuario esta logueado, es decir existe
+        // {
+        //     loguearUsuario(usuarioLogueado);
+        //     return RedirectToAction("Index","Home");
+        // }
+        // else//Si el usuario no coincide, es decir no esta logueado, devuelvo directamente al index
+        // {
+        //     return RedirectToAction("Index");        
+        // }
     }
+
+    // private void LoguearUsuario(Usuario user)
+    // {
+    //     HttpContext.Session.SetInt32("IdUsuario", user.Id);
+    //     HttpContext.Session.SetString("Usuario", user.NombreDeUsuario);
+    //     // HttpContext.Session.SetString("Contraseña", user.Contrasenia);
+    //     HttpContext.Session.SetString("Rol", user.Rol.ToString());
+    // }
+    
 
 }

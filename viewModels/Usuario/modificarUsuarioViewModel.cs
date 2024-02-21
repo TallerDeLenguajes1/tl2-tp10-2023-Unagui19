@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 using Taller2_TP10.Models;
 
 namespace Taller2_TP10.ViewModels
@@ -7,8 +7,8 @@ namespace Taller2_TP10.ViewModels
     {
         
         public int IdUsuario {get;set;}
-        [Required][StringLength(30)]public string Nombre {get;set;}
-        [Required][Range(1,2)]public Roles Rol {get;set;}
+        public string Nombre {get;set;}
+        public Roles Rol {get;set;}
 
         public ModificarUsuarioViewModel(){}
 

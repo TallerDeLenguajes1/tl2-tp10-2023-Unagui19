@@ -1,32 +1,29 @@
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using tl2_tp10_2023_Unagui19.Models;
+using Taller2_TP10.Models;
 
-namespace tl2_tp10_2023_Unagui19.ViewModels
+namespace Taller2_TP10.ViewModels
 {
     public class CrearTareaViewModel
     {
-
-        public int IdTablero {get;set;} 
-        public string Nombre {get;set;} 
-        public EstadoTarea Estado {get;set;} 
-        public string? Descripcion {get;set;} 
-        public string? Color {get;set;} 
-        public int? IdUsuarioAsignado {get;set;} 
-
-
         
-        public CrearTareaViewModel(){Estado=EstadoTarea.ToDo;}
+        public int Id{get;set;}
+        public int IdTablero{get;set;}
+        public string Nombre{get;set;}
+        public string Descripcion{get;set;}
+        public string Color{get;set;}
+        public Estado EstadoTarea{get;set;}
+        public int? IdUsuarioAsignado{get;set;}
 
-        public CrearTareaViewModel(Tarea tarea)
-        {
+        public CrearTareaViewModel(){}
+
+        public CrearTareaViewModel(Tarea tarea){
+            Id = tarea.Id;
             IdTablero = tarea.IdTablero;
             Nombre = tarea.Nombre;
-            Estado = tarea.Estado;
             Descripcion = tarea.Descripcion;
             Color = tarea.Color;
+            EstadoTarea = tarea.EstadoTarea;
             IdUsuarioAsignado = tarea.IdUsuarioAsignado;
         }
     }
 }
-

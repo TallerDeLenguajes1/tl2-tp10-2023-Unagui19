@@ -1,3 +1,5 @@
+using Taller2_TP10.ViewModels;
+
 namespace Taller2_TP10.Models
 {
     public enum Roles{admin = 1, operador}
@@ -20,6 +22,20 @@ namespace Taller2_TP10.Models
             Contrasenia = password;
             Rol = rol;
 
+        }
+        public Usuario(CrearUsuarioViewModel usu)
+        {
+            Id = usu.IdUsuario;
+            NombreDeUsuario = usu.Nombre;
+            Rol = usu.Rol;
+            Contrasenia = usu.Contrasenia;
+        }
+
+        public Usuario(ModificarUsuarioViewModel usu)
+        {
+            Id = usu.IdUsuario;
+            NombreDeUsuario = usu.Nombre;
+            Rol = usu.Rol;
         }
     }    
 }

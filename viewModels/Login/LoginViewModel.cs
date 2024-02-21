@@ -1,23 +1,19 @@
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using tl2_tp10_2023_Unagui19.Models;
+using Taller2_TP10.Models;
 
-namespace tl2_tp10_2023_Unagui19.ViewModels
+namespace Taller2_TP10.ViewModels
 {
     public class LoginViewModel
     {
-
-        [Required(ErrorMessage = "Este campo es requerido.")]
-        [StringLength (30)]
-        [Display(Name = "Nombre de Usuario")] 
-        public string Nombre {get;set;}        
-        
-        [Required(ErrorMessage = "Este campo es requerido.")]
-        [PasswordPropertyText]
-        // [Range (8,20)]
-        [Display(Name = "Contraseña")]
+        public string Nombre {get;set;}
         public string Contrasenia {get;set;}
 
+        public LoginViewModel(){}
+
+        public LoginViewModel(string nombre, string contrasenia)
+        {
+            Nombre = nombre;
+            Contrasenia = contrasenia;
+        }
     }
 }
-
