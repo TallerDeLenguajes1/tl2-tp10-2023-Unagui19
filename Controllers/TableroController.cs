@@ -1,62 +1,54 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using tl2_tp10_2023_Unagui19.Models;
-using tl2_tp10_2023_Unagui19.Repositorios;
+using Taller2_TP10.Models;
+using Taller2_TP10.Repositorios;
 
-namespace tl2_tp10_2023_Unagui19.Controllers;
+namespace Taller2_TP10.Controllers;
 
 public class TableroController : Controller
 {
     private readonly ILogger<TableroController> _logger;
-    private TableroRepository RepoTablero;
+    private TableroRepository repoTablero;
+
     public TableroController(ILogger<TableroController> logger)
     {
+        repoTablero = new TableroRepository();
         _logger = logger;
-        RepoTablero = new TableroRepository();
-
     }
-public IActionResult Index()
+
+//Listar Tableros
+    public IActionResult Index()
     {
-        List<Tablero>tableros=RepoTablero.GetAll();
-        return View(tableros);
+        return View(repoTablero.ListarTableros());
     }
 
+//Crear Tablero
     [HttpGet]
-    public IActionResult CrearTablero()
-    {   
+    public IActionResult CrearTablero(){
         return View(new Tablero());
     }
 
     [HttpPost]
-    public IActionResult CrearTablero(Tablero tablero)
-    {   
-        RepoTablero.Create(tablero);
+    public IActionResult CrearTablero(Tablero tablero){
+        repoTablero.CrearTablero(tablero);
         return RedirectToAction("Index");
     }
 
+//Modificar tableros
     [HttpGet]
-    public IActionResult ModificarTablero(int idTablero)
-    {  
-        return View(RepoTablero.GetById(idTablero));
+    public IActionResult ModificarTablero(int idTablero){
+        return View(repoTablero.BuscarTableroPorId(idTablero));
     }
-
 
     [HttpPost]
-    public IActionResult ModificarTablero(Tablero tablero)
-    {   
-        RepoTablero.Update(tablero,tablero.Id);
+    public IActionResult ModificarTablero(Tablero tablero){
+        repoTablero.ModificarTablero(tablero.Id, tablero);
         return RedirectToAction("Index");
     }
 
-    public IActionResult EliminarTablero(int idTablero)
-    {  
-        RepoTablero.Remove(idTablero);
+//Eliminar tablero
+    public IActionResult EliminarTablero(int idTablero){
+        repoTablero.EliminarTablero(idTablero);
         return RedirectToAction("Index");
     }
-
-    // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    // public IActionResult Error()
-    // {
-    //     return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    // }
 }

@@ -1,65 +1,54 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using tl2_tp10_2023_Unagui19.Models;
-using tl2_tp10_2023_Unagui19.Repositorios;
+using Taller2_TP10.Models;
+using Taller2_TP10.Repositorios;
 
-namespace tl2_tp10_2023_Unagui19.Controllers;
+namespace Taller2_TP10.Controllers;
 
-public class  TareaController: Controller
+public class TareaController : Controller
 {
     private readonly ILogger<TareaController> _logger;
-    private TareaRepository RepoTarea;
+    private TareaRepository repoTarea;
+
     public TareaController(ILogger<TareaController> logger)
     {
+        repoTarea = new TareaRepository();
         _logger = logger;
-        RepoTarea = new TareaRepository();
-
     }
 
+//Listar Tareas
     public IActionResult Index()
     {
-        List<Tarea>tareas=RepoTarea.GetAll();
-        return View(tareas);
+        return View(repoTarea.ListarTareas());
     }
 
+//Crear Tareas
     [HttpGet]
-    public IActionResult CrearTarea()
-    {   
+    public IActionResult CrearTarea(){
         return View(new Tarea());
     }
 
     [HttpPost]
-    public IActionResult CrearTarea(Tarea Tarea)
-    {   
-        RepoTarea.Create(Tarea);
+    public IActionResult CrearTarea(Tarea tarea){
+        repoTarea.CrearTarea(tarea);
         return RedirectToAction("Index");
     }
 
+//Modificar tareas
     [HttpGet]
-    public IActionResult ModificarTarea(int idTarea)
-    {  
-        return View(RepoTarea.GetById(idTarea));
+    public IActionResult ModificarTarea(int idTarea){
+        return View(repoTarea.BuscarTareaPorId(idTarea));
     }
-
 
     [HttpPost]
-    public IActionResult ModificarTarea(Tarea tarea)
-    {   
-        RepoTarea.Update(tarea,tarea.Id);
+    public IActionResult ModificarTarea(Tarea tarea){
+        repoTarea.ModificarTarea(tarea.Id, tarea);
         return RedirectToAction("Index");
     }
 
-    public IActionResult EliminarTarea(int idTarea)
-    {  
-        RepoTarea.Remove(idTarea);
+//Eliminar tablero
+    public IActionResult EliminarTarea(int idTarea){
+        repoTarea.EliminarTarea(idTarea);
         return RedirectToAction("Index");
     }
-
-
-
-    // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    // public IActionResult Error()
-    // {
-    //     return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    // }
 }

@@ -1,61 +1,59 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using tl2_tp10_2023_Unagui19.Models;
-using tl2_tp10_2023_Unagui19.Repositorios;
+using Taller2_TP10.Models;
+using Taller2_TP10.Repositorios;
 
-namespace tl2_tp10_2023_Unagui19.Controllers;
+namespace Taller2_TP10.Controllers;
 
 public class UsuarioController : Controller
 {
     private readonly ILogger<UsuarioController> _logger;
-    private UsuarioRepositorio RepoUsuario;
-    // List<Usuario> usuarios=new List<Usuario>();
+    private UsuarioRepository repoUsuario;
+
     public UsuarioController(ILogger<UsuarioController> logger)
     {
+        repoUsuario = new UsuarioRepository();
         _logger = logger;
-        RepoUsuario = new UsuarioRepositorio();
-
     }
 
-    // [HttpGet]
+//Listar Usuarios
     public IActionResult Index()
     {
-        List<Usuario>usuarios=RepoUsuario.GetAll();
-        return View(usuarios);
+        return View(repoUsuario.ListarUsuarios());
     }
 
+//Crear Usuario
     [HttpGet]
-    public IActionResult CrearUsuario()
-    {   
+    public IActionResult CrearUsuario(){
         return View(new Usuario());
     }
 
     [HttpPost]
-    public IActionResult CrearUsuario(Usuario usuario)
-    {   
-        RepoUsuario.Create(usuario);
+    public IActionResult CrearUsuario(Usuario usuario){
+        repoUsuario.CrearUsuario(usuario);
         return RedirectToAction("Index");
     }
 
+//Modificar usuarios
     [HttpGet]
-    public IActionResult ModificarUsuario(int idUsuario)
-    {  
-        return View(RepoUsuario.GetById(idUsuario));
+    public IActionResult ModificarUsuario(int idUsuario){
+        return View(repoUsuario.BuscarUsuarioPorId(idUsuario));
     }
-
 
     [HttpPost]
-    public IActionResult ModificarUsuario(Usuario usuario)
-    {   
-        RepoUsuario.Update(usuario,usuario.Id);
+    public IActionResult ModificarUsuario(Usuario usuario){
+        repoUsuario.ModificarUsuario(usuario.Id, usuario);
         return RedirectToAction("Index");
     }
 
-    public IActionResult EliminarUsuario(int idUsuario)
-    {  
-        RepoUsuario.Remove(idUsuario);
+    public IActionResult EliminarUsuario(int idUsuario){
+        repoUsuario.EliminarUsuario(idUsuario);
         return RedirectToAction("Index");
     }
+    // public IActionResult Privacy()
+    // {
+    //     return View();
+    // }
 
     // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     // public IActionResult Error()

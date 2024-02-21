@@ -1,8 +1,8 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using tl2_tp10_2023_Unagui19.Models;
+using Taller2_TP10.Models;
 
-namespace Kanban.Controllers;
+namespace Taller2_TP10.Controllers;
 
 public class HomeController : Controller
 {

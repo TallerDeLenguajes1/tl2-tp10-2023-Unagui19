@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "w01H0X/iQDtTiNIqfU0l5ALSzbvPoSlRdGQqqnNSFDx5I9nStKmIEiy5ZocgsAgns3rF8JQ/IgEu5f+Q0cc1Lw==",
+  "dgSpecHash": "dbNT5PV0WL/TLbVMDD258L/+XMD3GMTa3eHdJxmqfaByyPcgcZ/2r91blwTv1pNvJIHI2qNCqAQ53r+mJP9r/g==",
   "success": true,
-  "projectFilePath": "d:\\tercerAño\\Taller2\\tp10\\tl2-tp10-2023-Unagui19\\tl2-tp10-2023-Unagui19.csproj",
+  "projectFilePath": "C:\\Franco\\facultad\\PracticaTaller2\\2da parte\\Taller2-TP10\\Taller2-TP10.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\franc\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\franc\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
