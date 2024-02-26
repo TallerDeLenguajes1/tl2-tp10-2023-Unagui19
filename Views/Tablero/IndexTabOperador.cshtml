@@ -1,0 +1,58 @@
+﻿@{
+    string Title = "Lista de Tableros";
+}
+@using Taller2_TP10.ViewModels
+@model IndexTabOperadorViewModel
+
+<H2>@Title</H2>
+
+
+<table class="table table-primary">
+    <thead>
+        <tr>Tableros propios del usuario</tr>
+        <tr>
+            <th scope="col">Nombre del tablero</th>
+            <th scope="col">Usuario propietario</th>
+            <th scope="col">Descripcion del mismo</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var tablero in Model.TablerosPropios)
+        {
+            <tr>
+                <td scope= "row">@tablero.Nombre</td>
+                <td>@Model.ObtenerUsuarioPropietario(tablero.IdUsuarioPropietario)</td>
+                <td>@tablero.Descripcion</td>
+                <td><button type="button" class="btn btn-warning"><a asp-controller="Tablero" asp-action="ModificarTablero" asp-route-idTablero="@tablero.Id">Modificar</a></button></td>
+                <td><button type="button" class="btn btn-danger"><a asp-controller="Tablero" asp-action="EliminarTablero" asp-route-idTablero="@tablero.Id" onclick="return confirm('¿Seguro que quieres eliminar este tablero?')">Eliminar</a></button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<table class="table table-primary">
+    <thead>
+        <tr>Tableros donde el usuario tiene tareas asignadas</tr>
+        <tr>
+            <th scope="col">Nombre del tablero</th>
+            <th scope="col">Usuario propietario</th>
+            <th scope="col">Descripcion del mismo</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tablero in Model.TablerosAsignados)
+        {
+            <tr>
+                <td scope= "row">@tablero.Nombre</td>
+                <td>@Model.ObtenerUsuarioPropietario(tablero.IdUsuarioPropietario)</td>
+                <td>@tablero.Descripcion</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<button type="submit" class="btn btn-primary"><a class="nav-link text-white" asp-controller="Tablero" asp-action="CrearTablero" >Crear</a></button>
+
+
+

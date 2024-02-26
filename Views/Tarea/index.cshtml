@@ -1,36 +1,33 @@
 ﻿@{
-    ViewData["Title"] = "Lista de Tareas";
     string Title = "Lista de Tareas";
 }
-@model List<Tarea>   
-<H2>@Title</H2>
+@using Taller2_TP10.ViewModels
+@model List<IndexTareaViewModel>
 
 <table class="table table-primary">
     <thead>
         <tr>
-            <th scope="col"> ID</th>
-            <th scope="col">Id del tablero asignado</th>
+            <th scope="col">Tablero asignado</th>
             <th scope="col">Nombre de la tarea</th>
             <th scope="col">Estado de la tarea</th>
             <th scope="col">Descripcion de la tarea</th>
             <th scope="col">Color de la tarea</th>
-            <th scope="col">Id del usuario asignado a la tarea</th>
+            <th scope="col">Usuario asignado a la tarea</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var tarea in Model)
         {
             <tr>
-                <th scope= "row">@tarea.Id</th>
-                <td>@tarea.IdTablero</td>
+                <td>@tarea.ObtenerTableroAsociado(tarea.IdTablero)</td>
                 <td>@tarea.Nombre</td>
                 <td>@tarea.EstadoTarea</td>
                 <td>@tarea.Descripcion</td>
                 <td>@tarea.Color</td>
-                <td>@tarea.IdUsuarioAsignado</td>
-                <td><a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-idTarea="@tarea.Id">Modificar</a>
-                <a asp-controller="Tarea" asp-action="EliminarTarea" asp-route-idTarea="@tarea.Id" onclick="return confirm('¿Seguro que quieres eliminar esta tarea?')">Eliminar</a>
-                </td>
+                <td>@tarea.ObtenerUsuarioAsignado(tarea.IdUsuarioAsignado)</td>
+                <td><button type="button" class="btn btn-warning"><a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-idTarea="@tarea.Id">Modificar</a></button></td>
+                <td><button type="button" class="btn btn-danger"><a asp-controller="Tarea" asp-action="EliminarTarea" asp-route-idTarea="@tarea.Id" onclick="return confirm('¿Seguro que quieres eliminar esta tarea?')">Eliminar</a></button></td>
+                <td><button type="button" class="btn btn-info"><a asp-controller="Tarea" asp-action="AsignarUsuarioATarea" asp-route-idTarea="@tarea.Id">Asignar usuario a tarea</a></button></td>
             </tr>
         }
     </tbody>

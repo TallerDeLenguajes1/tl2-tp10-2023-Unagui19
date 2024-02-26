@@ -1,0 +1,27 @@
+@{
+    string Title = "Asignar usuario a una Tarea";
+}
+@using Taller2_TP10.ViewModels
+@model AsignarUsuarioATareaViewModel
+
+<h2>@Title</h2>
+
+<form asp-controller="Tarea" asp-action="AsignarUsuarioATarea" method="post">
+    <input hidden asp-for="@Model.IdTarea" value="@Model.IdTarea">
+
+    <div class="mb-3">
+        <select asp-for="@Model.IdUsuarioAsignado" class="form-select"  >
+        <label asp-for="@Model.IdUsuarioAsignado" class="form-label text-center">Usuarios disponibles</label>
+            @foreach (Usuario usuario in Model.UsuariosDisponibles)
+            {
+                <option value="@usuario.Id">@usuario.NombreDeUsuario</option>
+            }
+            <option value = "0">usuario sin asignar</option>
+        </select>
+        
+    </div>
+
+        <button type="submit" class="btn btn-primary">Asignar</button>
+</form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }  @*Es para la validacion en la parte del cliente *@

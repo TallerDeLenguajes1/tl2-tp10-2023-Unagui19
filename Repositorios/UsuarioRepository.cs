@@ -7,74 +7,108 @@ namespace Taller2_TP10.Repositorios
 {
     public class UsuarioRepository: IUsuarioRepository
     {
-        private string cadenaConexion = "Data Source=Data/Kanban.db;Cache=Shared"; // crea la conexion , es el string que me enlaza a la base de datos
+        //Inyeccion de dependencia para la bse de datos
+        private readonly string? _connectionString;
 
+        public UsuarioRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
 
        // ● Listar todos los usuarios registrados. (devuelve un List de Usuarios) 
         public List<Usuario> ListarUsuarios(){
-            string queryString = $"SELECT * FROM Usuario;";
-            List<Usuario> usuarios = new List<Usuario>();
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
-            {
-                var command = new SQLiteCommand(queryString, connection);
-                connection.Open();
-
-                using (SQLiteDataReader reader = command.ExecuteReader())//Devuelve la consulta, es decir que lee la base de datos y trae lo que se pide
+            try{
+                string queryString = $"SELECT * FROM Usuario;";
+                List<Usuario> usuarios = new List<Usuario>();
+                using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
                 {
-                    while (reader.Read())//revisa si hay tuplas para leer, es decir si esta bien hecha la consulta
+                    var command = new SQLiteCommand(queryString, connection);
+                    connection.Open();
+
+                    using (SQLiteDataReader reader = command.ExecuteReader())//Devuelve la consulta, es decir que lee la base de datos y trae lo que se pide
                     {
-                        var usuario = new Usuario();
-                        usuario.Id = Convert.ToInt32(reader["id_usuario"]);
-                        usuario.NombreDeUsuario = reader["nombre_de_usuario"].ToString();
-                        usuarios.Add(usuario);
+                        while (reader.Read())//revisa si hay tuplas para leer, es decir si esta bien hecha la consulta
+                        {
+                            var usuario = new Usuario();
+                            usuario.Id = Convert.ToInt32(reader["id_usuario"]);
+                            usuario.NombreDeUsuario = reader["nombre_de_usuario"].ToString();
+                            usuario.Contrasenia = reader["contrasenia"].ToString();
+                            usuario.Rol = (Roles)Convert.ToInt32(reader["rol"]);
+                            usuarios.Add(usuario);
+                        }
                     }
+                    connection.Close();
                 }
-                connection.Close();
+                return usuarios;
             }
-            return usuarios;
+            catch (System.Exception ex)
+            {
+                throw new Exception ("Problema al recuperar los usuarios ",ex);
+            }
         }
 
         //         ● Crear un nuevo usuario. (recibe un objeto Usuario)
         public void CrearUsuario(Usuario usuario){
-            string queryString = $"INSERT INTO Usuario (nombre_de_usuario) VALUES (@nombre_de_usuario)"; // string on la consulta deseada
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+            try{
+                string queryString = $"INSERT INTO Usuario (nombre_de_usuario, rol) VALUES (@nombre_de_usuario, @rol)"; // string on la consulta deseada
+                using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+                {
+                    connection.Open(); //ABRO LA CONEXION
+                    var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
+                        command.Parameters.Add(new SQLiteParameter("@nombre_de_usuario", usuario.NombreDeUsuario));
+                        command.Parameters.Add(new SQLiteParameter("@rol", usuario.Rol));
+                        command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
+                        connection.Close();   
+                }
+            }
+            catch (System.Exception ex)
             {
-                connection.Open(); //ABRO LA CONEXION
-                var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
-                    command.Parameters.Add(new SQLiteParameter("@nombre_de_usuario", usuario.NombreDeUsuario));
-                    command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
-                    connection.Close();   
+                throw new Exception ("Error al actualizar la informacion de el usuario",ex);
             }
         }
 
 
 // ● Modificar un usuario existente. (recibe un Id y un objeto Usuario)
         public void ModificarUsuario(int idUsu,Usuario usuario){
-            string queryString = $@"
-            UPDATE Usuario 
-            SET nombre_de_usuario = @nombre_de_usuario 
-            WHERE id_usuario = {idUsu}"; // string on la consulta deseada
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+            try{
+                string queryString = $@"
+                UPDATE Usuario 
+                SET nombre_de_usuario = @nombre_de_usuario, rol = @rol, contrasenia = @contrasenia 
+                WHERE id_usuario = {idUsu}"; // string on la consulta deseada
+                using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+                {
+                    connection.Open(); //ABRO LA CONEXION
+                    var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
+                        command.Parameters.Add(new SQLiteParameter("@nombre_de_usuario", usuario.NombreDeUsuario));
+                        command.Parameters.Add(new SQLiteParameter("@rol", usuario.Rol));
+                        command.Parameters.Add(new SQLiteParameter("@contrasenia", usuario.Contrasenia));
+                        command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
+                        connection.Close();   
+                }
+            }
+            catch (System.Exception ex)
             {
-                connection.Open(); //ABRO LA CONEXION
-                var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
-                    command.Parameters.Add(new SQLiteParameter("@nombre_de_usuario", usuario.NombreDeUsuario));
-                    command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
-                    connection.Close();   
+                throw new Exception ("Error en la obtencion del usuario",ex);
             }
         }
 
         // ● Eliminar un usuario por ID
         public void EliminarUsuario(int idUsu){
-            string queryString = $@"
-            DELETE FROM Usuario
-            WHERE id_usuario = {idUsu}"; // string on la consulta deseada
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+            try{
+                string queryString = $@"
+                DELETE FROM Usuario
+                WHERE id_usuario = {idUsu}"; // string on la consulta deseada
+                using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+                {
+                    connection.Open(); //ABRO LA CONEXION
+                    var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
+                        command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
+                        connection.Close();   
+                }
+            }
+            catch (System.Exception ex)
             {
-                connection.Open(); //ABRO LA CONEXION
-                var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
-                    command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
-                    connection.Close();   
+                throw new Exception ("Error al eliminar el usuario",ex);
             }            
         }
 
@@ -84,7 +118,7 @@ namespace Taller2_TP10.Repositorios
         public Usuario BuscarUsuarioPorId(int idUsu){
             var usuario = new Usuario();
             string queryString = $"SELECT * FROM Usuario WHERE id_usuario = @idUsu;";
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 var command = new SQLiteCommand(queryString, connection);
                 command.Parameters.Add(new SQLiteParameter ("@idUsu", idUsu));
@@ -95,6 +129,7 @@ namespace Taller2_TP10.Repositorios
                     {
                         usuario.Id = Convert.ToInt32(reader["id_usuario"]);
                         usuario.NombreDeUsuario = reader["nombre_de_usuario"].ToString();
+                        usuario.Rol = (Roles)Convert.ToInt32(reader["rol"]);
                     }
                     else
                     {
@@ -104,12 +139,11 @@ namespace Taller2_TP10.Repositorios
                 }
                 connection.Close();
             }
+            if (usuario == null)
+            {
+                throw new Exception ("Usuario no creado");
+            }
             return usuario;
         }
-        
-
-
-
-
     }    
 }

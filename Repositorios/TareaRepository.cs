@@ -7,14 +7,18 @@ namespace Taller2_TP10.Repositorios
 {
     public class TareaRepository: ITareaRepository
     {
-        private string cadenaConexion = "Data Source=Data/Kanban.db;Cache=Shared"; // crea la conexion , es el string que me enlaza a la base de datos
+        private readonly string? _connectionString;
 
+        public TareaRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
 
         public void CrearTarea(Tarea tarea){
             string queryString = $@"
             INSERT INTO Tarea (id_tablero, nombre, estado, descripcion, color, id_usuario_asignado) 
             VALUES (@idTablero, @nombreNuevo, @estadoNuevo,@descripcionNueva, @colorNuevo, @idUsuarioAsignadoNuevo)"; // string on la consulta deseada
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
             {
                 connection.Open(); //ABRO LA CONEXION
                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
@@ -36,7 +40,7 @@ namespace Taller2_TP10.Repositorios
             SET id_tablero = @idTablero, nombre = @nombreNuevo, estado = @estadoNuevo, 
             descripcion = @descripcionNueva, color = @colorNuevo, id_usuario_asignado = @idUsuarioAsignadoNuevo
             WHERE id_tarea = @idTarea"; // string on la consulta deseada
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
             {
                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
                 command.Parameters.Add(new SQLiteParameter ("@idTarea", idTarea));
@@ -52,22 +56,6 @@ namespace Taller2_TP10.Repositorios
             }
         }
 
-// ● Modificar nombre de la tarea buscada. 
-        public void ModificarTarea(int idTarea, string nombre){
-            string queryString = $@"
-            UPDATE Tarea 
-            SET  nombre = @nombreNuevo
-            WHERE id_tarea = @idTarea"; // string on la consulta deseada
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
-            {
-                var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
-                command.Parameters.Add(new SQLiteParameter ("@idTarea", idTarea));
-                connection.Open(); //ABRO LA CONEXION
-                    command.Parameters.Add(new SQLiteParameter("@nombreNuevo", nombre));
-                    command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
-                    connection.Close();   
-            }
-        }
 
 // ● Modificar estado de la tarea buscada. 
         public void ModificarTarea(int idTarea, Estado estado){
@@ -75,7 +63,7 @@ namespace Taller2_TP10.Repositorios
             UPDATE Tarea 
             SET  estado = @estado
             WHERE id_tarea = @idTarea"; // string on la consulta deseada
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
             {
                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
                 command.Parameters.Add(new SQLiteParameter ("@idTarea", idTarea));
@@ -91,7 +79,7 @@ namespace Taller2_TP10.Repositorios
         {
             var tarea = new Tarea();
             string queryString = $"SELECT * FROM Tarea WHERE id_tarea = @idTarea;";
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 var command = new SQLiteCommand(queryString, connection);
                 command.Parameters.Add(new SQLiteParameter ("@idTarea", idTarea));
@@ -118,6 +106,10 @@ namespace Taller2_TP10.Repositorios
                 }
                 connection.Close();
             }
+            if (tarea == null)
+            {
+                throw new Exception ("Tarea no encotrada");
+            }
             return tarea;
         }
     // ● Listar todas las tareas asignadas a un usuario específico.(recibe un idUsuario,
@@ -126,7 +118,7 @@ namespace Taller2_TP10.Repositorios
         {
             var tareas = new List<Tarea>();
             string queryString = $"SELECT * FROM Tarea WHERE id_usuario_asignado = @idUsuAsig;";
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 var command = new SQLiteCommand(queryString, connection);
                 command.Parameters.Add(new SQLiteParameter ("@idUsuAsig", idUsuario));//para darle el valor que usa el where
@@ -156,7 +148,7 @@ namespace Taller2_TP10.Repositorios
         {
             var tareas = new List<Tarea>();
             string queryString = $"SELECT * FROM Tarea WHERE id_tablero = @idTablero;";
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 var command = new SQLiteCommand(queryString, connection);
                 command.Parameters.Add(new SQLiteParameter ("@idTablero", idTablero));//para darle el valor que usa el where
@@ -186,7 +178,7 @@ namespace Taller2_TP10.Repositorios
         {
             var tareas = new List<Tarea>();
             string queryString = $"SELECT * FROM Tarea;";
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 var command = new SQLiteCommand(queryString, connection);
                 //para darle el valor que usa el where
@@ -221,29 +213,30 @@ namespace Taller2_TP10.Repositorios
             string queryString = $@"
             DELETE FROM Tarea
             WHERE id_tarea = {IdTarea}"; // string on la consulta deseada
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
             {
                 connection.Open(); //ABRO LA CONEXION
                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
                     command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
                     connection.Close();   
-            }            
+            }           
         }
+
     // ● Asignar Usuario a Tarea (recibe idUsuario y un idTarea)
-        public void AsignarTareaAUsuario(int idUsuario, int idTarea)
+        public void AsignarUsuarioATarea(int idUsuario, int idTarea)
         {
-            string queryString = $@"
+            string queryString = @"
             UPDATE Tarea 
-            SET id_usuario_asignado = @idUsuarioAsignadoNuevo
-            WHERE id_tarea = @idTarea"; // string on la consulta deseada
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+            SET id_usuario_asignado = @id_usuario_asignado
+            WHERE id_tarea = @id_tarea"; // string on la consulta deseada
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
             {
                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
-                command.Parameters.Add(new SQLiteParameter ("@idTarea", idTarea));
+                command.Parameters.Add(new SQLiteParameter ("@id_tarea", idTarea));
+                command.Parameters.Add(new SQLiteParameter("@id_usuario_asignado", idUsuario));
                 connection.Open(); //ABRO LA CONEXION
-                    command.Parameters.Add(new SQLiteParameter("@idUsuarioAsignadoNuevo", idUsuario));
-                    command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
-                    connection.Close();   
+                int eso =command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
+                connection.Close();   
             }
         }
 
@@ -255,7 +248,7 @@ namespace Taller2_TP10.Repositorios
             FROM Tarea 
             WHERE estado = @estado"; // string on la consulta deseada
 
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
                 command.Parameters.Add(new SQLiteParameter("@estado", estado));
@@ -267,3 +260,21 @@ namespace Taller2_TP10.Repositorios
         }
     }
 }
+
+
+// // ● Modificar nombre de la tarea buscada. 
+//         public void ModificarTarea(int idTarea, string nombre){
+//             string queryString = $@"
+//             UPDATE Tarea 
+//             SET  nombre = @nombreNuevo
+//             WHERE id_tarea = @idTarea"; // string on la consulta deseada
+//             using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+//             {
+//                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
+//                 command.Parameters.Add(new SQLiteParameter ("@idTarea", idTarea));
+//                 connection.Open(); //ABRO LA CONEXION
+//                     command.Parameters.Add(new SQLiteParameter("@nombreNuevo", nombre));
+//                     command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
+//                     connection.Close();   
+//             }
+//         }
