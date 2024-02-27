@@ -18,11 +18,15 @@ public class LoginController : Controller
         _logger = logger;
     }
 
+//-------------------------------------------------------------
+
     [HttpGet]
     public IActionResult Index()
     {
         return View(new LoginViewModel());
     }
+
+//-------------------------------------------------------------
 
     [HttpPost]
     public IActionResult IniciarSesion(LoginViewModel loginUsuario){
@@ -54,6 +58,7 @@ public class LoginController : Controller
 
     }
 
+//-------------------------------------------------------------
     [HttpGet]
     public IActionResult CerrarSesion(){
         try
@@ -80,6 +85,8 @@ public class LoginController : Controller
         }
     }
     
+    //-------------------------------------------------------------
+
     private void DesloguearUsuario()
     {
         HttpContext.Session.Clear();

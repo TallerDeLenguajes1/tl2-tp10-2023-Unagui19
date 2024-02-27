@@ -21,6 +21,9 @@ public class TareaController : Controller
         _logger = logger;
     }
 
+
+//-------------------------------------------------------------
+
 //Listar Usuarios
     public IActionResult Index()
     {
@@ -75,6 +78,7 @@ public class TareaController : Controller
 
     }
 
+//-------------------------------------------------------------
 
 //Crear Usuario
     [HttpGet]
@@ -109,6 +113,9 @@ public class TareaController : Controller
         }
     }
 
+
+//-------------------------------------------------------------
+
 //Modificar tarea
     [HttpGet]
     public IActionResult ModificarTarea(int idTarea){
@@ -137,6 +144,9 @@ public class TareaController : Controller
         }
     }
 
+
+//-------------------------------------------------------------
+
 //Eliminar tarea
     public IActionResult EliminarTarea(int idTarea){
         try{
@@ -149,6 +159,8 @@ public class TareaController : Controller
             return RedirectToAction("Index");
         }
     }
+
+    //-------------------------------------------------------------
 
 //Asignar usuario a una tarea
     [HttpGet]
@@ -185,6 +197,7 @@ public class TareaController : Controller
         }
     }
 
+//-------------------------------------------------------------
 
 //Modificar estado de la tarea
     [HttpGet]
@@ -213,6 +226,7 @@ public class TareaController : Controller
     }
 
 
+//-------------------------------------------------------------
 
 //Control de sesion
     private bool IsAdmin()

@@ -21,6 +21,8 @@ public class TableroController : Controller
         _logger = logger;
     }
 
+//-------------------------------------------------------------
+
 //Listar Tableros
     public IActionResult Index()
     {
@@ -68,6 +70,9 @@ public class TableroController : Controller
         }
     }
 
+
+//-------------------------------------------------------------
+
 //Crear Tablero
     [HttpGet]
     public IActionResult CrearTablero(){
@@ -100,6 +105,9 @@ public class TableroController : Controller
         }
     }
 
+    //-------------------------------------------------------------
+
+
 //Modificar tableros
     [HttpGet]
     public IActionResult ModificarTablero(int idTablero){
@@ -108,6 +116,8 @@ public class TableroController : Controller
         var VModel = new ModificarTableroViewModel(_repoTablero.BuscarTableroPorId(idTablero), usuarios);
         return View(VModel);
     }
+
+    
 
     [HttpPost]
     public IActionResult ModificarTablero(ModificarTableroViewModel modTablero){
@@ -126,6 +136,8 @@ public class TableroController : Controller
             return BadRequest(RedirectToAction("Index"));
         }
     }
+    //-------------------------------------------------------------
+
 
 //Eliminar tablero
     public IActionResult EliminarTablero(int idTablero){
@@ -139,6 +151,8 @@ public class TableroController : Controller
             return RedirectToAction("Index");
         }
     }
+
+//-------------------------------------------------------------
 
 //Control de variables de sesion
     private bool IsAdmin()

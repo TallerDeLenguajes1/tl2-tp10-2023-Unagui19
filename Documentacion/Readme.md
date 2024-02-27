@@ -46,6 +46,16 @@ El usuario “Operador” con relación a:
 - Tarea no asignada: solo lectura.
 
 •Puede crear tareas y asociarlas a cualquier tablero del cual sea propietario.
+
 •A las tareas puede o no asignarle un usuario.
 
 
+## A tener en cuenta
+
+• Si se elimina un usuario, los tableros asociados a el tambien lo hacen
+
+• Un usuario administrador no puede cambiarse a si mismo el rol a operador. Tampoco puede borrar su cuenta si es el unico administrador registrado
+
+• Si se borra un tablero, las tareas asociadas a este pasan a quedar sin tablero asociado. 
+
+• Si se se borra un usuario que estaba asignado a una tarea , esta pasa a quedar sin usuario asignado.

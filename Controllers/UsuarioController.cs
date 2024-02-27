@@ -19,6 +19,9 @@ public class UsuarioController : Controller
         _logger = logger;
     }
 
+
+//-------------------------------------------------------------
+
 //Listar Usuarios
     public IActionResult Index()
     {
@@ -49,6 +52,7 @@ public class UsuarioController : Controller
 
     }
         
+//-------------------------------------------------------------
 
 //Crear Usuario
     [HttpGet]
@@ -71,6 +75,8 @@ public class UsuarioController : Controller
             return BadRequest(RedirectToAction("Index"));
         }
     }
+
+//-------------------------------------------------------------
 
 //Modificar usuarios
     [HttpGet]
@@ -95,6 +101,9 @@ public class UsuarioController : Controller
             return BadRequest(RedirectToAction("Index"));
         }
     }
+
+
+//-------------------------------------------------------------
 
 //Eliminar Usuarios
     public IActionResult EliminarUsuario(int IdUsuario)
@@ -153,6 +162,7 @@ public class UsuarioController : Controller
         }
     }
 
+//-------------------------------------------------------------
 
 //Control de sesion
     private bool IsAdmin()
