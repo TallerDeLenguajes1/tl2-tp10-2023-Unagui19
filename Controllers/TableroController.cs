@@ -71,7 +71,7 @@ public class TableroController : Controller
 //Crear Tablero
     [HttpGet]
     public IActionResult CrearTablero(){
-        if(!IsLogin()){return BadRequest("No posee autorizacion para ingresar a la url deseada");}
+        if(!IsLogin()){return RedirectToAction("Index", "Login");}
         var usuarios = _repoUsuario.ListarUsuarios();
         if (IsAdmin())
         {
@@ -103,7 +103,7 @@ public class TableroController : Controller
 //Modificar tableros
     [HttpGet]
     public IActionResult ModificarTablero(int idTablero){
-        if(!IsLogin()){return BadRequest();}
+        if(!IsLogin()){return RedirectToAction("Index", "Login");}
         var usuarios = _repoUsuario.ListarUsuarios();
         var VModel = new ModificarTableroViewModel(_repoTablero.BuscarTableroPorId(idTablero), usuarios);
         return View(VModel);

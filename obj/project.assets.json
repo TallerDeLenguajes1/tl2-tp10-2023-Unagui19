@@ -2126,11 +2126,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\tercerAño\\Taller2\\Proyecto\\asdasd\\tl2-tp10-2023-Unagui19\\Taller2-TP10.csproj",
+      "projectUniqueName": "D:\\tercerAño\\Taller2\\Proyecto\\asdasd\\sfsd\\tl2-tp10-2023-Unagui19\\Taller2-TP10.csproj",
       "projectName": "Taller2-TP10",
-      "projectPath": "D:\\tercerAño\\Taller2\\Proyecto\\asdasd\\tl2-tp10-2023-Unagui19\\Taller2-TP10.csproj",
+      "projectPath": "D:\\tercerAño\\Taller2\\Proyecto\\asdasd\\sfsd\\tl2-tp10-2023-Unagui19\\Taller2-TP10.csproj",
       "packagesPath": "C:\\Users\\franc\\.nuget\\packages\\",
-      "outputPath": "D:\\tercerAño\\Taller2\\Proyecto\\asdasd\\tl2-tp10-2023-Unagui19\\obj\\",
+      "outputPath": "D:\\tercerAño\\Taller2\\Proyecto\\asdasd\\sfsd\\tl2-tp10-2023-Unagui19\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\franc\\AppData\\Roaming\\NuGet\\NuGet.Config"

@@ -79,7 +79,7 @@ public class TareaController : Controller
 //Crear Usuario
     [HttpGet]
     public IActionResult CrearTarea(){
-        if(!IsLogin()){return BadRequest();}
+        if(!IsLogin()){return RedirectToAction("Index", "Login");}
         var usuarios = _repoUsuario.ListarUsuarios();
         List<Tablero> tableros = _repoTablero.ListarTableros();
         if (IsAdmin())
@@ -112,7 +112,7 @@ public class TareaController : Controller
 //Modificar tarea
     [HttpGet]
     public IActionResult ModificarTarea(int idTarea){
-        if(!IsLogin()){return BadRequest();}
+        if(!IsLogin()){return RedirectToAction("Index", "Login");}
         var usuarios = _repoUsuario.ListarUsuarios();
         List<Tablero> tableros = _repoTablero.ListarTableros();
         var VModel = new ModificarTareaViewModel(_repoTarea.BuscarTareaPorId(idTarea), usuarios, tableros);
@@ -153,7 +153,6 @@ public class TareaController : Controller
 //Asignar usuario a una tarea
     [HttpGet]
     public IActionResult AsignarUsuarioATarea(int idTarea){
-        if(!IsLogin()){return BadRequest();}
         if(!IsLogin())
         {
             TempData["Mensaje"] = "Debe iniciar sesión para acceder a esta página.";
@@ -162,7 +161,6 @@ public class TareaController : Controller
         var tarea = _repoTarea.BuscarTareaPorId(idTarea);
         List<Usuario> usuarios = _repoUsuario.ListarUsuarios();
         var VModel = new AsignarUsuarioATareaViewModel(idTarea, usuarios);
-        // var VModel = new AsignarUsuarioATareaViewModel(_repoTarea.BuscarTareaPorId(idTarea), usuarios);
         return View(VModel);
     }
 
@@ -191,7 +189,7 @@ public class TareaController : Controller
 //Modificar estado de la tarea
     [HttpGet]
     public IActionResult ModificarEstado(int idTarea){
-        if(!IsLogin()){return BadRequest();}
+        if(!IsLogin()){return RedirectToAction("Index", "Login");}
         var tarea = _repoTarea.BuscarTareaPorId(idTarea);
         var VModel = new ModificarEstadoViewModel(tarea.Id,tarea.Nombre,tarea.EstadoTarea);
         return View(VModel);

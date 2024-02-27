@@ -53,7 +53,7 @@ public class UsuarioController : Controller
 //Crear Usuario
     [HttpGet]
     public IActionResult CrearUsuario(){
-        if(!IsLogin()){return BadRequest();}
+        if(!IsLogin()){return RedirectToAction("Index", "Login");}
         return View(new CrearUsuarioViewModel());
     }
 
@@ -75,7 +75,7 @@ public class UsuarioController : Controller
 //Modificar usuarios
     [HttpGet]
     public IActionResult ModificarUsuario(int idUsuario){
-        if(!IsLogin()){return BadRequest();}
+        if(!IsLogin()){return RedirectToAction("Index", "Login");}
         var VModel = new ModificarUsuarioViewModel(_repoUsuario.BuscarUsuarioPorId(idUsuario));
         return View(VModel);
     }
