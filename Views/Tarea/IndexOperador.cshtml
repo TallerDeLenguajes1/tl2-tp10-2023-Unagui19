@@ -1,13 +1,14 @@
 ﻿@{
+    ViewData["Title"] = "Tareas";
     string Title = "Lista de Tareas";
 }
 @using Taller2_TP10.ViewModels
 @model IndexOperadorViewModel
 
 
-<table class="table table-primary">
+<table class="table table-success">
     <thead>
-        <tr>Tareas Propias del usuario</tr>
+        <tr><th colspan="9">Tareas Propias del usuario</th></tr>
         <tr>
             <th scope="col">Tablero asignado</th>
             <th scope="col">Nombre de la tarea</th>
@@ -15,6 +16,9 @@
             <th scope="col">Descripcion de la tarea</th>
             <th scope="col">Color de la tarea</th>
             <th scope="col">Usuario asignado a la tarea</th>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -27,9 +31,9 @@
                 <td>@tarea.Descripcion</td>
                 <td>@tarea.Color</td>
                 <td>@Model.ObtenerUsuarioAsignado(tarea.IdUsuarioAsignado)</td>
-                <td><button type="button" class="btn btn-warning"><a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-idTarea="@tarea.Id">Modificar Tarea</a></button></td>
-                <td><button type="button" class="btn btn-danger"><a asp-controller="Tarea" asp-action="EliminarTarea" asp-route-idTarea="@tarea.Id" onclick="return confirm('¿Seguro que quieres eliminar esta tarea?')">Eliminar</a></button></td> 
-                <td><button type="button" class="btn btn-info"><a asp-controller="Tarea" asp-action="AsignarUsuarioATarea" asp-route-idTarea="@tarea.Id">Asignar usuario a tarea</a></button></td>
+                <td><a class="btn btn-warning " asp-controller="Tarea" asp-action="ModificarTarea" asp-route-idTarea="@tarea.Id"><strong>Modificar Tarea</strong></a></td>
+                <td><a class="btn btn-danger " asp-controller="Tarea" asp-action="EliminarTarea" asp-route-idTarea="@tarea.Id" onclick="return confirm('¿Seguro que quieres eliminar esta tarea?')"><strong>Eliminar</strong></a></td> 
+                <td><a class="btn btn-info " asp-controller="Tarea" asp-action="AsignarUsuarioATarea" asp-route-idTarea="@tarea.Id"><strong>Asignar usuario a tarea</strong></a></td>
             </tr>
         }
 
@@ -38,7 +42,7 @@
 
 <table class="table table-primary">
     <thead>
-        <tr>Tareas asignadas al usuario</tr>
+        <tr><th colspan="9">Tareas asignadas al usuario</th></tr>
         <tr>
             <th scope="col">Tablero asignado</th>
             <th scope="col">Nombre de la tarea</th>
@@ -46,6 +50,9 @@
             <th scope="col">Descripcion de la tarea</th>
             <th scope="col">Color de la tarea</th>
             <th scope="col">Usuario asignado a la tarea</th>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -58,16 +65,16 @@
                 <td>@tarea.Descripcion</td>
                 <td>@tarea.Color</td>
                 <td>@Model.ObtenerUsuarioAsignado(tarea.IdUsuarioAsignado)</td>
-                <td><button type="button" class="btn btn-warning"><a asp-controller="Tarea" asp-action="ModificarEstado" asp-route-idTarea="@tarea.Id">Modificar Estado</a></td>
+                <td><a class="btn btn-warning" asp-controller="Tarea" asp-action="ModificarEstado" asp-route-idTarea="@tarea.Id"><strong>Modificar Estado</strong></a></td>
             </tr>
         }
 
     </tbody>
 </table>
 
-<table class="table table-primary">
+<table class="table table-warning">
     <thead>
-        <tr>Tareas no asignadas al usuario</tr>
+        <tr><th colspan="9" align="">Tareas no asignadas al usuario</th></tr>
         <tr>
             <th scope="col">Tablero asignado</th>
             <th scope="col">Nombre de la tarea</th>
@@ -75,6 +82,9 @@
             <th scope="col">Descripcion de la tarea</th>
             <th scope="col">Color de la tarea</th>
             <th scope="col">Usuario asignado a la tarea</th>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>

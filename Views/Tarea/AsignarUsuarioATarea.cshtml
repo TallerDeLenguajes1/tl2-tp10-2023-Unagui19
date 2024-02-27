@@ -1,4 +1,5 @@
 @{
+    ViewData["Title"] = "Asignar Usuario";
     string Title = "Asignar usuario a una Tarea";
 }
 @using Taller2_TP10.ViewModels
@@ -12,11 +13,12 @@
     <div class="mb-3">
         <select asp-for="@Model.IdUsuarioAsignado" class="form-select"  >
         <label asp-for="@Model.IdUsuarioAsignado" class="form-label text-center">Usuarios disponibles</label>
+            
+            <option value = "0">usuario sin asignar</option>
             @foreach (Usuario usuario in Model.UsuariosDisponibles)
             {
                 <option value="@usuario.Id">@usuario.NombreDeUsuario</option>
             }
-            <option value = "0">usuario sin asignar</option>
         </select>
         
     </div>

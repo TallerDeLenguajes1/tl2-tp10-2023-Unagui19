@@ -10,6 +10,7 @@ namespace Taller2_TP10.Repositorios
         public List<Tablero> ListarTableros();
         public List<Tablero> ListarTablerosPorUsuario(int IdUsuario);
         public void EliminarTablero(int idTablero);
+        public void EliminarTablerosPorUsuario(int idUsuario);
         
     }   
 

@@ -36,7 +36,7 @@ public class TareaController : Controller
                 }
                 else
                 {
-                    int idUsuario = HttpContext.Session.GetInt32("IdUsuario")??0;
+                    int idUsuario = Convert.ToInt32(HttpContext.Session.GetString("IdUsuario"));
                     if (idUsuario==0)
                     {
                         idUsuario = 0;
@@ -82,7 +82,13 @@ public class TareaController : Controller
         if(!IsLogin()){return BadRequest();}
         var usuarios = _repoUsuario.ListarUsuarios();
         List<Tablero> tableros = _repoTablero.ListarTableros();
-        return View(new CrearTareaViewModel(usuarios, tableros));
+        if (IsAdmin())
+        {
+            return View("crearTareaAdmin",new CrearTareaViewModel(usuarios, tableros));        
+        }
+        else{
+            return View("crearTareaOpe",new CrearTareaViewModel(usuarios, tableros));        
+        }
     }
 
     [HttpPost]
@@ -153,6 +159,7 @@ public class TareaController : Controller
             TempData["Mensaje"] = "Debe iniciar sesión para acceder a esta página.";
             return RedirectToAction("Index", "Login");
         }
+        var tarea = _repoTarea.BuscarTareaPorId(idTarea);
         List<Usuario> usuarios = _repoUsuario.ListarUsuarios();
         var VModel = new AsignarUsuarioATareaViewModel(idTarea, usuarios);
         // var VModel = new AsignarUsuarioATareaViewModel(_repoTarea.BuscarTareaPorId(idTarea), usuarios);
@@ -162,16 +169,17 @@ public class TareaController : Controller
     [HttpPost]
     public IActionResult AsignarUsuarioATarea(AsignarUsuarioATareaViewModel asignarId){
         try{
-
-            var usuario = _repoUsuario.BuscarUsuarioPorId(asignarId.IdUsuarioAsignado);
-            _repoTarea.AsignarUsuarioATarea(usuario.Id, asignarId.IdTarea);
-            if (asignarId.IdUsuarioAsignado==0)
-            {
+            if(asignarId.IdUsuarioAsignado==0){
+                _repoTarea.AsignarUsuarioATarea(0, asignarId.IdTarea);
                 _logger.LogInformation("Se quitó al usuario asignado y no se asignó uno nuevo de momento.");            
+                return RedirectToAction("Index");
             }
-
-            _logger.LogInformation("Usuario "+usuario.NombreDeUsuario+" asignado a la tarea ");            
-            return RedirectToAction("Index");
+            else{
+                var usuario = _repoUsuario.BuscarUsuarioPorId(asignarId.IdUsuarioAsignado);
+                _repoTarea.AsignarUsuarioATarea(usuario.Id, asignarId.IdTarea);
+                _logger.LogInformation("Usuario "+usuario.NombreDeUsuario+" asignado a la tarea.");            
+                return RedirectToAction("Index");
+            }
         }
         catch(Exception ex){
             _logger.LogError(ex,ToString());

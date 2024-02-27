@@ -3,7 +3,7 @@ using Taller2_TP10.Models;
 
 namespace Taller2_TP10.ViewModels
 {
-    public class IndexTableroViewModel
+    public class IndexTabAdminViewModel
     {
         
         public int Id{get;set;}
@@ -14,17 +14,17 @@ namespace Taller2_TP10.ViewModels
         
         
 
-        public IndexTableroViewModel(){
+        public IndexTabAdminViewModel(){
             UsuariosProp = new List<Usuario>();
         }
 
-        public IndexTableroViewModel(Tablero tablero){
+        public IndexTabAdminViewModel(Tablero tablero){
             Id = tablero.Id;
             IdUsuarioPropietario = tablero.IdUsuarioPropietario;
             Nombre = tablero.Nombre;
             Descripcion = tablero.Descripcion;
         }
-        public IndexTableroViewModel(Tablero tablero, List<Usuario> usuariosProp){
+        public IndexTabAdminViewModel(Tablero tablero, List<Usuario> usuariosProp){
             Id = tablero.Id;
             IdUsuarioPropietario = tablero.IdUsuarioPropietario;
             Nombre = tablero.Nombre;

@@ -50,12 +50,13 @@ namespace Taller2_TP10.Repositorios
         //         ● Crear un nuevo usuario. (recibe un objeto Usuario)
         public void CrearUsuario(Usuario usuario){
             try{
-                string queryString = $"INSERT INTO Usuario (nombre_de_usuario, rol) VALUES (@nombre_de_usuario, @rol)"; // string on la consulta deseada
+                string queryString = $"INSERT INTO Usuario (nombre_de_usuario, rol, contrasenia) VALUES (@nombre_de_usuario, @rol, @contrasenia)"; // string on la consulta deseada
                 using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
                 {
                     connection.Open(); //ABRO LA CONEXION
                     var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
                         command.Parameters.Add(new SQLiteParameter("@nombre_de_usuario", usuario.NombreDeUsuario));
+                        command.Parameters.Add(new SQLiteParameter("@contrasenia", usuario.Contrasenia));
                         command.Parameters.Add(new SQLiteParameter("@rol", usuario.Rol));
                         command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
                         connection.Close();   
@@ -144,6 +145,27 @@ namespace Taller2_TP10.Repositorios
                 throw new Exception ("Usuario no creado");
             }
             return usuario;
+        }
+
+        public int ContarAdmins()
+        {
+            var queryString = @"SELECT count(id_usuario) FROM Usuario WHERE rol = 1;";
+            int count = 0;
+            try
+            {
+                using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
+                {
+                    SQLiteCommand command = new SQLiteCommand(queryString, connection);
+                    connection.Open();
+                    count = Convert.ToInt32(command.ExecuteScalar());
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Error al contar la cantidad de usuarios con rol 'admin' en la base de datos.", ex);
+            }
+
+            return count;
         }
     }    
 }

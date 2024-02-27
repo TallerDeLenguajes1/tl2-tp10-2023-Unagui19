@@ -5,6 +5,12 @@
 @using Taller2_TP10.ViewModels;
 @model LoginViewModel;   
 
+
+@if (!string.IsNullOrEmpty(TempData["usuInvalido"] as string))
+{
+    <div class="alert alert-info">@TempData["usuInvalido"]</div>
+}
+
 <h2>@Title</h2>
 
 <form asp-controller="Login" asp-action="IniciarSesion" method="post">

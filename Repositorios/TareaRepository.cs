@@ -117,11 +117,11 @@ namespace Taller2_TP10.Repositorios
         public List<Tarea> ListarTareasPorUsuario(int idUsuario)
         {
             var tareas = new List<Tarea>();
-            string queryString = $"SELECT * FROM Tarea WHERE id_usuario_asignado = @idUsuAsig;";
+            string queryString = $"SELECT * FROM Tarea WHERE id_usuario_asignado = @id_usuario_asignado;";
             using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 var command = new SQLiteCommand(queryString, connection);
-                command.Parameters.Add(new SQLiteParameter ("@idUsuAsig", idUsuario));//para darle el valor que usa el where
+                command.Parameters.Add(new SQLiteParameter ("@id_usuario_asignado", idUsuario));//para darle el valor que usa el where
                 connection.Open();
                 using (SQLiteDataReader reader = command.ExecuteReader())//Devuelve la consulta, es decir que lee la base de datos y trae lo que se pide
                 {

@@ -12,5 +12,6 @@ namespace Taller2_TP10.Repositorios
         public void ModificarUsuario(int idUsu,Usuario usuario);
         public Usuario BuscarUsuarioPorId(int idUsu);
         public void EliminarUsuario(int idUsu);
+        public int ContarAdmins();
     }    
 }

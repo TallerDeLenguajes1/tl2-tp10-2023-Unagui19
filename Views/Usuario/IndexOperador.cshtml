@@ -1,7 +1,9 @@
 ﻿@{
+    ViewData["Title"] = "Usuarios";
     string Title = "Listado de Usuarios";
+    int IdSesionUsu = Convert.ToInt32(this.ViewContext.HttpContext.Session.GetString("IdUsuario")) ;
 }
-
+@using Taller2_TP10.Controllers
 @using Taller2_TP10.ViewModels
 @model List<IndexUsuarioViewModel>
 
@@ -10,21 +12,31 @@
 <table class="table table-primary">
     <thead>
         <tr>
-            @* <th scope="col"> ID</th> *@
             <th scope="col">Nombre</th>
             <th scope="col">Rol</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var usuario in Model)
         {
-            <tr>
-                @* <th scope= "row">@usuario.IdUsuario</th> *@
-                <td scope= "row">@usuario.Nombre</td>
-                <td>@usuario.Rol</td>
-                    <td><button type="button" class="btn btn-warning"><a asp-controller="Usuario" asp-action="ModificarUsuario" asp-route-idUsuario="@usuario.IdUsuario">Modificar</a></button></td>
-                    <td><button type="button" class="btn btn-danger"><a asp-controller="Usuario" asp-action="EliminarUsuario" asp-route-idUsuario="@usuario.IdUsuario" onclick="return confirm('¿Seguro que quieres eliminar este usuario?')">Eliminar</a></button></td>
-            </tr>
+            if(usuario.IdUsuario == IdSesionUsu){
+                <tr class="table-success"> 
+                    <td scope= "row">@usuario.Nombre</td>
+                    <td>@usuario.Rol</td>
+                        <td><a class="btn btn-warning" asp-controller="Usuario" asp-action="ModificarUsuario" asp-route-IdUsuario="@usuario.IdUsuario"><strong>Modificar<strong></strong></a></td>
+                        <td><a class="btn btn-danger" asp-controller="Usuario" asp-action="EliminarUsuario" asp-route-IdUsuario="@usuario.IdUsuario" onclick="return confirm('¿Seguro que quieres eliminar este usuario?')"><strong>Eliminar</strong></a></td>
+                </tr>
+            }
+            else{
+                <tr> 
+                    <td scope= "row">@usuario.Nombre</td>
+                    <td>@usuario.Rol</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
         }
     </tbody>
 </table>

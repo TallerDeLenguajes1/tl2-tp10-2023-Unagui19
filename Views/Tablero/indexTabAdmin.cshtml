@@ -1,8 +1,9 @@
 ﻿@{
+    ViewData["Title"] = "Tableros";
     string Title = "Lista de Tableros";
 }
 @using Taller2_TP10.ViewModels
-@model List<IndexTableroViewModel>
+@model List<IndexTabAdminViewModel>
 
 <H2>@Title</H2>
 
@@ -12,6 +13,8 @@
             <th scope="col">Nombre del tablero</th>
             <th scope="col">Usuario propietario</th>
             <th scope="col">Descripcion del mismo</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -21,9 +24,8 @@
                 <td scope= "row">@tablero.Nombre</td>
                 <td>@tablero.ObtenerUsuarioPropietario(tablero.IdUsuarioPropietario)</td>
                 <td>@tablero.Descripcion</td>
-                <td><button type="button" class="btn btn-warning"><a asp-controller="Tablero" asp-action="ModificarTablero" asp-route-idTablero="@tablero.Id">Modificar</a></button></td>
-                <td><button type="button" class="btn btn-danger"><a asp-controller="Tablero" asp-action="EliminarTablero" asp-route-idTablero="@tablero.Id" onclick="return confirm('¿Seguro que quieres eliminar este tablero?')">Eliminar</a>
-                </button></td>
+                <td><a class="btn btn-warning" asp-controller="Tablero" asp-action="ModificarTablero" asp-route-idTablero="@tablero.Id"><strong>Modificar</strong></a></td>
+                <td><a class="btn btn-danger" asp-controller="Tablero" asp-action="EliminarTablero" asp-route-idTablero="@tablero.Id" onclick="return confirm('¿Seguro que quieres eliminar este tablero?')"><strong>Eliminar</strong></a></td>
             </tr>
         }
     </tbody>

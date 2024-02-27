@@ -138,6 +138,22 @@ namespace Taller2_TP10.Repositorios
                 connection.Close();   
             }      
         }
+
+        // ● Eliminar un tableros por Id de Usuario Asignado
+
+        public void EliminarTablerosPorUsuario(int idUsuario){
+
+            string queryString = $@"
+            DELETE FROM Tablero
+            WHERE id_usuario_propietario = {idUsuario}"; // string on la consulta deseada
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+            {
+                connection.Open(); //ABRO LA CONEXION
+                var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
+                command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
+                connection.Close();   
+            }      
+        }
     }   
 
 }

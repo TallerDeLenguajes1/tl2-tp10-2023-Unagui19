@@ -1,4 +1,5 @@
 @{
+    ViewData["Title"] = "Crear Usuario";
     string Title = "Crear Usuario";
 }
 @using Taller2_TP10.ViewModels
@@ -10,7 +11,7 @@
     <div class="mb-3">
         <label asp-for="@Model.Nombre" class="form-label">Nombre de usuario</label>
         <div class="input-group has-validation">
-        <input asp-for="@Model.Nombre" type="text" class="form-control is-invali "placeholder="Ejemplo: Franco" required>
+        <input asp-for="@Model.Nombre" type="text" class="form-control is-invalid "placeholder="Ejemplo: Franco" required>
         <span asp-validation-for="@Model.Nombre" class="text-danger"></span>  
     </div>
     </div>
@@ -27,9 +28,10 @@
         <span id="passwordHelpInline" class="form-text">
         De 4 a 12 caracteres.
         </span>
+    <span asp-validation-for="@Model.Contrasenia" class="text-danger"></span>  
     </div>
-    <span asp-validation-for="@Model.Nombre" class="text-danger"></span>  
     </div> @*Fin de contraseña*@
+    
     <div class="mb-3">
         <label asp-for="@Model.Rol" class="form-label text-center">Rol</label>
         <select asp-for="@Model.Rol" class="form-select" aria-label="Default select example" >
@@ -40,7 +42,7 @@
         </select>
         <span asp-validation-for="@Model.Rol" class="text-danger"></span>  
     </div>
-        <button type="submit" class="btn btn-succes">Crear</button>
+        <button type="submit" class="btn btn-primary">Crear</button>
 </form>
 
 @section Scripts { <partial name="_ValidationScriptsPartial" /> }  @*Es para la validacion en la parte del cliente*@

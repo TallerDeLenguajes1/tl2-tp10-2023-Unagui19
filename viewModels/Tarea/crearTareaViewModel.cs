@@ -17,7 +17,6 @@ namespace Taller2_TP10.ViewModels
         [StringLength(30)]public string Color{get;set;}
         
         [Required (ErrorMessage = "Este campo es requerido.")]
-        [Range(1,5)]
         public Estado EstadoTarea{get;set;}
         
         public int? IdUsuarioAsignado{get;set;}
@@ -42,6 +41,12 @@ namespace Taller2_TP10.ViewModels
             Color = tarea.Color;
             EstadoTarea = tarea.EstadoTarea;
             IdUsuarioAsignado = tarea.IdUsuarioAsignado;
+        }
+
+        public List<Tablero> TablerosPropios(int idUsuario){
+            List<Tablero> tablerosPropios = new List<Tablero>(); 
+            tablerosPropios = Tableros.Where(tab => tab.IdUsuarioPropietario == idUsuario).ToList();
+            return tablerosPropios;
         }
     }
 }

@@ -9,6 +9,7 @@ namespace Taller2_TP10.ViewModels
         public int IdUsuario {get;set;}
         public string Nombre {get;set;}
         public Roles Rol {get;set;}
+        
 
         public IndexUsuarioViewModel(){}
 

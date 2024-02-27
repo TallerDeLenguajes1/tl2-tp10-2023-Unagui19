@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Usuarios";
+    string Title = "Listado de Usuarios";
+    int IdSesionUsu = Convert.ToInt32(this.ViewContext.HttpContext.Session.GetString("IdUsuario")) ;
+}
+@using Taller2_TP10.Controllers
+@using Taller2_TP10.ViewModels
+@model List<IndexUsuarioViewModel>
+
+<h2>@Title</h2>
+
+<table class="table table-primary">
+    <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Rol</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var usuario in Model)
+        {
+            if(usuario.IdUsuario == IdSesionUsu){
+                <tr class="table-success">
+                    <td scope= "row">@usuario.Nombre</td>
+                    <td>@usuario.Rol</td>
+                    <td><a class="btn btn-warning " asp-controller="Usuario" asp-action="ModificarUsuario" asp-route-IdUsuario="@usuario.IdUsuario"><strong>Modificar</strong></a></td>
+                    <td><a class="btn btn-danger " asp-controller="Usuario" asp-action="EliminarUsuario" asp-route-IdUsuario="@usuario.IdUsuario" onclick="return confirm('¿Seguro que quieres eliminar este usuario?')"><strong>Eliminar</strong></a></td>
+                </tr>
+            }   
+            else{
+                <tr>
+                    <td scope= "row">@usuario.Nombre</td>
+                    <td>@usuario.Rol</td>
+                    <td><a class="btn btn-warning" asp-controller="Usuario" asp-action="ModificarUsuario" asp-route-IdUsuario="@usuario.IdUsuario"><strong>Modificar</strong></a></td>
+                    <td><a class="btn btn-danger" asp-controller="Usuario" asp-action="EliminarUsuario" asp-route-IdUsuario="@usuario.IdUsuario" onclick="return confirm('¿Seguro que quieres eliminar este usuario?')"><strong>Eliminar</strong></a></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<button type="submit" class="btn btn-primary"><a class="nav-link text-white" asp-controller="Usuario" asp-action="CrearUsuario" >Crear</a></button>
+
+
+

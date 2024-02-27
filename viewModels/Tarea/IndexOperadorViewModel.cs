@@ -37,11 +37,11 @@ namespace Taller2_TP10.ViewModels
         }
 
         public string ObtenerTableroAsociado(int idTablero){
-            if (idTablero==0 || idTablero==null )
+            Tablero tablero = Tableros.FirstOrDefault(tab => tab.Id == idTablero);// aseguro que no es null
+            if (idTablero==0 || tablero==null )
             {
                 return "Sin Tablero asociado";
             }
-            Tablero tablero = Tableros.FirstOrDefault(tab => tab.Id == idTablero)!;// aseguro que no es null
             string nombreTablero = tablero.Nombre;
             return nombreTablero;
         }

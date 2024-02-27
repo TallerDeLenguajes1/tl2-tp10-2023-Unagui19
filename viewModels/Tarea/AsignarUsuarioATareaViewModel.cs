@@ -9,11 +9,6 @@ namespace Taller2_TP10.ViewModels
     {
         
         public int IdTarea{get;set;}
-        // public int IdTablero{get;set;}
-        
-        //[Required][StringLength(30)]
-        // public string NombreTarea{get;set;}
-        // public string NombreUsuario{get;set;}
 
         [Required (ErrorMessage = "Este campo es requerido.")]
         public int IdUsuarioAsignado{get;set ;}
@@ -23,14 +18,14 @@ namespace Taller2_TP10.ViewModels
         public AsignarUsuarioATareaViewModel(){
             UsuariosDisponibles = new List<Usuario>();
         }
-        public AsignarUsuarioATareaViewModel(Tarea tarea, List<Usuario> usuariosDisponibles){
-            IdTarea = tarea.Id;
-            // NombreTarea = tarea.Nombre;
-            UsuariosDisponibles = usuariosDisponibles;
-        }
 
         public AsignarUsuarioATareaViewModel(int idTarea, List<Usuario> usuariosDisponibles){
             IdTarea = idTarea;
+            UsuariosDisponibles = usuariosDisponibles;
+        }
+        public AsignarUsuarioATareaViewModel(int idTarea,int idUsuarioAsignado, List<Usuario> usuariosDisponibles){
+            IdTarea = idTarea;
+            IdUsuarioAsignado = idUsuarioAsignado;
             UsuariosDisponibles = usuariosDisponibles;
         }
 

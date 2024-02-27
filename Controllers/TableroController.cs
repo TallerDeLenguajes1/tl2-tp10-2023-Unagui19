@@ -30,12 +30,12 @@ public class TableroController : Controller
                 if (IsAdmin())
                 {
                     List<Tablero> tableros = _repoTablero.ListarTableros();
-                    var VModels = tableros.Select(tab => new IndexTableroViewModel(tab,usuarios)).ToList();
-                    return View(VModels);  
+                    var VModels = tableros.Select(tab => new IndexTabAdminViewModel(tab,usuarios)).ToList();
+                    return View("IndexTabAdmin",VModels);  
                 }
                 else
                 {
-                    int idUsuario = HttpContext.Session.GetInt32("IdUsuario")??0;
+                    int idUsuario = Convert.ToInt32(HttpContext.Session.GetString("IdUsuario"));
                     if (idUsuario==0)
                     {
                         idUsuario = 0;
@@ -45,11 +45,13 @@ public class TableroController : Controller
                     var tablerosAsignados = new List<Tablero>();
                     foreach (var item in tareasUAsignado)
                     {
-                        foreach (var item2 in _repoTablero.ListarTablerosPorUsuario(item.IdTablero))
+                        Tablero tablero = _repoTablero.BuscarTableroPorId(item.IdTablero);
+                        if (!tablerosAsignados.Any(t => t.Id == tablero.Id))
                         {
-                            tablerosAsignados.Add(item2);
+                            tablerosAsignados.Add(tablero);
                         }
                     }
+
                     var tablerosPropios = _repoTablero.ListarTablerosPorUsuario((int)idUsuario);
                     var VModel1 = new IndexTabOperadorViewModel(tablerosPropios, tablerosAsignados, usuarios);
                     return View("IndexTabOperador",VModel1);
@@ -71,7 +73,13 @@ public class TableroController : Controller
     public IActionResult CrearTablero(){
         if(!IsLogin()){return BadRequest("No posee autorizacion para ingresar a la url deseada");}
         var usuarios = _repoUsuario.ListarUsuarios();
-        return View(new CrearTableroViewModel(usuarios, Convert.ToInt32(HttpContext.Session.GetInt32("IdUsuario"))));
+        if (IsAdmin())
+        {
+            return View("crearTableroAdmin",new CrearTableroViewModel(usuarios, Convert.ToInt32(HttpContext.Session.GetString("IdUsuario"))));        
+        }
+        else{
+            return View("crearTableroOpe",new CrearTableroViewModel(usuarios, Convert.ToInt32(HttpContext.Session.GetString("IdUsuario"))));        
+        }
     }
 
     [HttpPost]

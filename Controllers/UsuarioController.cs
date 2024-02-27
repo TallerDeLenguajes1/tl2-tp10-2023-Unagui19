@@ -10,10 +10,12 @@ public class UsuarioController : Controller
 {
     private readonly ILogger<UsuarioController> _logger;
     private readonly IUsuarioRepository _repoUsuario;
+    private readonly ITableroRepository _repoTablero;
 
-    public UsuarioController(ILogger<UsuarioController> logger, IUsuarioRepository repoUsuario)
+    public UsuarioController(ILogger<UsuarioController> logger, IUsuarioRepository repoUsuario, ITableroRepository repoTablero)
     {
         _repoUsuario = repoUsuario;
+        _repoTablero = repoTablero;
         _logger = logger;
     }
 
@@ -28,7 +30,7 @@ public class UsuarioController : Controller
 
                 if (IsAdmin())
                 {
-                    return View(VModels);
+                    return View("IndexAdmin",VModels);
                 }
                 else
                 {
@@ -51,7 +53,7 @@ public class UsuarioController : Controller
 //Crear Usuario
     [HttpGet]
     public IActionResult CrearUsuario(){
-        if(!IsLogin()){return BadRequest("No posee autorizacion para ingresar a la url deseada");}
+        if(!IsLogin()){return BadRequest();}
         return View(new CrearUsuarioViewModel());
     }
 
@@ -73,7 +75,7 @@ public class UsuarioController : Controller
 //Modificar usuarios
     [HttpGet]
     public IActionResult ModificarUsuario(int idUsuario){
-        if(!IsLogin()){return BadRequest("No posee autorizacion para ingresar a la url deseada");}
+        if(!IsLogin()){return BadRequest();}
         var VModel = new ModificarUsuarioViewModel(_repoUsuario.BuscarUsuarioPorId(idUsuario));
         return View(VModel);
     }
@@ -81,6 +83,7 @@ public class UsuarioController : Controller
     [HttpPost]
     public IActionResult ModificarUsuario(ModificarUsuarioViewModel modUsu){
         try{
+
             if (!ModelState.IsValid){return View("Index");}
             var usuario = new Usuario(modUsu);
             _repoUsuario.ModificarUsuario(usuario.Id, usuario);
@@ -93,26 +96,54 @@ public class UsuarioController : Controller
         }
     }
 
-    public IActionResult EliminarUsuario(int Id)
+//Eliminar Usuarios
+    public IActionResult EliminarUsuario(int IdUsuario)
     {
         try
         {
             if (!IsLogin()) return RedirectToAction("Index", "Login");
 
-            int idUsuario = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+            int idSesion = Convert.ToInt32(HttpContext.Session.GetString("IdUsuario"));
 
-            var usuario = _repoUsuario.BuscarUsuarioPorId(Id);
+            var usuario = _repoUsuario.BuscarUsuarioPorId(IdUsuario);
 
             if (usuario.Id == 0) return NotFound("No se encontro el recurso.");
 
+            if (idSesion==0) return NotFound("No se encontro el recurso.");
+
+            List<Tablero> tablerosAsociados = _repoTablero.ListarTablerosPorUsuario(IdUsuario);
+
             if (!IsAdmin()) {
-                if (idUsuario != Id) return NotFound("No se encontro el recurso.");
-                _repoUsuario.EliminarUsuario(Id);
+                if (idSesion != IdUsuario) return NotFound("No se encontro el recurso.");
+                _repoUsuario.EliminarUsuario(IdUsuario);
+                _repoTablero.EliminarTablerosPorUsuario(IdUsuario);
+                HttpContext.Session.Clear();
+                _logger.LogInformation("Usuario eliminado satisfactoriamente");
                 return RedirectToAction("Index", "Login");
             } else {
-                if(Id == idUsuario) return NotFound("No se encontro el recurso.");
-                _repoUsuario.EliminarUsuario(Id);
-                return RedirectToAction("ListarUsuarios", "Usuarios");
+                if(IdUsuario == idSesion && _repoUsuario.ContarAdmins()==1){
+                    string mensaje = "El usuario es el unico administrador, no se puede eliminar la cuenta.";
+                    TempData["unicoAdmin"] = mensaje;
+                    _logger.LogWarning(mensaje);
+                    return RedirectToAction("Index");
+                }
+                else {
+                    int admins = _repoUsuario.ContarAdmins();
+                    if((IdUsuario == idSesion) && (admins>1)){
+                        _repoUsuario.EliminarUsuario(IdUsuario);
+                        _logger.LogInformation("Usuario admin eliminado satisfactoriamente");
+                        _repoTablero.EliminarTablerosPorUsuario(IdUsuario);
+                        _logger.LogInformation("Tableros asociados al usuario tambien eliminados");
+                        return RedirectToAction("Index", "Login");
+                    }
+                    else{
+                        _repoUsuario.EliminarUsuario(IdUsuario);
+                        _logger.LogInformation("Usuario eliminado satisfactoriamente");
+                        _repoTablero.EliminarTablerosPorUsuario(IdUsuario);
+                        _logger.LogInformation("Tableros asociados al usuario tambien eliminados");
+                        return RedirectToAction("Index", "Usuario");
+                    }
+                }
             }
         }
         catch (Exception ex)
@@ -126,7 +157,6 @@ public class UsuarioController : Controller
 //Control de sesion
     private bool IsAdmin()
     {
-        // if ( HttpContext.Session.GetString("Rol") == Roles.admin.ToString()){
         if ( HttpContext.Session.GetString("Rol") == "admin"){
             return true;
         }
