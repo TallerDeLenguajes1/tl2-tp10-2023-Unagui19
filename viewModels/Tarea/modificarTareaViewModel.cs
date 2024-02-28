@@ -39,5 +39,11 @@ namespace Taller2_TP10.ViewModels
             Usuarios = usuarios;
             Tableros = tableros;
         }
+
+        public List<Tablero> TablerosPropios(int idUsuario){
+            List<Tablero> tablerosPropios = new List<Tablero>(); 
+            tablerosPropios = Tableros.Where(tab => tab.IdUsuarioPropietario == idUsuario).ToList();
+            return tablerosPropios;
+        }
     }
 }
