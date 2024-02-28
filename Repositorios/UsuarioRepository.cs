@@ -93,6 +93,7 @@ namespace Taller2_TP10.Repositorios
             }
         }
 
+
         // ● Eliminar un usuario por ID
         public void EliminarUsuario(int idUsu){
             try{
