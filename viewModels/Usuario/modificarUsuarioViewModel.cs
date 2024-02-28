@@ -17,6 +17,7 @@ namespace Taller2_TP10.ViewModels
 
         [StringLength(12, ErrorMessage = "La contrseña debe tener entre 4 y 12 caracteres", MinimumLength = 4)]
         [DataType(DataType.Password)]
+        [Display(Name = "Contraseña")]
         public string Contrasenia {get;set;} 
 
 
