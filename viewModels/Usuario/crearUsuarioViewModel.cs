@@ -8,7 +8,8 @@ namespace Taller2_TP10.ViewModels
         
         public int IdUsuario {get;set;}
 
-        [Required(ErrorMessage = "Ingrese un nombre")][StringLength(30)]
+        [Required(ErrorMessage = "Ingrese un nombre")]
+        [StringLength(30)]
         [Display (Name = "Nombre de Usuario")]
         public string Nombre {get;set;}
         
